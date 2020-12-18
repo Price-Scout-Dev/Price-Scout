@@ -1,0 +1,1 @@
+const Stock = require("../models/priceTrackerModel.js");
