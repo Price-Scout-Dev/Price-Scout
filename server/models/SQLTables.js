@@ -84,7 +84,7 @@ const productDB = require("./priceTrackerModel");
 async function insertUsersTable() {
 
     let queryString = ` 
-  INSERT INTO lowestDailyPrice VALUES ( 56789, '45JK7R', 'chandnip6@gmail.com')  
+  INSERT INTO users (userId, hashedPassword, email) VALUES ( 56789, '45', 'chandnip6@gmail.com')  
   `;
 
   try {
