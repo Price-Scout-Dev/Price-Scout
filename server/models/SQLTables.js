@@ -138,4 +138,4 @@ async function sessionsTable() {
 //   }
 // }
 
-sessionsTable()
+// sessionsTable()
