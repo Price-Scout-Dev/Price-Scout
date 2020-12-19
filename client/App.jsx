@@ -24,26 +24,27 @@ const App = () => {
 				setId(userId);
 			})
 			.catch((err) => console.log('ERROR: ', err));
-		setPassword(password);
+		// setPassword(password);
+		console.log('RegisterUser RAN!', email, password);
 	};
 
 	const loginUser = (email, password) => {
-		// fetch('/api/products/:userId', {
-		// 	method: 'GET',
-		// 	headers: {
-		// 		'Content-Type': 'Application/JSON',
-		// 	},
-		// 	body: JSON.stringify({ email, password }),
-		// })
-		// 	.then((res) => res.json())
-		// 	.then(({ email, userId }) => {
-		// 		setEmail(email);
-		// 		setId(userId);
-		// 	})
-		// 	.catch((err) => console.log('ERROR: ', err));
-		// setPassword(password);
-		setEmail(email);
+		fetch('/api/auth/login', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'Application/JSON',
+			},
+			body: JSON.stringify({ email, password }),
+		})
+			.then((res) => res.json())
+			.then(({ email, userId }) => {
+				setEmail(email);
+				setId(userId);
+			})
+			.catch((err) => console.log('ERROR: ', err));
 		setPassword(password);
+		// setEmail(email);
+		// setPassword(password);
 		console.log('loginUser RAN!', email, password);
 	};
 
