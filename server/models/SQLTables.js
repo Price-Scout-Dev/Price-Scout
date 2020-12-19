@@ -70,22 +70,14 @@ async function usersToProductsTable() {
   }
 }
 
-/* 
-User - Product;
-1 - 10
-1 - 12
-1 - 15
-2 - 10 
-2 - 27
-
-
-*/
-
-//INSERT ONTO PRODUCTS TABLE:
-async function insertIntoTable() {
-    let queryString = `
-  INSERT INTO products VALUES (143, 'keyboard', 'www.keychron.com' )
-  `;
+//CREATE SESSIONS TABLE:
+async function sessionsTable() {
+  let queryString = ` 
+  CREATE TABLE sessions (
+    sessions_id SERIAL,
+    userId INT NOT NULL references users(userId),
+    ssid INT NOT NULL
+  )`;
   try {
     const result = productDB.query(queryString);
     console.log(result);
@@ -93,6 +85,19 @@ async function insertIntoTable() {
     console.log(err);
   }
 }
+
+//INSERT ONTO PRODUCTS TABLE:
+// async function insertIntoTable() {
+//     let queryString = `
+//   INSERT INTO products VALUES (143, 'keyboard', 'www.keychron.com' )
+//   `;
+//   try {
+//     const result = productDB.query(queryString);
+//     console.log(result);
+//   } catch (err) {
+//     console.log(err);
+//   }
+// }
 
 //INSERT ONTO LOWEST DAILY PRICE TABLE:
 // async function insertIntoLowestDailyPriceTable() {
@@ -133,4 +138,4 @@ async function insertIntoTable() {
 //   }
 // }
 
-insertIntoTable()
+sessionsTable()
