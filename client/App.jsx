@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
-import About from './components/about/About'
+import About from './components/about/About';
+import Main from './components/Main';
 import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
 
 const App = () => {
@@ -9,33 +10,56 @@ const App = () => {
 	const [password, setPassword] = useState('');
 	const [userId, setId] = useState('');
 
-	const formHandler = ({ email, password, id }) => {
-		fetch('/api/signup', {
+	const registerUser = (email, password) => {
+		fetch('/api/auth/signup', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'Application/JSON',
 			},
-			body: JSON.stringify(body),
+			body: JSON.stringify({ email, password }),
 		})
 			.then((res) => res.json())
 			.then(({ email, userId }) => {
 				setEmail(email);
 				setId(userId);
 			})
-			.catch((err) =>
-				console.log('CreateCharacter fetch /api/character: ERROR: ', err)
-			);
-		setEmail(email);
+			.catch((err) => console.log('ERROR: ', err));
 		setPassword(password);
 	};
 
-	return (
+	const loginUser = (email, password) => {
+		// fetch('/api/products/:userId', {
+		// 	method: 'GET',
+		// 	headers: {
+		// 		'Content-Type': 'Application/JSON',
+		// 	},
+		// 	body: JSON.stringify({ email, password }),
+		// })
+		// 	.then((res) => res.json())
+		// 	.then(({ email, userId }) => {
+		// 		setEmail(email);
+		// 		setId(userId);
+		// 	})
+		// 	.catch((err) => console.log('ERROR: ', err));
+		// setPassword(password);
+		setEmail(email);
+		setPassword(password);
+		console.log('loginUser RAN!', email, password);
+	};
+
+	return email && password ? (
+		<Main email={email} password={password} />
+	) : (
 		<BrowserRouter>
-			<div>
-				<Route path="/register" exact component={Register} />
+			<Switch>
+				<Route
+					path="/register"
+					exact
+					render={() => <Register registerUser={registerUser} />}
+				/>
 				<Route path="/about" exact component={About} />
-				<Route path="/" exact component={Login} />
-			</div>
+				<Route path="/" exact render={() => <Login loginUser={loginUser} />} />
+			</Switch>
 		</BrowserRouter>
 	);
 };
