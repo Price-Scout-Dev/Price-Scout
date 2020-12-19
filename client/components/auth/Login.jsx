@@ -4,16 +4,20 @@ import LoginNavBar from '../nav/LoginNavBar';
 import { Button, Box, Divider, AppBar } from '@material-ui/core';
 import { TextField } from '@material-ui/core';
 
-const Login = ({ setUser, getUser }) => {
-	//GET THE USER INPUT SO WE CAN ISSUE A "GET" TO DB W/ getUser, AND THEN UPDATE APP STATE W/ setUser
+const Login = ({ loginUser }) => {
+	//GET THE USER INPUT SO WE CAN ISSUE A "GET" TO DB W/ loginUser
 	const [emailInput, updateEmail, resetEmail] = useInput('');
 	const [pwInput, updatePw, resetPw] = useInput('');
 
-	const formSubmit = (e) => {
+	const handleSubmit = (e) => {
 		e.preventDefault();
 
-		getUser(emailInput, pwInput);
-		setUser(emailInput, pwInput);
+		if (!emailInput) return alert('Fill in the email input please!')
+		else if (pwInput.length < 5) return alert('Enter password (must be at least 5 characters long)!');
+		else if (!emailInput.includes('@') || !emailInput.includes('.com'))
+			return alert('Invalid email format. Try again!');
+
+		loginUser(emailInput, pwInput);
 
 		resetEmail();
 		resetPw();
@@ -33,7 +37,7 @@ const Login = ({ setUser, getUser }) => {
 				border={1}
 			>
 				<form
-					onSubmit={formSubmit}
+					// onSubmit={handleSubmit}
 					style={{
 						padding: '3rem 5rem',
 						display: 'flex',
@@ -45,27 +49,23 @@ const Login = ({ setUser, getUser }) => {
 					}}
 				>
 					<h1 style={{ fontFamily: 'Verdana, sans-serif' }}>Price Tracker</h1>
-					{/* <input value={emailInput} onChange={updateEmail} placeholder="email" /> */}
 					<TextField
 						id="email"
 						label="Email"
 						variant="outlined"
-						style={{ marginBottom: '1rem', width: '15rem' }}
+						value={emailInput}
 						onChange={updateEmail}
 					/>
-					{/* <input
-            type="password"
-            value={pwInput}
-            onChange={updatePw}
-            placeholder="password"
-				  /> */}
 					<TextField
 						id="password"
 						label="Password"
 						variant="outlined"
-						style={{ marginBottom: '1rem', width: '15rem' }}
+						type="password"
+						value={pwInput}
+						onChange={updatePw}
 					/>
 					<Button
+						onClick={handleSubmit}
 						variant="contained"
 						color="primary"
 						style={{ marginBottom: '1rem', width: '15rem' }}
