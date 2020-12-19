@@ -22,7 +22,7 @@ const Login = ({ setUser, getUser }) => {
 	return (
 		<>
 			<AppBar>
-				<LogInNavBar />
+				<LoginNavBar />
 			</AppBar>
 			<Box
 				display="flex"
