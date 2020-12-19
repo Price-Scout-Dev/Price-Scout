@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import Register from './SANDBOX/auth/Register';
+import Login from './SANDBOX/auth/Login';
+import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
 
 const App = () => {
 	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
+	const [password, setPassword] = useState(''); 
 	const [userId, setId] = useState('');
 
 	const formHandler = ({ email, password, id }) => {
@@ -28,22 +30,11 @@ const App = () => {
 
 	return (
 		<Router>
-			<div>
-				<nav>
-					<ul>
-						<li>
-							<Link to="/login">Login</Link>
-						</li>
-					</ul>
-				</nav>
-				{email && password ? (
-					<Main email={email} />
-				) : (
-					<Registration formHandler={formHandler} />
-				)}
-			</div>
+			<BrowserRouter>
+				<div>
+					<Route path="/" component={Login} />
+				</div>
+			</BrowserRouter>
 		</Router>
 	);
 };
-
-export default App;
