@@ -1,3 +1,16 @@
 import React from 'react';
-const App = () => <h1>ArmadilloArmadilloArmadillo</h1>
+import Register from './SANDBOX/auth/Register'
+import { BrowserRouter } from 'react-router-dom';
+
+const App = () => {
+
+  return (
+    <BrowserRouter>
+      <div>
+        <Route path='/' component={Register} />
+
+      </div>
+    </BrowserRouter>
+  )
+}
 export default App;
