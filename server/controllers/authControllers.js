@@ -27,7 +27,7 @@ authController.createUser = (req, res, next) => {
       });
   } else {
     console.log("password or username rejected");
-    res.status(200).json({ error: "invalid email or password" });
+    res.status(418).json({ error: "invalid email or password" });
   }
 };
 
@@ -64,7 +64,6 @@ authController.setSSIDCookie = (req, res, next) => {
 authController.verifyUser = (req, res, next) => {
   //check database if the email exists. If the email exists, check if the password is correct. Query first.
 
-  if (req.body.email.length > 0 && req.body.password.length > 0) {
     //create query string. insert user into the user table.
     let queryString = `
     SELECT * FROM users WHERE email=$1 and hashedpassword=$2
@@ -89,10 +88,6 @@ authController.verifyUser = (req, res, next) => {
         console.log(err);
         return next(err);
       });
-  } else {
-    console.log("password or username rejected");
-    res.status(200).json({ error: "invalid email or password" });
-  }
 };
 
 module.exports = authController;
