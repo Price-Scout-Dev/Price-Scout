@@ -2,7 +2,7 @@ const { Pool } = require('pg');
 
 // ours:
 const PG_URI =
-  'postgres://doofahml:fJEbd9w3wk5_cA4ehOiSJ0mh2OUW4noT@suleiman.db.elephantsql.com:5432/doofahml';
+  'process.env.PGURI';
 
 // create a new pool here using the connection string above
 const pool = new Pool({
