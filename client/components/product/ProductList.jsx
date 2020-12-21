@@ -1,16 +1,16 @@
 import React from 'react';
+import ProductCard from './ProductCard';
 
 const ProductList = ({ list }) => {
 	const productItems = list.map(
 		({ productName, imageUrl, storeName, productPrice }) => {
-			//wrap in Link here to route to detail page if desired
+			//wrap in Link for detail route, if so
 			return (
 				<>
-					<h4>I am productList</h4>
-					<productItem
-						// key={uuid()}
+					<ProductCard
+						key={Math.floor(Math.random() * 10000)}
 						productName={productName}
-						image={imageUrl}
+						imageUrl={imageUrl}
 						storeName={storeName}
 						productPrice={productPrice}
 					/>
@@ -19,7 +19,12 @@ const ProductList = ({ list }) => {
 		}
 	);
 
-	return <div>{productItems};</div>;
+	return (
+		<div>
+			<h4>i am ProductList</h4>
+			<div>{productItems}</div>
+		</div>
+	);
 };
 
 export default ProductList;
