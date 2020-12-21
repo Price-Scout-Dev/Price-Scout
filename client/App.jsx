@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import PrivateRoute from './components/routes/PrivateRoute';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import About from './components/about/About';
@@ -11,55 +12,68 @@ const App = () => {
 	const [userId, setId] = useState('');
 
 	const registerUser = (email, password) => {
-		fetch('/api/auth/signup', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'Application/JSON',
-			},
-			body: JSON.stringify({ email, password }),
-		})
-			.then((res) => res.json())
-			.then(({ email, userId }) => {
-				setEmail(email);
-				setId(userId);
-			})
-			.catch((err) => console.log('ERROR: ', err));
-		// setPassword(password);
-		console.log('RegisterUser RAN!', email, password);
+		// fetch('/api/auth/signup', {
+		// 	method: 'POST',
+		// 	headers: {
+		// 		'Content-Type': 'Application/JSON',
+		// 	},
+		// 	body: JSON.stringify({ email, password }),
+		// })
+		// 	.then((res) => res.json())
+		// 	.then(({ email, userId }) => {
+		// 		setEmail(email);
+		// 		setId(userId);
+		// 	})
+		// 	.catch((err) => console.log('ERROR: ', err));
+		setPassword(password);
+		setEmail(email);
+
+		console.log('regUser RAN!', email, password);
 	};
 
 	const loginUser = (email, password) => {
-		fetch('/api/auth/login', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'Application/JSON',
-			},
-			body: JSON.stringify({ email, password }),
-		})
-			.then((res) => res.json())
-			.then(({ email, userId }) => {
-				setEmail(email);
-				setId(userId);
-			})
-			.catch((err) => console.log('ERROR: ', err));
+		// fetch('/api/auth/login', {
+		// 	method: 'POST',
+		// 	headers: {
+		// 		'Content-Type': 'Application/JSON',
+		// 	},
+		// 	body: JSON.stringify({ email, password }),
+		// })
+		// 	.then((res) => res.json())
+		// 	.then(({ email, userId }) => {
+		// 		setEmail(email);
+		// 		setId(userId);
+		// 	})
+		// 	.catch((err) => console.log('ERROR: ', err));
 		setPassword(password);
-		// setEmail(email);
-		// setPassword(password);
+		setEmail(email);
 		console.log('loginUser RAN!', email, password);
 	};
 
-	return email && password ? (
-		<Main email={email} password={password} />
-	) : (
+	return (
 		<BrowserRouter>
 			<Switch>
 				<Route
 					path="/register"
 					exact
-					render={() => <Register registerUser={registerUser} />}
+					render={(props) => (
+						<Register registerUser={registerUser} {...props} />
+					)}
 				/>
 				<Route path="/about" exact component={About} />
-				<Route path="/" exact render={() => <Login loginUser={loginUser} />} />
+				<Route
+					path="/login"
+					exact
+					render={(props) => <Login loginUser={loginUser} {...props} />}
+				/>
+				<PrivateRoute
+					path="/"
+					exact
+					component={Main}
+					email={email}
+					password={password}
+					userId={userId}
+				/>
 			</Switch>
 		</BrowserRouter>
 	);

@@ -4,7 +4,7 @@ import LoginNavBar from '../nav/LoginNavBar';
 import { Button, Box, Divider, AppBar } from '@material-ui/core';
 import { TextField } from '@material-ui/core';
 
-const Login = ({ loginUser }) => {
+const Login = ({ loginUser, ...rest }) => {
 	//GET THE USER INPUT SO WE CAN ISSUE A "GET" TO DB W/ loginUser
 	const [emailInput, updateEmail, resetEmail] = useInput('');
 	const [pwInput, updatePw, resetPw] = useInput('');
@@ -19,7 +19,7 @@ const Login = ({ loginUser }) => {
 			return alert('Invalid email format. Try again!');
 
 		loginUser(emailInput, pwInput);
-
+		rest.history.push('/');
 		resetEmail();
 		resetPw();
 	};

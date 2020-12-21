@@ -4,7 +4,7 @@ import RegNavBar from '../nav/RegNavBar';
 import { Button, Box, AppBar } from '@material-ui/core';
 import { TextField } from '@material-ui/core';
 
-const Register = ({ registerUser }) => {
+const Register = ({ registerUser, ...rest }) => {
 	const [emailInput, updateEmail, resetEmail] = useInput('');
 	const [pwInput, updatePw, resetPw] = useInput('');
 
@@ -19,6 +19,7 @@ const Register = ({ registerUser }) => {
 
 		registerUser(emailInput, pwInput);
 
+		rest.history.push('/');
 		resetEmail();
 		resetPw();
 	};
