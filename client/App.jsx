@@ -25,6 +25,7 @@ const App = () => {
 		// 		setId(userId);
 		// 	})
 		// 	.catch((err) => console.log('ERROR: ', err));
+		setId(1);
 		setPassword(password);
 		setEmail(email);
 
@@ -45,6 +46,7 @@ const App = () => {
 		// 		setId(userId);
 		// 	})
 		// 	.catch((err) => console.log('ERROR: ', err));
+		setId(1);
 		setPassword(password);
 		setEmail(email);
 		console.log('loginUser RAN!', email, password);

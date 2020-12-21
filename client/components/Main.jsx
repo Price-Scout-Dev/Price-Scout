@@ -3,11 +3,14 @@ import ProductList from './product/ProductList';
 import Search from './search/Search';
 import dummyB from '../components/dummyB/dummyB';
 
-const Main = ({ email, password }) => {
+const Main = ({ email, password, userId }) => {
 	const [list, setList] = useState([]);
 
-	//feth dummy data
+	//fetch users data
 	const getProducts = (db) => setList(db);
+
+	//add product to userList
+	const addProduct = (product) => setList([...list, product]);
 
 	// cdm
 	useEffect(() => {
@@ -28,11 +31,14 @@ const Main = ({ email, password }) => {
 	}, []);
 
 	return list ? (
-		<ProductList list={list} />
+		<>
+			<Search userId={userId} addProduct={addProduct} />
+			<ProductList list={list} />
+		</>
 	) : (
 		<>
 			<h1>What up! {email}</h1>
-			<h3>Search will be here</h3>
+			<Search userId={userId} addProduct={addProduct} />
 		</>
 	);
 };
