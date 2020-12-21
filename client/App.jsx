@@ -1,48 +1,67 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import Register from './components/auth/Register';
+import Login from './components/auth/Login';
+import About from './components/about/About';
+import Main from './components/Main';
+import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
 
 const App = () => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [userId, setId] = useState('');
 
-	const formHandler = ({ email, password, id }) => {
-		fetch('/api/signup', {
+	const registerUser = (email, password) => {
+		fetch('/api/auth/signup', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'Application/JSON',
 			},
-			body: JSON.stringify(body),
+			body: JSON.stringify({ email, password }),
 		})
 			.then((res) => res.json())
 			.then(({ email, userId }) => {
 				setEmail(email);
 				setId(userId);
 			})
-			.catch((err) =>
-				console.log('CreateCharacter fetch /api/character: ERROR: ', err)
-			);
-		setEmail(email);
-		setPassword(password);
+			.catch((err) => console.log('ERROR: ', err));
+		// setPassword(password);
+		console.log('RegisterUser RAN!', email, password);
 	};
 
-	return (
-		<Router>
-			<div>
-				<nav>
-					<ul>
-						<li>
-							<Link to="/login">Login</Link>
-						</li>
-					</ul>
-				</nav>
-				{email && password ? (
-					<Main email={email} />
-				) : (
-					<Registration formHandler={formHandler} />
-				)}
-			</div>
-		</Router>
+	const loginUser = (email, password) => {
+		fetch('/api/auth/login', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'Application/JSON',
+			},
+			body: JSON.stringify({ email, password }),
+		})
+			.then((res) => res.json())
+			.then(({ email, userId }) => {
+				setEmail(email);
+				setId(userId);
+			})
+			.catch((err) => console.log('ERROR: ', err));
+		setPassword(password);
+		// setEmail(email);
+		// setPassword(password);
+		console.log('loginUser RAN!', email, password);
+	};
+
+	return email && password ? (
+		<Main email={email} password={password} />
+	) : (
+		<BrowserRouter>
+			<Switch>
+				<Route
+					path="/register"
+					exact
+					render={() => <Register registerUser={registerUser} />}
+				/>
+				<Route path="/about" exact component={About} />
+				<Route path="/" exact render={() => <Login loginUser={loginUser} />} />
+			</Switch>
+		</BrowserRouter>
 	);
 };
 
