@@ -5,10 +5,12 @@ const ProductList = ({ list }) => {
 	const productItems = list.map(
 		({ productName, imageUrl, storeName, productPrice }) => {
 			//wrap in Link for detail route, if so
+			const genId = Math.floor(Math.random() * 10000);
 			return (
 				<>
 					<ProductCard
-						key={Math.floor(Math.random() * 10000)}
+						id={genId}
+						key={genId}
 						productName={productName}
 						imageUrl={imageUrl}
 						storeName={storeName}
@@ -21,7 +23,7 @@ const ProductList = ({ list }) => {
 
 	return (
 		<div>
-			<h4>i am ProductList</h4>
+			<h2>i am ProductList</h2>
 			<div>{productItems}</div>
 		</div>
 	);
