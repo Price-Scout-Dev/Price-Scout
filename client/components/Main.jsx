@@ -1,16 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import ProductList from './product/ProductList';
 import Search from './search/Search';
 import dummyB from '../components/dummyB/dummyB';
 
 const Main = ({ email, password }) => {
-	const products = dummyB.products;
+	const [list, setList] = useState([]);
 
-	const [list, setList] = useState(products);
-
-	// const getProducts = (db) => {
-	// 	setList(db);
-	// };
+	//feth dummy data
+	const getProducts = (db) => setList(db);
 
 	// cdm
 	useEffect(() => {
@@ -27,11 +24,8 @@ const Main = ({ email, password }) => {
 		// setPassword(password);
 		// console.log('i am products', products);
 		// console.log('i am list BEFORE', list);
-		// setList(products);
-		console.log('i am list AFTER', list);
+		getProducts(dummyB.products);
 	}, []);
-
-	useEffect(() => console.log(list), [list]);
 
 	return list ? (
 		<ProductList list={list} />
