@@ -4,15 +4,9 @@ import Search from './search/Search';
 import dummyB from '../components/dummyB/dummyB';
 
 const Main = ({ email, password, userId }) => {
-	// const firstRender = useRef(true);
-	//const id = useRef(userId);
-
 	const postObj = useRef({});
 
 	const [list, setList] = useState([]);
-
-	//dummy get: fetch users data
-	const getProducts = (db) => setList(db);
 
 	//add product to userList
 	const addProduct = (stateObj) => {
@@ -22,7 +16,13 @@ const Main = ({ email, password, userId }) => {
 		setList([...list, stateObj]);
 	};
 
-	// cdm
+	//delete product from userList
+	//...
+
+	//update product from userList
+	//...
+
+	//useEffect: cdm
 	useEffect(() => {
 		// fetch('/api/products/:userId', {
 		// 	method: 'GET',
@@ -37,15 +37,13 @@ const Main = ({ email, password, userId }) => {
 		// setPassword(password);
 		// console.log('i am products', products);
 		// console.log('i am list BEFORE', list);
-		getProducts(dummyB.products);
+		setList(dummyB.products);
 	}, []);
 
 	//useEffect: list
-	//add new productObj to db
 	useEffect(() => {
-		console.log(list);
-		console.log(postObj.current);
 		if (postObj.current.productUrl && postObj.current.userId) {
+			//make POST request
 			console.log('passed use effect conditions');
 			console.log('ADD THIS PRODUCT TO LIST', postObj);
 			console.log('LIST', list);
