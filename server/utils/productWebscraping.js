@@ -21,16 +21,16 @@ const productInfo = {};
   const storeUrl = await page.$eval("a.shntl[href]", (el) => el.getAttribute('href'));
   productInfo.storeUrl = `https://www.google.com/${storeUrl}`
  
-  //TODO: fix storeName:
+
   //4. Get storeName:
-  const storeName = await page.$eval(".b5ycib", (el) => el.innerText);
-  console.log("storeName: ", storeName);
-  
+  productInfo.storeName = await page.$eval(".b5ycib", (el) => el.childNodes[0].nodeValue);
+
+
   //5. Get productImageUrl:
   productInfo.productImageUrl = await page.$eval("img.sh-div__image[src]", (el) => el.getAttribute('src'));
 
   
-  // console.log('productInfo OBJECT: ', productInfo);
+  console.log('productInfo OBJECT: ', productInfo);
   browser.close();
   console.log("browser closed")
 };
