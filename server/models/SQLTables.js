@@ -163,8 +163,8 @@ const lowestDailyPriceTable = `
   )`;
 
 const usersTable = `
-//   INSERT INTO users ( hashedPassword, email) VALUES ( '45HYDH43H', 'chandnip6@gmail.com')
-//   `;
+ INSERT INTO users ( hashedPassword, email) VALUES ( '45HYDH43H', 'chandnip6@gmail.com')
+ `
 
 const usersToProductsTable = ` 
   CREATE TABLE users_to_products (
@@ -226,7 +226,7 @@ function insertIntoTable(queryString) {
   }
 }
 
-insertIntoTable(productsInsert);
-insertIntoTable(lowestDailyPriceInsert);
-insertIntoTable(usersInsert);
-insertIntoTable(sessionsInsert);
+// insertIntoTable(productsInsert);
+// insertIntoTable(lowestDailyPriceInsert);
+// insertIntoTable(usersInsert);
+// insertIntoTable(sessionsInsert);
