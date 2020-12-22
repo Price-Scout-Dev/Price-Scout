@@ -7,7 +7,6 @@ const ProductCard = ({
 	productPrice,
 	id,
 }) => {
-	console.log(id);
 	return (
 		<div>
 			<h4>I am productCard: {id}</h4>

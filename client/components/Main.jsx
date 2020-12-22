@@ -10,7 +10,7 @@ const Main = ({ email, password, userId }) => {
 	const getProducts = (db) => setList(db);
 
 	//add product to userList
-	const addProduct = (product) => setList([...list, product]);
+	const addProduct = (productObj) => setList([...list, productObj]);
 
 	// cdm
 	useEffect(() => {

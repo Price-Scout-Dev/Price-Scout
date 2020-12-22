@@ -1,29 +1,35 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import useInput from '../hooks/useInput';
+import SearchList from './SearchList';
 
 const Search = ({ userId, addProduct }) => {
 	const [searchVal, handleSearchVal, resetSearch] = useInput('');
+	const [results, setResults] = useState([]);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
 
-		//really send as a post to db;
-		console.log(userId, searchVal);
-
-		//call with response values
-		addProduct({
-			productName: searchVal,
-			imageUrl: 'https://i.ibb.co/qMQ75QZ/floral-shirt.png',
-			storeName: 'Some_Store',
-			productPrice: 500,
-		});
+		fetch(
+			`https://api.scaleserp.com/search?search_type=shopping&api_key=045857B48E1A47C29E29DEE7BA20CCF8&q=${searchVal}`
+		)
+			.then((response) => response.json())
+			.then((response) => {
+				setResults(response.shopping_results);
+			});
 
 		resetSearch();
 	};
 
-	return (
+	useEffect(() => console.log(results, 'UPDATED STATE WITH FETCH'), [results]);
+
+	return results.length > 0 ? (
+		<>
+			<SearchList results={results} />
+			<h1>{results.length}</h1>
+		</>
+	) : (
 		<div>
-			<p>i am search</p>
+			<h1>{results.length}</h1>
 			<form onSubmit={handleSubmit}>
 				<input
 					type="text"
