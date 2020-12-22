@@ -49,6 +49,8 @@ const Main = ({ email, password, userId }) => {
 			console.log('passed use effect conditions');
 			console.log('ADD THIS PRODUCT TO LIST', postObj);
 			console.log('LIST', list);
+			postObj.current.productUrl = '';
+			postObj.current.userId = '';
 		}
 	}, [list]);
 
