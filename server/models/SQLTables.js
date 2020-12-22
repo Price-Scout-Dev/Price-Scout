@@ -163,7 +163,12 @@ const lowestDailyPriceTable = `
   )`;
 
 const usersTable = `
- INSERT INTO users ( hashedPassword, email) VALUES ( '45HYDH43H', 'chandnip6@gmail.com')
+ CREATE TABLE users (
+   _id SERIAL,
+   email VARCHAR UNIQUE,
+   password VARCHAR,
+   PRIMARY KEY (_id)
+ )
  `
 
 const usersToProductsTable = ` 
