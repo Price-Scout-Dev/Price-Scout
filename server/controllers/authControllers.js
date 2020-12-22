@@ -8,16 +8,16 @@ authController.createUser = (req, res, next) => {
   if (req.body.email.length > 0 && req.body.password.length > 0) {
     //create query string. insert user into the user table.
     let queryString = `
-    INSERT INTO users ( hashedPassword, email) VALUES ($1, $2) RETURNING *
+    INSERT INTO users ( email, password) VALUES ($1, $2) RETURNING *
     `; // parameterized sql query
-    let values = [req.body.password, req.body.email];
+    let values = [req.body.email, req.body.password];
 
     priceTrackerDB
       .query(queryString, values)
       .then((data) => {
         // console.log(data);
         res.locals.loginInfo = {};
-        res.locals.loginInfo.userId = data.rows[0].userid;
+        res.locals.loginInfo.userId = data.rows[0]._id;
         res.locals.loginInfo.email = req.body.email;
         return next();
       })
@@ -42,7 +42,7 @@ authController.setSSIDCookie = (req, res, next) => {
   //second, save the ssid into the database.
 
   let queryString = `
-  INSERT INTO sessions ( userId, ssid) VALUES ($1, $2) RETURNING *
+  INSERT INTO sessions ( user_id, ssid) VALUES ($1, $2) RETURNING *
   `; // parameterized sql query
   let values = [res.locals.loginInfo.userId, randomNumber];
 
@@ -66,7 +66,7 @@ authController.verifyUser = (req, res, next) => {
 
     //create query string. insert user into the user table.
     let queryString = `
-    SELECT * FROM users WHERE email=$1 and hashedpassword=$2
+    SELECT * FROM users WHERE email=$1 and password=$2
     `; // parameterized sql query
     let values = [req.body.email, req.body.password];
 
@@ -75,7 +75,7 @@ authController.verifyUser = (req, res, next) => {
       .then((data) => {
         if (data.rows.length > 0) {
           res.locals.loginInfo = {};
-          res.locals.loginInfo.userId = data.rows[0].userid;
+          res.locals.loginInfo.userId = data.rows[0]._id;
           res.locals.loginInfo.email = req.body.email;
           return next();
         } else {
