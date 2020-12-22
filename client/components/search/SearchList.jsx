@@ -1,7 +1,7 @@
 import React from 'react';
 import SearchCard from './SearchCard';
 
-const SearchList = ({ results }) => {
+const SearchList = ({ results, addProduct }) => {
 	const resultList = results.map(
 		({ title, id, image, link, merchant, price }) => (
 			<SearchCard
@@ -11,6 +11,7 @@ const SearchList = ({ results }) => {
 				merchant={merchant}
 				price={price}
 				title={title}
+				addProduct={addProduct}
 			/>
 		)
 	);

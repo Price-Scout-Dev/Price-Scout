@@ -10,11 +10,11 @@ const Search = ({ userId, addProduct }) => {
 		e.preventDefault();
 
 		fetch(
-			`https://api.scaleserp.com/search?search_type=shopping&api_key=045857B48E1A47C29E29DEE7BA20CCF8&q=${searchVal}`
+			`https://api.scaleserp.com/search?search_type=shopping&price_low_to_high&num=10&api_key=045857B48E1A47C29E29DEE7BA20CCF8&q=${searchVal}`
 		)
 			.then((response) => response.json())
 			.then((response) => {
-				setResults(response.shopping_results);
+				setResults(response.shopping_results.slice(0, 11));
 			});
 
 		resetSearch();
@@ -24,7 +24,7 @@ const Search = ({ userId, addProduct }) => {
 
 	return results.length > 0 ? (
 		<>
-			<SearchList results={results} />
+			<SearchList results={results} addProduct={addProduct} />
 			<h1>{results.length}</h1>
 		</>
 	) : (
