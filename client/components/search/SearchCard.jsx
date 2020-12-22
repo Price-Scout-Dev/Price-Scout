@@ -8,9 +8,15 @@ const SearchCard = ({
 	merchant,
 	price,
 	addProduct,
+	clearResults,
 }) => {
-	// const handleClick
-
+	const stateObj = {
+		productName: title,
+		imageUrl: image,
+		productUrl: link,
+		storeName: merchant,
+		productPrice: price,
+	};
 	return (
 		<div>
 			<h3>I AM SEARCH CARD</h3>
@@ -19,7 +25,14 @@ const SearchCard = ({
 			<h5>{merchant}</h5>
 			<h4>{price}</h4>
 			<p>{link}</p>
-			<button onClick={() => handleClick}>Track Me!</button>
+			<button
+				onClick={() => {
+					addProduct(stateObj);
+					clearResults();
+				}}
+			>
+				Track Me!
+			</button>
 		</div>
 	);
 };

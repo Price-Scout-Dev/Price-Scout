@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import useInput from '../hooks/useInput';
 import SearchList from './SearchList';
 
 const Search = ({ userId, addProduct }) => {
+	const firstRender = useRef(true);
+
 	const [searchVal, handleSearchVal, resetSearch] = useInput('');
 	const [results, setResults] = useState([]);
 
@@ -14,22 +16,29 @@ const Search = ({ userId, addProduct }) => {
 		)
 			.then((response) => response.json())
 			.then((response) => {
-				setResults(response.shopping_results.slice(0, 11));
+				setResults(response.shopping_results.slice(0, 10));
+				firstRender.current = false;
 			});
 
 		resetSearch();
 	};
 
-	useEffect(() => console.log(results, 'UPDATED STATE WITH FETCH'), [results]);
+	const clearResults = () => setResults([]);
+
+	useEffect(() => {
+		if (firstRender.current) return;
+		if (results.length < 1) return;
+		console.log(results, 'UPDATED STATE WITH FETCH');
+	}, [results]);
 
 	return results.length > 0 ? (
-		<>
-			<SearchList results={results} addProduct={addProduct} />
-			<h1>{results.length}</h1>
-		</>
+		<SearchList
+			results={results}
+			clearResults={clearResults}
+			addProduct={addProduct}
+		/>
 	) : (
 		<div>
-			<h1>{results.length}</h1>
 			<form onSubmit={handleSubmit}>
 				<input
 					type="text"
