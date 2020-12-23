@@ -8,6 +8,7 @@ const SearchCard = ({
 	price,
 	addProduct,
 	clearResults,
+	productId,
 }) => {
 	const stateObj = {
 		productName: title,
@@ -15,6 +16,7 @@ const SearchCard = ({
 		productUrl: link,
 		storeName: merchant,
 		productPrice: price,
+		productId,
 	};
 	return (
 		<div>
@@ -22,6 +24,7 @@ const SearchCard = ({
 			<img src={image} />
 			<h5>${price}</h5>
 			<h5>Retailer: {merchant}</h5>
+			<h6>id: {productId}</h6>
 			<button
 				onClick={() => {
 					addProduct(stateObj);

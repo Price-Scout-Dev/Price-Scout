@@ -17,11 +17,9 @@ const Main = ({ email, password, userId, getProduct }) => {
 	};
 
 	//delete product from userList
-	const deleteProduct = (productName) => {
-		console.log('list before delete:', list);
-		console.log('deleteProduct productName', productName);
-		const newList = list.filter((item) => item.productName !== productName);
-		console.log('list after delete:', newList);
+	const deleteProduct = (productId) => {
+		//const newList = list.filter((item) => item.productName !== productName);
+		const newList = list.filter((item) => item.productId !== productId);
 		setList(newList);
 		shouldDelete.current = true;
 	};
@@ -41,6 +39,10 @@ const Main = ({ email, password, userId, getProduct }) => {
 		// setPassword(password);
 		// console.log('i am products', products);
 		// console.log('i am list BEFORE', list);
+		// const newList = dummyB.products.map((item, i) => {
+		// 	return { ...item, id: i };
+		// });
+		// console.log(newList);
 		setList(dummyB.products);
 	}, []);
 

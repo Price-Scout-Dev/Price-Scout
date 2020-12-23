@@ -5,13 +5,12 @@ const ProductCard = ({
 	imageUrl,
 	storeName,
 	productPrice,
-	id,
+	productId,
 	deleteProduct,
 }) => {
 	const handleClick = () => {
-		console.log('card click: heard');
-		console.log(productName);
-		deleteProduct(productName);
+		//fetch productId from db
+		deleteProduct(productId);
 	};
 
 	return (
@@ -20,7 +19,7 @@ const ProductCard = ({
 			<img src={imageUrl} />
 			<h5>${productPrice}</h5>
 			<p>Retailer: {storeName}</p>
-			<h6>id: {id}</h6>
+			<h6>id: {productId}</h6>
 			<button onClick={handleClick}>Stop Tracking</button>
 		</div>
 	);
