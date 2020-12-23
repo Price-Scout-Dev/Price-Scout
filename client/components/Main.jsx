@@ -18,7 +18,6 @@ const Main = ({ email, password, userId, getProduct }) => {
 
 	//delete product from userList
 	const deleteProduct = (productId) => {
-		//const newList = list.filter((item) => item.productName !== productName);
 		const newList = list.filter((item) => item.productId !== productId);
 		setList(newList);
 		shouldDelete.current = true;
@@ -37,12 +36,6 @@ const Main = ({ email, password, userId, getProduct }) => {
 		// 	.then((res) => setList(res.TheList)) // res.body?
 		// 	.catch((err) => console.log('ERROR: ', err));
 		// setPassword(password);
-		// console.log('i am products', products);
-		// console.log('i am list BEFORE', list);
-		// const newList = dummyB.products.map((item, i) => {
-		// 	return { ...item, id: i };
-		// });
-		// console.log(newList);
 		setList(dummyB.products);
 	}, []);
 
@@ -50,9 +43,6 @@ const Main = ({ email, password, userId, getProduct }) => {
 	useEffect(() => {
 		if (postObj.current.productUrl && postObj.current.userId) {
 			//make POST request
-			console.log('passed use effect conditions');
-			console.log('ADD THIS PRODUCT TO LIST', postObj);
-			console.log('LIST', list);
 			postObj.current.productUrl = '';
 			postObj.current.userId = '';
 		}
@@ -62,7 +52,6 @@ const Main = ({ email, password, userId, getProduct }) => {
 	useEffect(() => {
 		if (shouldDelete.current === false) return;
 		//make DELETE request
-		console.log('Delete useEffect ran, list =', list);
 		shouldDelete.current = false;
 	}, [list]);
 
