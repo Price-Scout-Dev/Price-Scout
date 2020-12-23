@@ -19,12 +19,10 @@ const SearchCard = ({
 	};
 	return (
 		<div>
-			<h3>I AM SEARCH CARD</h3>
-			<h3>{title}</h3>
+			<h4>Product: {title}</h4>
 			<img src={image} />
-			<h5>{merchant}</h5>
-			<h4>{price}</h4>
-			<p>{link}</p>
+			<h5>${price}</h5>
+			<h5>Retailer: {merchant}</h5>
 			<button
 				onClick={() => {
 					addProduct(stateObj);

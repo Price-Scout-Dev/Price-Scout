@@ -6,6 +6,7 @@ const SearchList = ({ results, addProduct, clearResults }) => {
 		({ title, id, image, link, merchant, price }) => (
 			<SearchCard
 				id={id}
+				key={id}
 				image={image}
 				link={link}
 				merchant={merchant}
@@ -19,8 +20,8 @@ const SearchList = ({ results, addProduct, clearResults }) => {
 
 	return (
 		<div>
-			<h3>I AM SEARCH LIST</h3>
 			{resultList}
+			<button onClick={() => clearResults()}>Search Again</button>
 		</div>
 	);
 };

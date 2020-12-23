@@ -23,7 +23,6 @@ const ProductList = ({ list }) => {
 
 	return (
 		<div>
-			<h2>i am ProductList</h2>
 			<div>{productItems}</div>
 		</div>
 	);

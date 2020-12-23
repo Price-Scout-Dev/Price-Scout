@@ -9,11 +9,10 @@ const ProductCard = ({
 }) => {
 	return (
 		<div>
-			<h4>I am productCard: {id}</h4>
-			<h5>{productName}</h5>
+			<h4>Product: {productName}</h4>
 			<img src={imageUrl} />
 			<h5>${productPrice}</h5>
-			<p>{storeName}</p>
+			<p>Retailer: {storeName}</p>
 		</div>
 	);
 };
