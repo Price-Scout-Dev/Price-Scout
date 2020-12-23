@@ -1,20 +1,21 @@
 import React from 'react';
 import ProductCard from './ProductCard';
+import { v4 as uuidv4 } from 'uuid';
 
-const ProductList = ({ list }) => {
+const ProductList = ({ list, deleteProduct }) => {
 	const productItems = list.map(
-		({ productName, imageUrl, storeName, productPrice }) => {
+		({ productName, imageUrl, storeName, productPrice }, i) => {
 			//wrap in Link for detail route, if so
-			const genId = Math.floor(Math.random() * 10000);
 			return (
 				<>
 					<ProductCard
-						id={genId}
-						key={genId}
+						id={i}
+						key={uuidv4()}
 						productName={productName}
 						imageUrl={imageUrl}
 						storeName={storeName}
 						productPrice={productPrice}
+						deleteProduct={deleteProduct}
 					/>
 				</>
 			);

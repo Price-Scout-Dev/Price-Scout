@@ -4,7 +4,7 @@ import SearchList from './SearchList';
 import useToggler from '../hooks/useToggler';
 import Loader from './Loader';
 
-const Search = ({ userId, addProduct }) => {
+const Search = ({ userId, addProduct, idx }) => {
 	const firstRender = useRef(true);
 
 	const [searchVal, handleSearchVal, resetSearch] = useInput('');
@@ -44,6 +44,7 @@ const Search = ({ userId, addProduct }) => {
 			results={results}
 			clearResults={clearResults}
 			addProduct={addProduct}
+			idx={idx}
 		/>
 	) : (
 		<div>

@@ -5,22 +5,26 @@ import dummyB from '../components/dummyB/dummyB';
 
 const Main = ({ email, password, userId, getProduct }) => {
 	const postObj = useRef({});
+	const shouldDelete = useRef(false);
 
 	const [list, setList] = useState([]);
 
 	//add product to userList
 	const addProduct = (stateObj) => {
-		console.log(list);
 		postObj.current.productUrl = stateObj.productUrl;
 		postObj.current.userId = userId;
 		setList([...list, stateObj]);
 	};
 
 	//delete product from userList
-	//...
-
-	//update product from userList
-	//...
+	const deleteProduct = (productName) => {
+		console.log('list before delete:', list);
+		console.log('deleteProduct productName', productName);
+		const newList = list.filter((item) => item.productName !== productName);
+		console.log('list after delete:', newList);
+		setList(newList);
+		shouldDelete.current = true;
+	};
 
 	//useEffect: cdm
 	useEffect(() => {
@@ -40,7 +44,7 @@ const Main = ({ email, password, userId, getProduct }) => {
 		setList(dummyB.products);
 	}, []);
 
-	//useEffect: list
+	//useEffect: add product
 	useEffect(() => {
 		if (postObj.current.productUrl && postObj.current.userId) {
 			//make POST request
@@ -52,10 +56,18 @@ const Main = ({ email, password, userId, getProduct }) => {
 		}
 	}, [list]);
 
+	//useEffect: delete product
+	useEffect(() => {
+		if (shouldDelete.current === false) return;
+		//make DELETE request
+		console.log('Delete useEffect ran, list =', list);
+		shouldDelete.current = false;
+	}, [list]);
+
 	return list ? (
 		<>
 			<Search userId={userId} addProduct={addProduct} />
-			<ProductList list={list} getProduct={getProduct} />
+			<ProductList list={list} deleteProduct={deleteProduct} />
 		</>
 	) : (
 		<>

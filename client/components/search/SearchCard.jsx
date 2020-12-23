@@ -2,7 +2,6 @@ import React from 'react';
 
 const SearchCard = ({
 	title,
-	id,
 	image,
 	link,
 	merchant,
