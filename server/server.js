@@ -22,7 +22,7 @@ app.use(cors());
 app.use("/api/auth", authRouter);
 
 //localhost:8080/api/products/getproducts
-// app.use('/api/products', productRouter);
+app.use('/api', productRouter);
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../index.html"));
