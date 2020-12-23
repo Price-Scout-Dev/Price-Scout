@@ -1,13 +1,10 @@
 import { useState } from 'react';
 
-const useToggleState = (initVal) => {
+const useToggler = (initVal) => {
 	const [stateData, updateStateData] = useState(initVal);
-	const toggler = () => {
-		if (stateData) updateStateData(false);
-		else updateStateData(true);
-	};
+	const toggler = () => updateStateData(!stateData);
 
 	return [stateData, toggler];
 };
 
-export default useToggleState;
+export default useToggler;
