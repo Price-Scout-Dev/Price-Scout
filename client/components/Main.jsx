@@ -3,7 +3,7 @@ import ProductList from './product/ProductList';
 import Search from './search/Search';
 import dummyB from '../components/dummyB/dummyB';
 
-const Main = ({ email, password, userId }) => {
+const Main = ({ email, password, userId, getProduct }) => {
 	const postObj = useRef({});
 
 	const [list, setList] = useState([]);
@@ -55,7 +55,7 @@ const Main = ({ email, password, userId }) => {
 	return list ? (
 		<>
 			<Search userId={userId} addProduct={addProduct} />
-			<ProductList list={list} />
+			<ProductList list={list} getProduct={getProduct} />
 		</>
 	) : (
 		<>

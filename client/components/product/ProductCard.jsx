@@ -6,6 +6,7 @@ const ProductCard = ({
 	storeName,
 	productPrice,
 	id,
+	getProduct,
 }) => {
 	return (
 		<div>
