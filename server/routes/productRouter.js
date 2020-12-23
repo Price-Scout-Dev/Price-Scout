@@ -11,11 +11,13 @@ productRouter.get("/products", productController.getProducts , (req, res) => {
   });
 
 
-//Add One Product:
+//Add Product:
 //POST Request
 
+ 
+
 productRouter.post("/products", productController.addProduct, (req, res) => {
-    res.status(200).json("Add product");
+    res.status(200).json(res.locals.products);
   });
 
 //Delete One Product:
