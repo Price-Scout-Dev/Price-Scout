@@ -9,7 +9,6 @@ const ProductCard = ({
 	deleteProduct,
 }) => {
 	const handleClick = () => {
-		//fetch productId from db
 		deleteProduct(productId);
 	};
 
