@@ -2,7 +2,7 @@ const express = require("express");
 const authRouter = express.Router();
 const authController = require("../controllers/authControllers.js");
 
-//SignUp Route
+//SignUp Route:
 //POST Request
 
 //What are all the controllers for signup:
@@ -17,7 +17,7 @@ authRouter.post("/signup", authController.createUser, authController.setSSIDCook
   res.status(200).json(res.locals.loginInfo);
 });
 
-//Login Route
+//Login Route:
 //POST Request
 
 //What is the middleware we should use when a user tries to login? 
