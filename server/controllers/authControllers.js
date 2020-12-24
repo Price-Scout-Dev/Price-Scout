@@ -68,18 +68,22 @@ authController.verifyUser = (req, res, next) => {
 
   //create query string. insert user into the user table.
   let queryString = `
-    SELECT * FROM users WHERE email=$1 and password=$2
+    SELECT * FROM users WHERE email=$1
     `; // parameterized sql query
-  let values = [req.body.email, req.body.password];
+  let values = [req.body.email];
 
   priceTrackerDB
     .query(queryString, values)
     .then((data) => {
       if (data.rows.length > 0) {
-        res.locals.loginInfo = {};
-        res.locals.loginInfo.userId = data.rows[0]._id;
-        res.locals.loginInfo.email = req.body.email;
-        return next();
+        bcrypt
+          .compare(req.body.password, data.rows[0].password)
+          .then((isMatch) => {      
+            res.locals.loginInfo = {};
+            res.locals.loginInfo.userId = data.rows[0]._id;
+            res.locals.loginInfo.email = req.body.email;
+            return next();
+          });
       } else {
         //send error object to the front end.
         console.log('invalid email or password');
