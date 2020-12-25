@@ -12,7 +12,7 @@ import {
 	Grow,
 	Slide,
 } from '@material-ui/core';
-import useStyles from '../../theme';
+import useStyles from '../../style/theme';
 
 const Login = ({ loginUser, ...rest }) => {
 	//GET THE USER INPUT SO WE CAN ISSUE A "GET" TO DB W/ loginUser
