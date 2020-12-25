@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import ProductList from './product/ProductList';
 import Search from './search/Search';
 import dummyB from '../components/dummyB/dummyB';
+import { Grid } from '@material-ui/core';
 
 const Main = ({ email, password, userId, getProduct }) => {
 	const postObj = useRef({});
@@ -56,10 +57,14 @@ const Main = ({ email, password, userId, getProduct }) => {
 	}, [list]);
 
 	return list ? (
-		<>
-			<Search userId={userId} addProduct={addProduct} />
-			<ProductList list={list} deleteProduct={deleteProduct} />
-		</>
+		<Grid container justify="center">
+			<Grid container item justify="center" xs={12}>
+				<Search userId={userId} addProduct={addProduct} />
+			</Grid>
+			<Grid container item justify="center" spacing={4} xs={12} md={10} xl={9}>
+				<ProductList list={list} deleteProduct={deleteProduct} />
+			</Grid>
+		</Grid>
 	) : (
 		<>
 			<h1>What up! {email}</h1>
