@@ -14,26 +14,20 @@ const ProductList = ({ list, deleteProduct }) => {
 			});
 			//wrap in Link for detail route, if so
 			return (
-				<>
-					<ProductCard
-						productId={productId}
-						key={uuidv4()}
-						productName={productName}
-						imageUrl={imageUrl}
-						storeName={storeName}
-						productPrice={productPrice}
-						deleteProduct={deleteProduct}
-					/>
-				</>
+				<ProductCard
+					productId={productId}
+					key={uuidv4()}
+					productName={productName}
+					imageUrl={imageUrl}
+					storeName={storeName}
+					productPrice={productPrice}
+					deleteProduct={deleteProduct}
+				/>
 			);
 		}
 	);
 
-	return (
-		<div>
-			<div>{productItems}</div>
-		</div>
-	);
+	return <>{productItems}</>;
 };
 
 export default ProductList;
