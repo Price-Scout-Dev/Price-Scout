@@ -35,6 +35,34 @@ const dummyB = {
 			productPrice: 5,
 			productId: 4,
 		},
+		{
+			productName: 'Product_6',
+			imageUrl: 'https://i.ibb.co/YTjW3vF/green-beanie.png',
+			storeName: 'store_6',
+			productPrice: 6,
+			productId: 5,
+		},
+		{
+			productName: 'Product_7',
+			imageUrl: 'https://i.ibb.co/YTjW3vF/green-beanie.png',
+			storeName: 'store_7',
+			productPrice: 7,
+			productId: 6,
+		},
+		{
+			productName: 'Product_8',
+			imageUrl: 'https://i.ibb.co/YTjW3vF/green-beanie.png',
+			storeName: 'store_8',
+			productPrice: 8,
+			productId: 7,
+		},
+		{
+			productName: 'Product_9',
+			imageUrl: 'https://i.ibb.co/YTjW3vF/green-beanie.png',
+			storeName: 'store_9',
+			productPrice: 9,
+			productId: 8,
+		},
 	],
 };
 
