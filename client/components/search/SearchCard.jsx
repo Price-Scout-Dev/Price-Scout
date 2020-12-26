@@ -9,6 +9,7 @@ const SearchCard = ({
 	addProduct,
 	clearResults,
 	productId,
+	date,
 }) => {
 	const stateObj = {
 		productName: title,
@@ -17,9 +18,11 @@ const SearchCard = ({
 		storeName: merchant,
 		productPrice: price,
 		productId,
+		date,
 	};
 	return (
 		<div>
+			<h6>{date}</h6>
 			<h4>Product: {title}</h4>
 			<img src={image} />
 			<h5>${price}</h5>

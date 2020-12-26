@@ -8,6 +8,7 @@ const ProductCard = ({
 	productPrice,
 	productId,
 	deleteProduct,
+	date,
 }) => {
 	const handleClick = () => {
 		deleteProduct(productId);
