@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import useInput from '../hooks/useInput';
+import Register from './Register';
 import LoginNavBar from '../nav/LoginNavBar';
 import {
 	Button,
@@ -13,6 +14,7 @@ import {
 	Slide,
 	IconButton,
 	InputAdornment,
+	Dialog,
 } from '@material-ui/core';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
 import useStyles from '../../style/theme';
@@ -21,10 +23,13 @@ const Login = ({ loginUser, ...rest }) => {
 	//GET THE USER INPUT SO WE CAN ISSUE A "GET" TO DB W/ loginUser
 	const [emailInput, updateEmail, resetEmail] = useInput('');
 	const [pwInput, updatePw, resetPw] = useInput('');
+	const [open, setOpen] = useState(false);
 	const [showPassword, setShowPassword] = useState(false);
-	const handleClickShowPassword = () => setShowPassword(!showPassword);
-	const handleMouseDownPassword = () => setShowPassword(!showPassword);
 	const classes = useStyles();
+
+	const handleClickOpen = () => setOpen(true);
+	const handleClose = () => setOpen(false);
+	const handleClickShowPassword = () => setShowPassword(!showPassword);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -46,10 +51,16 @@ const Login = ({ loginUser, ...rest }) => {
 			<AppBar>
 				<LoginNavBar />
 			</AppBar>
-			<Box className={classes.loginBox}>
+			<Box className={classes.loginBox} flexWrap="wrap">
 				<Grow in>
 					<div>
-						<Typography variant="h2">Price Tracker</Typography>
+						<Typography
+							variant="h2"
+							color="primary"
+							style={{ fontWeight: '600' }}
+						>
+							Price Tracker
+						</Typography>
 						<Typography variant="body1" display="inline">
 							Track items on{' '}
 							<span
@@ -94,52 +105,58 @@ const Login = ({ loginUser, ...rest }) => {
 				</Grow>
 				<Slide direction="up" in>
 					<Paper className={classes.loginPaper} elevation={10}>
-						<TextField
-							className={classes.loginTextField}
-							id="email"
-							label="Email"
-							variant="outlined"
-							value={emailInput}
-							onChange={updateEmail}
-						/>
-						<TextField
-							className={classes.loginTextField}
-							id="password"
-							label="Password"
-							variant="outlined"
-							type="password"
-							value={pwInput}
-							onChange={updatePw}
-							type={showPassword ? 'text' : 'password'}
-							InputProps={{
-								endAdornment: (
-									<InputAdornment position="end">
-										<IconButton
-											aria-label="toggle password visibility"
-											onClick={handleClickShowPassword}
-											onMouseDown={handleMouseDownPassword}
-										>
-											{showPassword ? <Visibility /> : <VisibilityOff />}
-										</IconButton>
-									</InputAdornment>
-								),
-							}}
-						/>
-						<Button
-							className={classes.loginBtn}
-							onClick={handleSubmit}
-							variant="contained"
-							color="primary"
-						>
-							Log In
-						</Button>
+						<form onSubmit={handleSubmit}>
+							<TextField
+								className={classes.loginTextField}
+								id="email"
+								label="Email"
+								variant="outlined"
+								value={emailInput}
+								onChange={updateEmail}
+							/>
+							<TextField
+								className={classes.loginTextField}
+								id="password"
+								label="Password"
+								variant="outlined"
+								type="password"
+								value={pwInput}
+								onChange={updatePw}
+								type={showPassword ? 'text' : 'password'}
+								InputProps={{
+									endAdornment: (
+										<InputAdornment position="end">
+											<IconButton
+												aria-label="toggle password visibility"
+												onClick={handleClickShowPassword}
+											>
+												{showPassword ? <Visibility /> : <VisibilityOff />}
+											</IconButton>
+										</InputAdornment>
+									),
+								}}
+							/>
+							<Button
+								className={classes.loginBtn}
+								type="submit"
+								onClick={handleSubmit}
+								variant="contained"
+								color="primary"
+							>
+								Log In
+							</Button>
+						</form>
 						<Divider className={classes.loginDivider} variant="middle" />
 						<Button
 							className={classes.loginCreateAccountBtn}
+							onClick={handleClickOpen}
 							variant="contained"
 						>
 							Create Account
 						</Button>
+						<Dialog open={open} onClose={handleClose}>
+							<Register />
+						</Dialog>
 					</Paper>
 				</Slide>
 			</Box>
