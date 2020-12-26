@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import useInput from '../hooks/useInput';
 import LoginNavBar from '../nav/LoginNavBar';
 import {
@@ -11,13 +11,19 @@ import {
 	Typography,
 	Grow,
 	Slide,
+	IconButton,
+	InputAdornment,
 } from '@material-ui/core';
+import { Visibility, VisibilityOff } from '@material-ui/icons';
 import useStyles from '../../style/theme';
 
 const Login = ({ loginUser, ...rest }) => {
 	//GET THE USER INPUT SO WE CAN ISSUE A "GET" TO DB W/ loginUser
 	const [emailInput, updateEmail, resetEmail] = useInput('');
 	const [pwInput, updatePw, resetPw] = useInput('');
+	const [showPassword, setShowPassword] = useState(false);
+	const handleClickShowPassword = () => setShowPassword(!showPassword);
+	const handleMouseDownPassword = () => setShowPassword(!showPassword);
 	const classes = useStyles();
 
 	const handleSubmit = (e) => {
@@ -104,6 +110,20 @@ const Login = ({ loginUser, ...rest }) => {
 							type="password"
 							value={pwInput}
 							onChange={updatePw}
+							type={showPassword ? 'text' : 'password'}
+							InputProps={{
+								endAdornment: (
+									<InputAdornment position="end">
+										<IconButton
+											aria-label="toggle password visibility"
+											onClick={handleClickShowPassword}
+											onMouseDown={handleMouseDownPassword}
+										>
+											{showPassword ? <Visibility /> : <VisibilityOff />}
+										</IconButton>
+									</InputAdornment>
+								),
+							}}
 						/>
 						<Button
 							className={classes.loginBtn}
