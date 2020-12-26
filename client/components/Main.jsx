@@ -13,7 +13,7 @@ const Main = ({ email, password, userId, getProduct }) => {
 	const addProduct = (stateObj) => {
 		postObj.current.productUrl = stateObj.productUrl;
 		postObj.current.userId = userId;
-		setList([...list, stateObj]);
+		setList([stateObj, ...list]);
 	};
 
 	//delete product from userList

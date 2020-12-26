@@ -7,6 +7,7 @@ const ProductCard = ({
 	productPrice,
 	productId,
 	deleteProduct,
+	date,
 }) => {
 	const handleClick = () => {
 		deleteProduct(productId);
@@ -14,6 +15,7 @@ const ProductCard = ({
 
 	return (
 		<div>
+			<h6>{date}</h6>
 			<h4>Product: {productName}</h4>
 			<img src={imageUrl} />
 			<h5>${productPrice}</h5>
