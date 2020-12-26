@@ -3,6 +3,8 @@ import useInput from '../hooks/useInput';
 import SearchList from './SearchList';
 import useToggler from '../hooks/useToggler';
 import Loader from './Loader';
+import { Button, TextField } from '@material-ui/core';
+import SearchIcon from '@material-ui/icons/Search';
 
 const Search = ({ userId, addProduct }) => {
 	const firstRender = useRef(true);
@@ -13,17 +15,19 @@ const Search = ({ userId, addProduct }) => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
+		if (!searchVal) return alert('Please write an input in the search bar!');
 
 		toggler();
 
 		fetch(
-			`https://api.scaleserp.com/search?search_type=shopping&price_low_to_high&num=10&api_key=045857B48E1A47C29E29DEE7BA20CCF8&q=${searchVal}`
+			`https://api.scaleserp.com/search?search_type=shopping&price_low_to_high&num=10&api_key=6ADC56D9A9074C4ABD404FA9E55F6DC7&q=${searchVal}`
 		)
 			.then((response) => response.json())
 			.then((response) => {
 				setResults(response.shopping_results.slice(0, 10));
 				firstRender.current = false;
-			});
+			})
+			.catch((err) => console.log(err));
 
 		resetSearch();
 	};
@@ -46,16 +50,24 @@ const Search = ({ userId, addProduct }) => {
 			addProduct={addProduct}
 		/>
 	) : (
-		<div>
+		<>
 			<form onSubmit={handleSubmit}>
-				<input
-					type="text"
+				<TextField
+					variant="outlined"
+					label="Search for a product.."
 					value={searchVal}
 					onChange={handleSearchVal}
-					placeholder="product url"
 				/>
 			</form>
-		</div>
+			<Button
+				variant="contained"
+				color="primary"
+				onClick={handleSubmit}
+				endIcon={<SearchIcon />}
+			>
+				Search
+			</Button>
+		</>
 	);
 };
 
