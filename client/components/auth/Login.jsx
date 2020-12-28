@@ -20,7 +20,6 @@ import { Visibility, VisibilityOff } from '@material-ui/icons';
 import useStyles from '../../style/theme';
 
 const Login = ({ loginUser, ...rest }) => {
-	//GET THE USER INPUT SO WE CAN ISSUE A "GET" TO DB W/ loginUser
 	const [emailInput, updateEmail, resetEmail] = useInput('');
 	const [pwInput, updatePw, resetPw] = useInput('');
 	const [open, setOpen] = useState(false);
@@ -47,7 +46,10 @@ const Login = ({ loginUser, ...rest }) => {
 	};
 
 	return (
-		<div className={classes.root}>
+		<div
+			className={classes.root}
+			style={{ filter: open ? 'blur(5px)' : 'none' }}
+		>
 			<AppBar>
 				<LoginNavBar />
 			</AppBar>
@@ -61,7 +63,7 @@ const Login = ({ loginUser, ...rest }) => {
 						>
 							Price Tracker
 						</Typography>
-						<Typography variant="body1" display="inline">
+						<Typography variant="body1">
 							Track items on{' '}
 							<span
 								className={classes.googleLetters}
@@ -105,7 +107,7 @@ const Login = ({ loginUser, ...rest }) => {
 				</Grow>
 				<Slide direction="up" in>
 					<Paper className={classes.loginPaper} elevation={10}>
-						<form onSubmit={handleSubmit}>
+						<form className={classes.loginForm} onSubmit={handleSubmit}>
 							<TextField
 								className={classes.loginTextField}
 								id="email"
@@ -119,7 +121,6 @@ const Login = ({ loginUser, ...rest }) => {
 								id="password"
 								label="Password"
 								variant="outlined"
-								type="password"
 								value={pwInput}
 								onChange={updatePw}
 								type={showPassword ? 'text' : 'password'}
@@ -155,7 +156,7 @@ const Login = ({ loginUser, ...rest }) => {
 							Create Account
 						</Button>
 						<Dialog open={open} onClose={handleClose}>
-							<Register />
+							<Register setOpen={setOpen} />
 						</Dialog>
 					</Paper>
 				</Slide>
