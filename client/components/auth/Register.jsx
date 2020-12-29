@@ -14,9 +14,6 @@ import useStyles from '../../style/theme';
 import inputCheck from '../../utils/inputCheck';
 
 const Register = ({ registerUser, setOpen, ...rest }) => {
-	console.log(registerUser);
-	console.log('I am register');
-
 	const [emailInput, updateEmail, resetEmail] = useInput('');
 	const [pwInput, updatePw, resetPw] = useInput('');
 	const [confirmPwInput, confirmUpdatePw, confirmResetPw] = useInput('');
@@ -36,9 +33,10 @@ const Register = ({ registerUser, setOpen, ...rest }) => {
 
 		resetEmail();
 		resetPw();
+		confirmResetPw();
 	};
 
-	useEffect(() => console.log(console.log('I am cdm:', registerUser)), []);
+	useEffect(() => console.log('I am cdm:', registerUser), []);
 
 	return (
 		<div className={classes.registerForm}>
