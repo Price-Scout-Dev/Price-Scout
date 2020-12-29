@@ -4,9 +4,16 @@ import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import About from './components/about/About';
 import Main from './components/Main';
-import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
+import {
+	BrowserRouter,
+	Switch,
+	Route,
+	withRouter,
+	Link,
+} from 'react-router-dom';
 
-const App = () => {
+const App = (props) => {
+	console.log(props);
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [userId, setId] = useState('');
@@ -21,15 +28,13 @@ const App = () => {
 		})
 			.then((res) => res.json())
 			.then(({ email, userId }) => {
-				setEmail(email);
 				setId(userId);
+				setEmail(email);
+				setPassword(password);
 			})
 			.catch((err) => console.log('ERROR: ', err));
-		//setId(1);
-		setPassword(password);
-		//setEmail(email);
 
-		console.log('regUser RAN!', email, password);
+		console.log('registerUser:', userId, email, password);
 	};
 
 	const loginUser = (email, password) => {
@@ -42,15 +47,20 @@ const App = () => {
 		})
 			.then((res) => res.json())
 			.then(({ email, userId }) => {
-				setEmail(email);
+				console.log('USER ID:', userId);
 				setId(userId);
+				setEmail(email);
+				setPassword(password);
+				props.history.push('/');
 			})
 			.catch((err) => console.log('ERROR: ', err));
-		// setId(1);
-		setPassword(password);
-		//setEmail(email);
-		console.log('loginUser RAN!', email, password);
+
+		console.log('loginUser:', userId, email, password);
 	};
+
+	useEffect(() => {
+		console.log('I am cdm', email, password, userId);
+	}, []);
 
 	return (
 		<BrowserRouter>
@@ -81,4 +91,4 @@ const App = () => {
 	);
 };
 
-export default App;
+export default withRouter(App);

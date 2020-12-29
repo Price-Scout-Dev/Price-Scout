@@ -26,6 +26,7 @@ const Main = ({ email, password, userId, getProduct }) => {
 
 	//useEffect: cdm
 	useEffect(() => {
+		console.log('user id', userId);
 		fetch(`/api/products/${userId}`, {
 			method: 'GET',
 			headers: {
@@ -33,7 +34,10 @@ const Main = ({ email, password, userId, getProduct }) => {
 			},
 		})
 			.then((res) => res.json())
-			.then((res) => setList(res))
+			.then((res) => {
+				console.log(res);
+				setList(res);
+			})
 			.catch((err) => console.log('ERROR: ', err));
 		//setPassword(password);
 		//setList(dummyB.products);

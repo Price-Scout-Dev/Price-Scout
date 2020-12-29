@@ -5,9 +5,10 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
 	return (
 		<Route
 			{...rest}
-			render={() =>
-				rest.email ? <Component {...rest} /> : <Redirect to="/login" />
-			}
+			render={() => {
+				console.log(rest.email);
+				return rest.email ? <Component {...rest} /> : <Redirect to="/login" />;
+			}}
 		/>
 	);
 };
