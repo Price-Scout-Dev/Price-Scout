@@ -1,4 +1,4 @@
-const priceTrackerDB = require('../models/priceTrackerModel.js');
+const priceTrackerDB = require("../models/priceTrackerModel.js");
 
 const productController = {};
 
@@ -27,28 +27,37 @@ productController.getProducts = (req, res, next) => {
 //Add Product Controller- POST Request:
 productController.addProduct = async (req, res, next) => {
   const {
-    productName,
-    imageUrl,
-    googleUrl,
-    date,
-    lowestDailyPrice,
-    storeUrl,
-    storeName,
+    product_name,
+    image_url,
+    google_url,
+    timestamp,
+    lowest_daily_price,
+    store_url,
+    store_name,
   } = req.body; //from websraping and frontend
   const { user } = req.params;
 
   const newProductId = await priceTrackerDB.query(
-    `INSERT INTO products (product_name, image_url, google_url) VALUES ('k','k.com','kg.com') returning products._id`
+    `INSERT INTO products (product_name, image_url, google_url) VALUES ($1,$2,$3) returning products._id`,
+    [product_name, image_url, google_url]
   );
+  // console.log("newProduct ID is: ", newProductId.rows[0]._id);
 
-  console.log('newProduct ID is: ', newProductId.rows[0]._id);
+  const usersToProductsQuery = `INSERT into users_to_products (user_id,product_id) VALUES ($1,$2)`;
+  const usersToProductsValues = [user, newProductId.rows[0]._id];
 
-  const usersToProductsQuery = `INSERT into users_to_products (user_id,product_id) VALUES ($1,$2)`
+  const lowestDailyPriceQuery = `INSERT into lowest_daily_price (product_id, store_name,	lowest_daily_price,	store_url,) VALUES ($1,$2,$3,$4)`;
+  const lowestDailyPriceValues = [
+    newProductId.rows[0]._id,
+    store_name,
+    lowest_daily_price,
+    store_url,
+    timestamp,
+  ];
 
-  const values = [user, newProductId.rows[0]._id]
-
-priceTrackerDB
-    .query(usersToProductsQuery, values)
+  priceTrackerDB
+    .query(usersToProductsQuery, usersToProductsValues)
+    .query(lowestDailyPriceQuery, lowestDailyPriceValues)
     .then((data) => {
       return next();
     })
