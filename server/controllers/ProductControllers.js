@@ -37,15 +37,18 @@ productController.addProduct = async (req, res, next) => {
   } = req.body; //from websraping and frontend
   const { user } = req.params;
 
+  //Add to products table and return product_id
   const newProductId = await priceTrackerDB.query(
     `INSERT INTO products (product_name, image_url, google_url) VALUES ($1,$2,$3) returning products._id`,
     [product_name, image_url, google_url]
   );
   // console.log("newProduct ID is: ", newProductId.rows[0]._id);
 
+  //Add to user_to_products table using product_id
   const usersToProductsQuery = `INSERT into users_to_products (user_id,product_id) VALUES ($1,$2)`;
   const usersToProductsValues = [user, newProductId.rows[0]._id];
 
+   //Add to lowest_daily_price table using product_id
   const lowestDailyPriceQuery = `INSERT into lowest_daily_price (product_id, store_name,	lowest_daily_price,	store_url,) VALUES ($1,$2,$3,$4)`;
   const lowestDailyPriceValues = [
     newProductId.rows[0]._id,
