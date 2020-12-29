@@ -5,6 +5,7 @@ import useToggler from '../hooks/useToggler';
 import Loader from './Loader';
 import { Button, TextField } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
+import useStyles from '../../style/theme';
 
 const Search = ({ userId, addProduct }) => {
 	const firstRender = useRef(true);
@@ -12,6 +13,7 @@ const Search = ({ userId, addProduct }) => {
 	const [searchVal, handleSearchVal, resetSearch] = useInput('');
 	const [results, setResults] = useState([]);
 	const [isFetching, toggler] = useToggler(false);
+	const classes = useStyles();
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -53,13 +55,16 @@ const Search = ({ userId, addProduct }) => {
 		<>
 			<form onSubmit={handleSubmit}>
 				<TextField
+					className={classes.searchBar}
 					variant="outlined"
 					label="Search for a product.."
 					value={searchVal}
 					onChange={handleSearchVal}
+					inputProps={{ className: classes.searchBar}}
 				/>
 			</form>
 			<Button
+				className={classes.searchBtn}
 				variant="contained"
 				color="primary"
 				onClick={handleSubmit}
