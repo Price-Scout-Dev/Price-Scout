@@ -40,7 +40,7 @@ const Login = ({ loginUser, ...rest }) => {
 			return alert('Invalid email format. Try again!');
 
 		loginUser(emailInput, pwInput);
-		rest.history.push('/');
+
 		resetEmail();
 		resetPw();
 	};

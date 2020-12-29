@@ -13,10 +13,10 @@ import {
 } from 'react-router-dom';
 
 const App = (props) => {
-	console.log(props);
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [userId, setId] = useState('');
+	const [main, setMain] = useState('');
 
 	const registerUser = (email, password) => {
 		fetch('/api/auth/signup', {
@@ -31,10 +31,9 @@ const App = (props) => {
 				setEmail(email);
 				setId(userId);
 				setPassword(password);
+				console.log('register success', userId, email, password);
 			})
 			.catch((err) => console.log('ERROR: ', err));
-
-		console.log('registerUser:', userId, email, password);
 	};
 
 	const loginUser = (email, password) => {
@@ -47,20 +46,24 @@ const App = (props) => {
 		})
 			.then((res) => res.json())
 			.then(({ email, userId }) => {
-				console.log('USER ID:', userId);
 				setEmail(email);
 				setId(userId);
 				setPassword(password);
-				//props.history.push('/');
+				console.log('login success', userId, email, password);
 			})
 			.catch((err) => console.log('ERROR: ', err));
-
-		console.log('loginUser:', userId, email, password);
 	};
 
 	useEffect(() => {
-		console.log('I am cdm', email, password, userId);
-	}, []);
+		if (!email) return;
+		setMain('/');
+	}, [email]);
+
+	useEffect(() => {
+		if (!main) return;
+		email && props.history.push(main);
+		setMain('');
+	}, [main]);
 
 	return (
 		<BrowserRouter>
@@ -85,6 +88,7 @@ const App = (props) => {
 					email={email}
 					password={password}
 					userId={userId}
+					loginUser={loginUser}
 				/>
 			</Switch>
 		</BrowserRouter>
