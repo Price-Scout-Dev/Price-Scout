@@ -28,8 +28,8 @@ const App = (props) => {
 		})
 			.then((res) => res.json())
 			.then(({ email, userId }) => {
-				setId(userId);
 				setEmail(email);
+				setId(userId);
 				setPassword(password);
 			})
 			.catch((err) => console.log('ERROR: ', err));
@@ -48,10 +48,10 @@ const App = (props) => {
 			.then((res) => res.json())
 			.then(({ email, userId }) => {
 				console.log('USER ID:', userId);
-				setId(userId);
 				setEmail(email);
+				setId(userId);
 				setPassword(password);
-				props.history.push('/');
+				//props.history.push('/');
 			})
 			.catch((err) => console.log('ERROR: ', err));
 
