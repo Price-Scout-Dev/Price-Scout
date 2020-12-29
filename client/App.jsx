@@ -28,12 +28,13 @@ const App = (props) => {
 		})
 			.then((res) => res.json())
 			.then(({ email, userId }) => {
+				console.log('register res:', email, userId);
 				setEmail(email);
 				setId(userId);
 				setPassword(password);
 				console.log('register success', userId, email, password);
 			})
-			.catch((err) => console.log('ERROR: ', err));
+			.catch((err) => console.log('regUser ERROR: ', err));
 	};
 
 	const loginUser = (email, password) => {
@@ -49,9 +50,9 @@ const App = (props) => {
 				setEmail(email);
 				setId(userId);
 				setPassword(password);
-				console.log('login success', userId, email, password);
+				console.log('loginUser success', userId, email, password);
 			})
-			.catch((err) => console.log('ERROR: ', err));
+			.catch((err) => console.log('loginUser ERROR: ', err));
 	};
 
 	useEffect(() => {
@@ -62,6 +63,7 @@ const App = (props) => {
 	useEffect(() => {
 		if (!main) return;
 		email && props.history.push(main);
+		console.log('LOCATION', props.history.location);
 		setMain('');
 	}, [main]);
 

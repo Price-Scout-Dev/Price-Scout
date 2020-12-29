@@ -18,6 +18,7 @@ import {
 } from '@material-ui/core';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
 import useStyles from '../../style/theme';
+import inputCheck from '../../utils/inputCheck';
 
 const Login = ({ loginUser, ...rest }) => {
 	const [emailInput, updateEmail, resetEmail] = useInput('');
@@ -33,11 +34,8 @@ const Login = ({ loginUser, ...rest }) => {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 
-		if (!emailInput) return alert('Fill in the email input please!');
-		else if (pwInput.length < 5)
-			return alert('Enter password (must be at least 5 characters long)!');
-		else if (!emailInput.includes('@') || !emailInput.includes('.com'))
-			return alert('Invalid email format. Try again!');
+		const err = inputCheck(emailInput, pwInput);
+		if (err) return alert(err);
 
 		loginUser(emailInput, pwInput);
 

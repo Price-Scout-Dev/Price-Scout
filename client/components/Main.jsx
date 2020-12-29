@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ProductList from './product/ProductList';
 import Search from './search/Search';
-import dummyB from '../components/dummyB/dummyB';
+//import dummyB from '../components/dummyB/dummyB';
 import { Grid } from '@material-ui/core';
 
 const Main = ({ email, password, userId, getProduct }) => {
@@ -37,7 +37,7 @@ const Main = ({ email, password, userId, getProduct }) => {
 				console.log(res);
 				setList(res);
 			})
-			.catch((err) => console.log('ERROR: ', err));
+			.catch((err) => console.log('main cdm ERROR: ', err));
 	}, [userId]);
 
 	//useEffect: add product
