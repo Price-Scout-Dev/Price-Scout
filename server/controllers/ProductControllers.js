@@ -25,35 +25,64 @@ productController.getProducts = (req, res, next) => {
 };
 
 //Add Product Controller- POST Request:
-productController.addProduct = (req, res, next) => {
-  const { productName,imageUrl, googleUrl, date, lowestDailyPrice, storeUrl, storeName} = req.body; //from websraping and frontend
-  const {user} = req.params;
-  
-  /* when add product, need to update all tables: 
-  1) product table, check if product exists: product_name	image_url	google_url
-  2) users_to_products, add to particular user: user_id product_id
-  3)lowest_daily_price: product_id	date	store_name	lowest_daily_price	store_url
-  */
+productController.addProduct = async (req, res, next) => {
+  const {
+    productName,
+    imageUrl,
+    googleUrl,
+    date,
+    lowestDailyPrice,
+    storeUrl,
+    storeName,
+  } = req.body; //from websraping and frontend
+  const { user } = req.params;
 
-  let addProduct = `
-        INSERT INTO products (product_name, image_url) VALUES ($1, $2) RETURNING *
-        `;
+  const newProductId = await priceTrackerDB.query(
+    `INSERT INTO products (product_name, image_url, google_url) VALUES ('k','k.com','kg.com') returning products._id`
+  );
 
-  let values = [productName, imageUrl];
+  console.log('newProduct ID is: ', newProductId.rows[0]._id);
 
-  priceTrackerDB
-    .query(addProduct, values)
+  const usersToProductsQuery = `INSERT into users_to_products (user_id,product_id) VALUES ($1,$2)`
+
+  const values = [user, newProductId.rows[0]._id]
+
+priceTrackerDB
+    .query(usersToProductsQuery, values)
     .then((data) => {
-      res.locals.products = {};
-      res.locals.products.productId = data.rows[0]._id;
-      res.locals.products.productName = data.rows[0].product_name;
-      res.locals.products.imageUrl = data.rows[0].image_url;
       return next();
     })
     .catch((err) => {
       console.log(err);
       return next(err);
     });
+
+  /* when add product, need to update all tables: 
+  1) product table, check if product exists: product_name	image_url	google_url
+  2) users_to_products, add to particular user: user_id product_id
+  3)lowest_daily_price: product_id	date	store_name	lowest_daily_price	store_url
+  */
+
+  // let addProduct = `
+  //       INSERT INTO products (product_name, image_url) VALUES ($1, $2) RETURNING *
+  //       `;
+
+  // let values = [productName, imageUrl];
+
+  // priceTrackerDB
+  //   .query(addProduct, values)
+  //   .then((data) => {
+  //     res.locals.products = {};
+  //     res.locals.products.productId = data.rows[0]._id;
+  //     res.locals.products.productName = data.rows[0].product_name;
+  //     res.locals.products.imageUrl = data.rows[0].image_url;
+  //     return next();
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //     return next(err);
+  //   });
+  return next();
 };
 
 //Delete Product Controller- DELETE Request:
