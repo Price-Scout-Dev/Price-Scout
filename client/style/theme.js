@@ -74,6 +74,31 @@ const useStyles = makeStyles((theme) => ({
 		width: '50%',
 		alignSelf: 'center',
 	},
+	searchBar: {
+		width: 400,
+		background: 'white',
+		borderRadius: '4rem',
+		['& fieldset']: {
+			borderRadius: '4rem',
+		},
+	},
+	searchBtn: {
+		borderRadius: '4rem',
+		boxShadow: theme.shadows[3],
+		[theme.breakpoints.down(527)]: {
+			marginTop: '0.5rem',
+		},
+		[theme.breakpoints.up(535)]: {
+			marginLeft: '0.5rem',
+		},
+	},
+	productCard: {
+		maxWidth: 500,
+		boxShadow: theme.shadows[3],
+	},
+	productCardMedia: {
+		height: 250,
+	},
 }));
 
 export default useStyles;
