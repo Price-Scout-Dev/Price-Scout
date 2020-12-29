@@ -58,10 +58,25 @@ const Main = ({ email, password, userId, getProduct }) => {
 
 	return list ? (
 		<Grid container justify="center">
-			<Grid container item justify="center" xs={12}>
+			<Grid
+				container
+				item
+				justify="center"
+				xs={12}
+				style={{ margin: '2rem 0' }}
+			>
 				<Search userId={userId} addProduct={addProduct} />
 			</Grid>
-			<Grid container item justify="center" spacing={4} xs={12} md={10} xl={9}>
+			<Grid
+				container
+				item
+				justify="center"
+				align="center"
+				spacing={4}
+				xs={12}
+				md={10}
+				xl={9}
+			>
 				<ProductList list={list} deleteProduct={deleteProduct} />
 			</Grid>
 		</Grid>
