@@ -12,43 +12,43 @@ const App = () => {
 	const [userId, setId] = useState('');
 
 	const registerUser = (email, password) => {
-		// fetch('/api/auth/signup', {
-		// 	method: 'POST',
-		// 	headers: {
-		// 		'Content-Type': 'Application/JSON',
-		// 	},
-		// 	body: JSON.stringify({ email, password }),
-		// })
-		// 	.then((res) => res.json())
-		// 	.then(({ email, userId }) => {
-		// 		setEmail(email);
-		// 		setId(userId);
-		// 	})
-		// 	.catch((err) => console.log('ERROR: ', err));
-		setId(1);
+		fetch('/api/auth/signup', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'Application/JSON',
+			},
+			body: JSON.stringify({ email, password }),
+		})
+			.then((res) => res.json())
+			.then(({ email, userId }) => {
+				setEmail(email);
+				setId(userId);
+			})
+			.catch((err) => console.log('ERROR: ', err));
+		//setId(1);
 		setPassword(password);
-		setEmail(email);
+		//setEmail(email);
 
 		console.log('regUser RAN!', email, password);
 	};
 
 	const loginUser = (email, password) => {
-		// fetch('/api/auth/login', {
-		// 	method: 'POST',
-		// 	headers: {
-		// 		'Content-Type': 'Application/JSON',
-		// 	},
-		// 	body: JSON.stringify({ email, password }),
-		// })
-		// 	.then((res) => res.json())
-		// 	.then(({ email, userId }) => {
-		// 		setEmail(email);
-		// 		setId(userId);
-		// 	})
-		// 	.catch((err) => console.log('ERROR: ', err));
-		setId(1);
+		fetch('/api/auth/login', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'Application/JSON',
+			},
+			body: JSON.stringify({ email, password }),
+		})
+			.then((res) => res.json())
+			.then(({ email, userId }) => {
+				setEmail(email);
+				setId(userId);
+			})
+			.catch((err) => console.log('ERROR: ', err));
+		// setId(1);
 		setPassword(password);
-		setEmail(email);
+		//setEmail(email);
 		console.log('loginUser RAN!', email, password);
 	};
 

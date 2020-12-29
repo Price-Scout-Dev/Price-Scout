@@ -26,18 +26,17 @@ const Main = ({ email, password, userId, getProduct }) => {
 
 	//useEffect: cdm
 	useEffect(() => {
-		// fetch('/api/products/:userId', {
-		// 	method: 'GET',
-		// 	headers: {
-		// 		'Content-Type': 'Application/JSON',
-		// 	},
-		// 	body: JSON.stringify({ email, password }),
-		// })
-		// 	.then((res) => res.json())
-		// 	.then((res) => setList(res.TheList)) // res.body?
-		// 	.catch((err) => console.log('ERROR: ', err));
-		// setPassword(password);
-		setList(dummyB.products);
+		fetch(`/api/products/${userId}`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'Application/JSON',
+			},
+		})
+			.then((res) => res.json())
+			.then((res) => setList(res))
+			.catch((err) => console.log('ERROR: ', err));
+		//setPassword(password);
+		//setList(dummyB.products);
 	}, []);
 
 	//useEffect: add product
@@ -57,29 +56,32 @@ const Main = ({ email, password, userId, getProduct }) => {
 	}, [list]);
 
 	return list ? (
-		<Grid container justify="center">
-			<Grid
-				container
-				item
-				justify="center"
-				xs={12}
-				style={{ margin: '2rem 0' }}
-			>
-				<Search userId={userId} addProduct={addProduct} />
+		<>
+			<h1>What up! {email}</h1>
+			<Grid container justify="center">
+				<Grid
+					container
+					item
+					justify="center"
+					xs={12}
+					style={{ margin: '2rem 0' }}
+				>
+					<Search userId={userId} addProduct={addProduct} />
+				</Grid>
+				<Grid
+					container
+					item
+					justify="center"
+					align="center"
+					spacing={4}
+					xs={12}
+					md={10}
+					xl={9}
+				>
+					<ProductList list={list} deleteProduct={deleteProduct} />
+				</Grid>
 			</Grid>
-			<Grid
-				container
-				item
-				justify="center"
-				align="center"
-				spacing={4}
-				xs={12}
-				md={10}
-				xl={9}
-			>
-				<ProductList list={list} deleteProduct={deleteProduct} />
-			</Grid>
-		</Grid>
+		</>
 	) : (
 		<>
 			<h1>What up! {email}</h1>
