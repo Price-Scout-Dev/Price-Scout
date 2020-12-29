@@ -26,7 +26,7 @@ productController.getProducts = (req, res, next) => {
 
 //Add Product Controller- POST Request:
 productController.addProduct = (req, res, next) => {
-  const { productName, imageUrl, googleUrl, date, lowestDailyPrice, storeUrl, storeName, imageUrl} = req.body; //from websraping and frontend
+  const { productName,imageUrl, googleUrl, date, lowestDailyPrice, storeUrl, storeName} = req.body; //from websraping and frontend
   const {user} = req.params;
   
   /* when add product, need to update all tables: 
