@@ -4,12 +4,19 @@ import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import About from './components/about/About';
 import Main from './components/Main';
-import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
+import {
+	BrowserRouter,
+	Switch,
+	Route,
+	withRouter,
+	Link,
+} from 'react-router-dom';
 
-const App = () => {
+const App = (props) => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [userId, setId] = useState('');
+	const [main, setMain] = useState('');
 
 	const registerUser = (email, password) => {
 		fetch('/api/auth/signup', {
@@ -23,13 +30,10 @@ const App = () => {
 			.then(({ email, userId }) => {
 				setEmail(email);
 				setId(userId);
+				setPassword(password);
+				console.log('register success', userId, email, password);
 			})
 			.catch((err) => console.log('ERROR: ', err));
-		//setId(1);
-		setPassword(password);
-		//setEmail(email);
-
-		console.log('regUser RAN!', email, password);
 	};
 
 	const loginUser = (email, password) => {
@@ -44,13 +48,22 @@ const App = () => {
 			.then(({ email, userId }) => {
 				setEmail(email);
 				setId(userId);
+				setPassword(password);
+				console.log('login success', userId, email, password);
 			})
 			.catch((err) => console.log('ERROR: ', err));
-		// setId(1);
-		setPassword(password);
-		//setEmail(email);
-		console.log('loginUser RAN!', email, password);
 	};
+
+	useEffect(() => {
+		if (!email) return;
+		setMain('/');
+	}, [email]);
+
+	useEffect(() => {
+		if (!main) return;
+		email && props.history.push(main);
+		setMain('');
+	}, [main]);
 
 	return (
 		<BrowserRouter>
@@ -75,10 +88,11 @@ const App = () => {
 					email={email}
 					password={password}
 					userId={userId}
+					loginUser={loginUser}
 				/>
 			</Switch>
 		</BrowserRouter>
 	);
 };
 
-export default App;
+export default withRouter(App);

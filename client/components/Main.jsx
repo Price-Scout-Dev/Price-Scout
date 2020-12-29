@@ -33,11 +33,12 @@ const Main = ({ email, password, userId, getProduct }) => {
 			},
 		})
 			.then((res) => res.json())
-			.then((res) => setList(res))
+			.then((res) => {
+				console.log(res);
+				setList(res);
+			})
 			.catch((err) => console.log('ERROR: ', err));
-		//setPassword(password);
-		//setList(dummyB.products);
-	}, []);
+	}, [userId]);
 
 	//useEffect: add product
 	useEffect(() => {
