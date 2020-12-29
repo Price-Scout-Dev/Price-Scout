@@ -66,32 +66,6 @@ productController.addProduct = async (req, res, next) => {
       return next(err);
     });
 
-  /* when add product, need to update all tables: 
-  1) product table, check if product exists: product_name	image_url	google_url
-  2) users_to_products, add to particular user: user_id product_id
-  3)lowest_daily_price: product_id	date	store_name	lowest_daily_price	store_url
-  */
-
-  // let addProduct = `
-  //       INSERT INTO products (product_name, image_url) VALUES ($1, $2) RETURNING *
-  //       `;
-
-  // let values = [productName, imageUrl];
-
-  // priceTrackerDB
-  //   .query(addProduct, values)
-  //   .then((data) => {
-  //     res.locals.products = {};
-  //     res.locals.products.productId = data.rows[0]._id;
-  //     res.locals.products.productName = data.rows[0].product_name;
-  //     res.locals.products.imageUrl = data.rows[0].image_url;
-  //     return next();
-  //   })
-  //   .catch((err) => {
-  //     console.log(err);
-  //     return next(err);
-  //   });
-  return next();
 };
 
 //Delete Product Controller- DELETE Request:
