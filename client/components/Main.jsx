@@ -37,13 +37,8 @@ const Main = ({ email, password, userId }) => {
 			},
 		})
 			.then((res) => res.json())
-			.then((res) => {
-				console.log(res);
-				setList(res);
-			})
-			.catch((err) => {
-				return console.log(err);
-			});
+			.then(({ products }) => setList(products))
+			.catch((err) => console.log(err));
 	}, [userId]);
 
 	//useEffect: add product
@@ -52,6 +47,8 @@ const Main = ({ email, password, userId }) => {
 
 		const productUrl = postObj.current.productUrl;
 		const userId = postObj.current.userId;
+
+		console.log('main ue fetch', productUrl, userId);
 
 		//make POST request
 		fetch(`/api/products/${userId}`, {
@@ -62,25 +59,17 @@ const Main = ({ email, password, userId }) => {
 			body: JSON.stringify({ productUrl, userId }),
 		})
 			.then((res) => res.json())
-			.then(
-				({
-					product_name,
-					image_url,
-					google_url,
-					store_name,
-					lowest_daily_price,
-				}) => {
-					console.log(product_name, image_url, google_url, store_name);
-					const newProduct = {
-						productName: product_name,
-						imageUrl: image_url,
-						productUrl: google_url,
-						storeName: store_name,
-						productPrice: lowest_daily_price,
-					};
-					setList([newProduct, ...list]);
-				}
-			)
+			.then(({ product_name, image_url, store_name, lowest_daily_price }) => {
+				console.log(product_name, image_url, google_url, store_name);
+				const newProduct = {
+					productName: product_name,
+					imageUrl: image_url,
+					productUrl: google_url,
+					storeName: store_name,
+					productPrice: lowest_daily_price,
+				};
+				setList([newProduct, ...list]);
+			})
 			.catch((err) => console.log('main ue addProduct', err));
 
 		postObj.current.productUrl = '';
