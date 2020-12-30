@@ -12,35 +12,37 @@ const getProductInfo = async (url) => {
 
   //1. Get lowestDailyPrice
   await page.waitForSelector(".g9WBQb");
-  productInfo.lowestDailyPrice = await page.$eval(".g9WBQb", (el) => el.innerHTML);
+  productInfo.lowest_daily_price = await page.$eval(".g9WBQb", (el) => el.innerHTML);
+
+  productInfo.lowest_daily_price = productInfo.lowest_daily_price.slice(1)
 
   //2. Get productName:
-  productInfo.productName = await page.$eval(".BvQan", (el) => el.innerHTML);
+  productInfo.product_name = await page.$eval(".BvQan", (el) => el.innerHTML);
 
   //3. Get storeUrl:
   const storeUrl = await page.$eval("a.shntl[href]", (el) =>
     el.getAttribute("href")
   );
-  productInfo.storeUrl = `https://www.google.com/${storeUrl}`;
+  productInfo.store_url = `https://www.google.com/${storeUrl}`;
 
   //4. Get storeName:
-  productInfo.storeName = await page.$eval(
+  productInfo.store_name = await page.$eval(
     ".b5ycib",
     (el) => el.childNodes[0].nodeValue
   );
 
   //5. Get productImageUrl:
-  productInfo.imageUrl = await page.$eval(
+  productInfo.image_url = await page.$eval(
     "img.sh-div__image[src]",
     (el) => el.getAttribute("src")
   );
   
-
-  console.log("productInfo OBJECT: ", productInfo);
+   
+  // console.log("productInfo OBJECT: ", productInfo);
   browser.close();
-  console.log("browser closed");
+  // console.log("browser closed");
+  return productInfo;
 };
 
-getProductInfo("https://www.google.com/shopping/product/9333373489557772337/");
 
 module.exports = getProductInfo;

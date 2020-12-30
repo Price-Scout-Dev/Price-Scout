@@ -1,4 +1,5 @@
 const priceTrackerDB = require("../models/priceTrackerModel.js");
+const getProductInfo = require("../utils/productWebscraping.js")
 
 const productController = {};
 
@@ -27,26 +28,37 @@ productController.getProducts = (req, res, next) => {
       return next(err);
     });
 };
+/*
+
+When a user adds a product: 
+1 Front end uses SERPApi and sends to server { googleUrl }
+2 Server needs to web scrape that googleURL and get { all the product info... }
+3 Server needs to update the database with the {product info} (multiple databases to be updated)
+4 What do we return to the front-end? 
+  --return that the post request is successful
+  --on the front end, it makes the getProducts fetch request to update state. 
+
+
+*/
+
 
 //Add Product Controller- POST Request:
 productController.addProduct = async (req, res, next) => {
   // front end sends user and google_url only.  Then we use puppeteer to scrape the following:
-  const {
-    product_name,
-    image_url,
-    google_url,
-    timestamp,
-    lowest_daily_price,
-    store_url,
-    store_name,
-  } = req.body; //from websraping and frontend
+  const { google_url } = req.body; //from websraping and frontend
 
   const { user } = req.params;
+
+  //web scrape the google URL 
+  const productInfo = await getProductInfo(google_url); 
+  productInfo.google_url = google_url;
+  console.log("ProductInfo Object: ", productInfo)
+
 
   //Add to products table and return product_id
   const newProductId = await priceTrackerDB.query(
     `INSERT INTO products (product_name, image_url, google_url) VALUES ($1,$2,$3) returning products._id`,
-    [product_name, image_url, google_url]
+    [productInfo.product_name, productInfo.image_url, productInfo.google_url]
   );
   // console.log("newProduct ID is: ", newProductId.rows[0]._id);
 
@@ -55,28 +67,26 @@ productController.addProduct = async (req, res, next) => {
   const usersToProductsValues = [user, newProductId.rows[0]._id];
 
    //Add to lowest_daily_price table using product_id
-  const lowestDailyPriceQuery = `INSERT into lowest_daily_price (product_id, store_name,	lowest_daily_price,	store_url,) VALUES ($1,$2,$3,$4)`;
+  const lowestDailyPriceQuery = `INSERT into lowest_daily_price (product_id, store_name, lowest_daily_price,	store_url) VALUES ($1,$2,$3,$4)`;
 
   const lowestDailyPriceValues = [
     newProductId.rows[0]._id,
-    store_name,
-    lowest_daily_price,
-    store_url,
-    timestamp,
+    productInfo.store_name,
+    productInfo.lowest_daily_price,
+    productInfo.store_url,
   ];
-
-  priceTrackerDB
-    .query(usersToProductsQuery, usersToProductsValues)
-    .query(lowestDailyPriceQuery, lowestDailyPriceValues)
-    .then((data) => {
-      return next();
-    })
-    .catch((err) => {
-      console.log(err);
-      return next(err);
-    });
+  try {
+    const userToProductsInsert= await priceTrackerDB.query(usersToProductsQuery, usersToProductsValues)
+    const lowestDailyPriceInsert = await priceTrackerDB.query(lowestDailyPriceQuery, lowestDailyPriceValues)
+    console.log("Add Product Completed")
+    return next()
+  } catch (error) {
+    console.log('error: ', error)
+    next(error)
+  }
 
 };
+
 
 //Delete Product Controller- DELETE Request:
 productController.deleteProduct = (req, res, next) => {
