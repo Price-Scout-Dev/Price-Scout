@@ -36,8 +36,6 @@ const Register = ({ registerUser, setOpen, ...rest }) => {
 		confirmResetPw();
 	};
 
-	useEffect(() => console.log('I am cdm:', registerUser), []);
-
 	return (
 		<div className={classes.registerForm}>
 			<IconButton

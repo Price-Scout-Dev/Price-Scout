@@ -37,8 +37,8 @@ const Main = ({ email, password, userId }) => {
 		})
 			.then((res) => res.json())
 			.then((res) => {
-				console.log(res.products);
-				setList(res.products);
+				console.log(res);
+				setList(res);
 			})
 			.catch((err) => {
 				return console.log(err);

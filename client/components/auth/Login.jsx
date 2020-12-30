@@ -42,8 +42,7 @@ const Login = ({ registerUser, loginUser, ...rest }) => {
 		resetEmail();
 		resetPw();
 	};
-	console.log('i am regUser', registerUser);
-	console.log('i am loginUser', loginUser);
+
 	return (
 		<div
 			className={classes.root}
