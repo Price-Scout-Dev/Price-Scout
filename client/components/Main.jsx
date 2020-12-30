@@ -5,17 +5,19 @@ import Search from './search/Search';
 import { Grid } from '@material-ui/core';
 
 const Main = ({ email, password, userId }) => {
+	//persistent data
 	const postObj = useRef({});
 	const shouldDelete = useRef(false);
 
+	//state
 	const [list, setList] = useState([]);
 	const [fetchProduct, setFetch] = useState(false);
 
 	//add product to userList
 	const addProduct = (stateObj) => {
-		setFetch(true);
 		postObj.current.productUrl = stateObj.productUrl;
 		postObj.current.userId = userId;
+		setFetch(true);
 	};
 
 	//delete product from userList
@@ -53,34 +55,34 @@ const Main = ({ email, password, userId }) => {
 		const userId = postObj.current.userId;
 
 		//make POST request
-		// fetch(`/api/products/${userId}`, {
-		// 	method: 'POST',
-		// 	headers: {
-		// 		'Content-Type': 'application/json',
-		// 	},
-		// 	body: JSON.stringify({ productUrl, userId }),
-		// })
-		// 	.then((res) => res.json())
-		// 	.then(
-		// 		({
-		// 			product_name,
-		// 			image_url,
-		// 			google_url,
-		// 			store_name,
-		// 			lowest_daily_price,
-		// 		}) => {
-		// 			console.log(product_name, image_url, google_url, store_name);
-		// 			const newProduct = {
-		// 				productName: product_name,
-		// 				imageUrl: image_url,
-		// 				productUrl: google_url,
-		// 				storeName: store_name,
-		// 				productPrice: lowest_daily_price,
-		// 			};
-		// 			setList([newProduct, ...list]);
-		// 		}
-		// 	)
-		// 	.catch((err) => console.log('main ue addProduct', err));
+		fetch(`/api/products/${userId}`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({ productUrl, userId }),
+		})
+			.then((res) => res.json())
+			.then(
+				({
+					product_name,
+					image_url,
+					google_url,
+					store_name,
+					lowest_daily_price,
+				}) => {
+					console.log(product_name, image_url, google_url, store_name);
+					const newProduct = {
+						productName: product_name,
+						imageUrl: image_url,
+						productUrl: google_url,
+						storeName: store_name,
+						productPrice: lowest_daily_price,
+					};
+					setList([newProduct, ...list]);
+				}
+			)
+			.catch((err) => console.log('main ue addProduct', err));
 
 		postObj.current.productUrl = '';
 		postObj.current.userId = '';

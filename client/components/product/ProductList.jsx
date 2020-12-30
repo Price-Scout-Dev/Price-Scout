@@ -5,14 +5,6 @@ import { v4 as uuidv4 } from 'uuid';
 const ProductList = ({ list, deleteProduct }) => {
 	const productItems = list.map(
 		({ productName, imageUrl, storeName, productPrice, productId, date }) => {
-			console.log({
-				productName,
-				imageUrl,
-				storeName,
-				productPrice,
-				productId,
-				date,
-			});
 			//wrap in Link for detail route, if so
 			return (
 				<ProductCard
