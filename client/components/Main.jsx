@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import ProductList from './product/ProductList';
 import Search from './search/Search';
 import dummyB from '../components/dummyB/dummyB';
-import { Grid } from '@material-ui/core';
+import { Grid, AppBar, Button, IconButton } from '@material-ui/core';
+import { AccountCircle } from '@material-ui/icons';
 
 const Main = ({ email, password, userId, getProduct }) => {
 	const postObj = useRef({});
@@ -58,7 +59,13 @@ const Main = ({ email, password, userId, getProduct }) => {
 
 	return list ? (
 		<>
-			<h1>What up! {email}</h1>
+			<AppBar>
+				<IconButton edge="start" color="inherit">
+					<AccountCircle />
+					{email}
+				</IconButton>
+				<Button>Logout</Button>
+			</AppBar>
 			<Grid container justify="center">
 				<Grid
 					container
