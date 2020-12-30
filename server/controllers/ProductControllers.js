@@ -30,6 +30,7 @@ productController.getProducts = (req, res, next) => {
 
 //Add Product Controller- POST Request:
 productController.addProduct = async (req, res, next) => {
+  // front end sends user and google_url only.  Then we use puppeteer to scrape the following:
   const {
     product_name,
     image_url,
@@ -39,6 +40,7 @@ productController.addProduct = async (req, res, next) => {
     store_url,
     store_name,
   } = req.body; //from websraping and frontend
+
   const { user } = req.params;
 
   //Add to products table and return product_id
@@ -54,6 +56,7 @@ productController.addProduct = async (req, res, next) => {
 
    //Add to lowest_daily_price table using product_id
   const lowestDailyPriceQuery = `INSERT into lowest_daily_price (product_id, store_name,	lowest_daily_price,	store_url,) VALUES ($1,$2,$3,$4)`;
+
   const lowestDailyPriceValues = [
     newProductId.rows[0]._id,
     store_name,
