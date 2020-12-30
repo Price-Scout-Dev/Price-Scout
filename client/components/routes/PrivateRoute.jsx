@@ -2,7 +2,12 @@ import React from 'react';
 import Login from '../auth/Login';
 import { Route } from 'react-router-dom';
 
-const PrivateRoute = ({ loginUser, component: Component, ...rest }) => {
+const PrivateRoute = ({
+	loginUser,
+	registerUser,
+	component: Component,
+	...rest
+}) => {
 	return (
 		<Route
 			{...rest}
@@ -10,7 +15,7 @@ const PrivateRoute = ({ loginUser, component: Component, ...rest }) => {
 				return rest.email ? (
 					<Component {...rest} />
 				) : (
-					<Login loginUser={loginUser} />
+					<Login registerUser={registerUser} loginUser={loginUser} />
 				);
 			}}
 		/>

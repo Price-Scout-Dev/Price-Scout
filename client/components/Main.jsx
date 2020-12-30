@@ -1,21 +1,21 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ProductList from './product/ProductList';
 import Search from './search/Search';
-import dummyB from '../components/dummyB/dummyB';
 import { Grid, AppBar, Button, IconButton } from '@material-ui/core';
 import { AccountCircle } from '@material-ui/icons';
 
-const Main = ({ email, password, userId, getProduct }) => {
+const Main = ({ email, password, userId }) => {
 	const postObj = useRef({});
 	const shouldDelete = useRef(false);
 
 	const [list, setList] = useState([]);
+	const [fetchProduct, setFetch] = useState(false);
 
 	//add product to userList
 	const addProduct = (stateObj) => {
+		setFetch(true);
 		postObj.current.productUrl = stateObj.productUrl;
 		postObj.current.userId = userId;
-		setList([stateObj, ...list]);
 	};
 
 	//delete product from userList
@@ -27,10 +27,12 @@ const Main = ({ email, password, userId, getProduct }) => {
 
 	//useEffect: cdm
 	useEffect(() => {
+		if (!userId) return;
+
 		fetch(`/api/products/${userId}`, {
 			method: 'GET',
 			headers: {
-				'Content-Type': 'Application/JSON',
+				'Content-Type': 'application/json',
 			},
 		})
 			.then((res) => res.json())
@@ -38,17 +40,52 @@ const Main = ({ email, password, userId, getProduct }) => {
 				console.log(res);
 				setList(res);
 			})
-			.catch((err) => console.log('ERROR: ', err));
+			.catch((err) => {
+				return console.log(err);
+			});
 	}, [userId]);
 
 	//useEffect: add product
 	useEffect(() => {
-		if (postObj.current.productUrl && postObj.current.userId) {
-			//make POST request
-			postObj.current.productUrl = '';
-			postObj.current.userId = '';
-		}
-	}, [list]);
+		if (!fetchProduct) return;
+
+		const productUrl = postObj.current.productUrl;
+		const userId = postObj.current.userId;
+
+		//make POST request
+		// fetch(`/api/products/${userId}`, {
+		// 	method: 'POST',
+		// 	headers: {
+		// 		'Content-Type': 'application/json',
+		// 	},
+		// 	body: JSON.stringify({ productUrl, userId }),
+		// })
+		// 	.then((res) => res.json())
+		// 	.then(
+		// 		({
+		// 			product_name,
+		// 			image_url,
+		// 			google_url,
+		// 			store_name,
+		// 			lowest_daily_price,
+		// 		}) => {
+		// 			console.log(product_name, image_url, google_url, store_name);
+		// 			const newProduct = {
+		// 				productName: product_name,
+		// 				imageUrl: image_url,
+		// 				productUrl: google_url,
+		// 				storeName: store_name,
+		// 				productPrice: lowest_daily_price,
+		// 			};
+		// 			setList([newProduct, ...list]);
+		// 		}
+		// 	)
+		// 	.catch((err) => console.log('main ue addProduct', err));
+
+		postObj.current.productUrl = '';
+		postObj.current.userId = '';
+		setFetch(false);
+	}, [fetchProduct]);
 
 	//useEffect: delete product
 	useEffect(() => {

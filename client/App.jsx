@@ -22,36 +22,39 @@ const App = (props) => {
 		fetch('/api/auth/signup', {
 			method: 'POST',
 			headers: {
-				'Content-Type': 'Application/JSON',
+				'Content-Type': 'application/json',
 			},
 			body: JSON.stringify({ email, password }),
 		})
 			.then((res) => res.json())
 			.then(({ email, userId }) => {
+				console.log('register res:', email, userId);
 				setEmail(email);
 				setId(userId);
 				setPassword(password);
 				console.log('register success', userId, email, password);
 			})
-			.catch((err) => console.log('ERROR: ', err));
+			.catch((err) => console.log('regUser ERROR: ', err));
 	};
 
 	const loginUser = (email, password) => {
+		console.log('loginUser', email, password);
 		fetch('/api/auth/login', {
 			method: 'POST',
 			headers: {
-				'Content-Type': 'Application/JSON',
+				'Content-Type': 'application/json',
 			},
 			body: JSON.stringify({ email, password }),
 		})
 			.then((res) => res.json())
 			.then(({ email, userId }) => {
+				if (!email || !userId) return alert('Login failed, try again');
 				setEmail(email);
 				setId(userId);
 				setPassword(password);
-				console.log('login success', userId, email, password);
+				console.log('loginUser success', userId, email, password);
 			})
-			.catch((err) => console.log('ERROR: ', err));
+			.catch((err) => console.log('loginUser ERROR: ', err));
 	};
 
 	useEffect(() => {
@@ -79,7 +82,13 @@ const App = (props) => {
 				<Route
 					path="/login"
 					exact
-					render={(props) => <Login loginUser={loginUser} {...props} />}
+					render={(props) => (
+						<Login
+							loginUser={loginUser}
+							registerUser={registerUser}
+							{...props}
+						/>
+					)}
 				/>
 				<PrivateRoute
 					path="/"
@@ -89,6 +98,7 @@ const App = (props) => {
 					password={password}
 					userId={userId}
 					loginUser={loginUser}
+					registerUser={registerUser}
 				/>
 			</Switch>
 		</BrowserRouter>
