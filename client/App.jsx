@@ -22,7 +22,7 @@ const App = (props) => {
 		fetch('/api/auth/signup', {
 			method: 'POST',
 			headers: {
-				'Content-Type': 'Application/JSON',
+				'Content-Type': 'application/json',
 			},
 			body: JSON.stringify({ email, password }),
 		})
@@ -38,10 +38,11 @@ const App = (props) => {
 	};
 
 	const loginUser = (email, password) => {
+		console.log('loginUser', email, password);
 		fetch('/api/auth/login', {
 			method: 'POST',
 			headers: {
-				'Content-Type': 'Application/JSON',
+				'Content-Type': 'application/json',
 			},
 			body: JSON.stringify({ email, password }),
 		})
@@ -64,7 +65,6 @@ const App = (props) => {
 	useEffect(() => {
 		if (!main) return;
 		email && props.history.push(main);
-		console.log('LOCATION', props.history.location);
 		setMain('');
 	}, [main]);
 

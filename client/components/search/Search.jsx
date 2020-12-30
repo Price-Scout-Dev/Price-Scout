@@ -60,7 +60,7 @@ const Search = ({ userId, addProduct }) => {
 					label="Search for a product.."
 					value={searchVal}
 					onChange={handleSearchVal}
-					inputProps={{ className: classes.searchBar}}
+					inputProps={{ className: classes.searchBar }}
 				/>
 			</form>
 			<Button
