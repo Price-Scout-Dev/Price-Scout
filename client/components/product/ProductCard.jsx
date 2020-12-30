@@ -19,6 +19,7 @@ const ProductCard = ({
 	productPrice,
 	productId,
 	deleteProduct,
+	timestamp,
 }) => {
 	const handleClick = () => {
 		deleteProduct(productId);
@@ -41,6 +42,7 @@ const ProductCard = ({
 					<h5>${productPrice}</h5>
 					<p>Retailer: {storeName}</p>
 					<h6>id: {productId}</h6>
+					<h6>{timestamp}</h6>
 				</CardContent>
 				<CardActions>
 					<Button
