@@ -18,8 +18,9 @@ import {
 } from '@material-ui/core';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
 import useStyles from '../../style/theme';
+import inputCheck from '../../utils/inputCheck';
 
-const Login = ({ loginUser, ...rest }) => {
+const Login = ({ registerUser, loginUser, ...rest }) => {
 	const [emailInput, updateEmail, resetEmail] = useInput('');
 	const [pwInput, updatePw, resetPw] = useInput('');
 	const [open, setOpen] = useState(false);
@@ -33,14 +34,11 @@ const Login = ({ loginUser, ...rest }) => {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 
-		if (!emailInput) return alert('Fill in the email input please!');
-		else if (pwInput.length < 5)
-			return alert('Enter password (must be at least 5 characters long)!');
-		else if (!emailInput.includes('@') || !emailInput.includes('.com'))
-			return alert('Invalid email format. Try again!');
+		const err = inputCheck(emailInput, pwInput);
+		if (err) return alert(err);
 
 		loginUser(emailInput, pwInput);
-		rest.history.push('/');
+
 		resetEmail();
 		resetPw();
 	};
@@ -156,7 +154,7 @@ const Login = ({ loginUser, ...rest }) => {
 							Create Account
 						</Button>
 						<Dialog open={open} onClose={handleClose}>
-							<Register setOpen={setOpen} />
+							<Register registerUser={registerUser} setOpen={setOpen} />
 						</Dialog>
 					</Paper>
 				</Slide>

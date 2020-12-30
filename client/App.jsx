@@ -4,53 +4,66 @@ import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import About from './components/about/About';
 import Main from './components/Main';
-import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
+import {
+	BrowserRouter,
+	Switch,
+	Route,
+	withRouter,
+	Link,
+} from 'react-router-dom';
 
-const App = () => {
+const App = (props) => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [userId, setId] = useState('');
+	const [main, setMain] = useState('');
 
 	const registerUser = (email, password) => {
 		fetch('/api/auth/signup', {
 			method: 'POST',
 			headers: {
-				'Content-Type': 'Application/JSON',
+				'Content-Type': 'application/json',
 			},
 			body: JSON.stringify({ email, password }),
 		})
 			.then((res) => res.json())
 			.then(({ email, userId }) => {
+				console.log('register res:', email, userId);
 				setEmail(email);
 				setId(userId);
+				setPassword(password);
 			})
-			.catch((err) => console.log('ERROR: ', err));
-		//setId(1);
-		setPassword(password);
-		//setEmail(email);
-
-		console.log('regUser RAN!', email, password);
+			.catch((err) => console.log('regUser ERROR: ', err));
 	};
 
 	const loginUser = (email, password) => {
 		fetch('/api/auth/login', {
 			method: 'POST',
 			headers: {
-				'Content-Type': 'Application/JSON',
+				'Content-Type': 'application/json',
 			},
 			body: JSON.stringify({ email, password }),
 		})
 			.then((res) => res.json())
 			.then(({ email, userId }) => {
+				if (!email || !userId) return alert('Login failed, try again');
 				setEmail(email);
 				setId(userId);
+				setPassword(password);
 			})
-			.catch((err) => console.log('ERROR: ', err));
-		// setId(1);
-		setPassword(password);
-		//setEmail(email);
-		console.log('loginUser RAN!', email, password);
+			.catch((err) => console.log('loginUser ERROR: ', err));
 	};
+
+	useEffect(() => {
+		if (!email) return;
+		setMain('/');
+	}, [email]);
+
+	useEffect(() => {
+		if (!main) return;
+		email && props.history.push(main);
+		setMain('');
+	}, [main]);
 
 	return (
 		<BrowserRouter>
@@ -66,7 +79,13 @@ const App = () => {
 				<Route
 					path="/login"
 					exact
-					render={(props) => <Login loginUser={loginUser} {...props} />}
+					render={(props) => (
+						<Login
+							loginUser={loginUser}
+							registerUser={registerUser}
+							{...props}
+						/>
+					)}
 				/>
 				<PrivateRoute
 					path="/"
@@ -75,10 +94,12 @@ const App = () => {
 					email={email}
 					password={password}
 					userId={userId}
+					loginUser={loginUser}
+					registerUser={registerUser}
 				/>
 			</Switch>
 		</BrowserRouter>
 	);
 };
 
-export default App;
+export default withRouter(App);
