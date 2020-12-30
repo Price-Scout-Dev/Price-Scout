@@ -82,7 +82,13 @@ const App = (props) => {
 				<Route
 					path="/login"
 					exact
-					render={(props) => <Login loginUser={loginUser} {...props} />}
+					render={(props) => (
+						<Login
+							loginUser={loginUser}
+							registerUser={registerUser}
+							{...props}
+						/>
+					)}
 				/>
 				<PrivateRoute
 					path="/"
@@ -92,6 +98,7 @@ const App = (props) => {
 					password={password}
 					userId={userId}
 					loginUser={loginUser}
+					registerUser={registerUser}
 				/>
 			</Switch>
 		</BrowserRouter>

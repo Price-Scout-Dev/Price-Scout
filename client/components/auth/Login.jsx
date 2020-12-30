@@ -20,7 +20,7 @@ import { Visibility, VisibilityOff } from '@material-ui/icons';
 import useStyles from '../../style/theme';
 import inputCheck from '../../utils/inputCheck';
 
-const Login = ({ loginUser, ...rest }) => {
+const Login = ({ registerUser, loginUser, ...rest }) => {
 	const [emailInput, updateEmail, resetEmail] = useInput('');
 	const [pwInput, updatePw, resetPw] = useInput('');
 	const [open, setOpen] = useState(false);
@@ -42,7 +42,8 @@ const Login = ({ loginUser, ...rest }) => {
 		resetEmail();
 		resetPw();
 	};
-
+	console.log('i am regUser', registerUser);
+	console.log('i am loginUser', loginUser);
 	return (
 		<div
 			className={classes.root}
@@ -154,7 +155,7 @@ const Login = ({ loginUser, ...rest }) => {
 							Create Account
 						</Button>
 						<Dialog open={open} onClose={handleClose}>
-							<Register setOpen={setOpen} />
+							<Register registerUser={registerUser} setOpen={setOpen} />
 						</Dialog>
 					</Paper>
 				</Slide>
