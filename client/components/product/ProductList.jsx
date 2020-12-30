@@ -3,7 +3,6 @@ import ProductCard from './ProductCard';
 import { v4 as uuidv4 } from 'uuid';
 
 const ProductList = ({ list, deleteProduct }) => {
-	console.log('list in ProductList.jsx', list);
 	const productItems = list.map(
 		({
 			product_name,

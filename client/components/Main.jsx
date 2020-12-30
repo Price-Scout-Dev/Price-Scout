@@ -58,13 +58,19 @@ const Main = ({ email, password, userId }) => {
 			},
 			body: JSON.stringify({ productUrl, userId }),
 		})
-			.then((res) => res.json())
+			.then((res) => console.log(res))
 			.then(({ product_name, image_url, store_name, lowest_daily_price }) => {
-				console.log(product_name, image_url, google_url, store_name);
+				console.log('LINE 63');
+				console.log(
+					'main ue fetch in post',
+					product_name,
+					image_url,
+					store_name,
+					lowest_daily_price
+				);
 				const newProduct = {
 					productName: product_name,
 					imageUrl: image_url,
-					productUrl: google_url,
 					storeName: store_name,
 					productPrice: lowest_daily_price,
 				};
@@ -86,13 +92,13 @@ const Main = ({ email, password, userId }) => {
 
 	return list ? (
 		<>
-			<AppBar>
+			{/* <AppBar>
 				<IconButton edge="start" color="inherit">
 					<AccountCircle />
 					{email}
 				</IconButton>
 				<Button>Logout</Button>
-			</AppBar>
+			</AppBar> */}
 			<Grid container justify="center">
 				<Grid
 					container

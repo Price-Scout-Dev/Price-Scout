@@ -32,13 +32,11 @@ const App = (props) => {
 				setEmail(email);
 				setId(userId);
 				setPassword(password);
-				console.log('register success', userId, email, password);
 			})
 			.catch((err) => console.log('regUser ERROR: ', err));
 	};
 
 	const loginUser = (email, password) => {
-		console.log('loginUser', email, password);
 		fetch('/api/auth/login', {
 			method: 'POST',
 			headers: {
@@ -52,7 +50,6 @@ const App = (props) => {
 				setEmail(email);
 				setId(userId);
 				setPassword(password);
-				console.log('loginUser success', userId, email, password);
 			})
 			.catch((err) => console.log('loginUser ERROR: ', err));
 	};
