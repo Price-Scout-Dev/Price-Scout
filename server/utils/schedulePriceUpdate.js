@@ -1,4 +1,83 @@
 const puppeteer = require("puppeteer");
+const priceTrackerDB = require("../models/priceTrackerModel.js");
+const dotenv = require("dotenv").config();
+
+
+/*
+
+This function automatically pulls the most recent price information for every product associated with a user. 
+
+-
+
+
+*/
+
+const updatePrices = {}
+
+updatePrices.getAllProducts = () => {
+  //this takes no arguments, and outputs an array of google product urls. 
+
+  const allGoogleUrlsQuery= `
+  SELECT DISTINCT products.google_url
+  FROM products
+    JOIN users_to_products ON products._id=users_to_products.product_id
+  `;
+
+  priceTrackerDB
+    .query(allGoogleUrlsQuery)
+    .then((data) => {
+      console.log(data);
+
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+
+updatePrices.getAllProducts()
+  
+
+
+
+updatePrices.scrapeProductInfo = () => {
+
+
+
+}
+
+updatePrices.updateLowestDailyPriceDb = () => {
+
+ //update database code. 
+
+
+}
+
+updatePrices.start = async () => {
+
+  const allProducts = await updatePrices.getAllProducts(); 
+
+
+  //loop here, and run the webscraper and database update 
+
+  for (product of allProducts) {
+
+    //call the scraper function 
+
+    //call the updateDatabase function 
+
+
+  }
+
+
+}
+
+
+
+
+
+
+
 
 const getProductInfo = async (url) => {
   const browser = await puppeteer.launch({
@@ -46,3 +125,6 @@ const getProductInfo = async (url) => {
 
 
 module.exports = getProductInfo;
+
+
+
