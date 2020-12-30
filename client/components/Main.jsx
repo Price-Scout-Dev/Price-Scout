@@ -45,10 +45,10 @@ const Main = ({ email, password, userId }) => {
 	useEffect(() => {
 		if (!fetchProduct) return;
 
-		const productUrl = postObj.current.productUrl;
+		const google_url = postObj.current.productUrl;
 		const userId = postObj.current.userId;
 
-		console.log('main ue fetch', productUrl, userId);
+		console.log('main ue fetch', google_url, userId);
 
 		//make POST request
 		fetch(`/api/products/${userId}`, {
@@ -56,13 +56,12 @@ const Main = ({ email, password, userId }) => {
 			headers: {
 				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify({ productUrl, userId }),
+			body: JSON.stringify({ google_url, userId }),
 		})
-			.then((res) => console.log(res))
+			.then((res) => res.json())
 			.then(({ product_name, image_url, store_name, lowest_daily_price }) => {
-				console.log('LINE 63');
 				console.log(
-					'main ue fetch in post',
+					'main ue post response',
 					product_name,
 					image_url,
 					store_name,
