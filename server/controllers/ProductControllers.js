@@ -90,7 +90,24 @@ productController.addProduct = async (req, res, next) => {
 
 //Delete Product Controller- DELETE Request:
 productController.deleteProduct = (req, res, next) => {
-  return next();
+  const {user, id} = req.params;
+
+  const deleteProductFromUser = `DELETE FROM users_to_products WHERE user_id=$1 AND product_id=$2`
+
+  let values = [user,id]; 
+  
+  priceTrackerDB
+    .query(deleteProductFromUser, values)
+    .then((data) => {
+      // console.log(data.rows);
+      
+      return next();
+    })
+    .catch((err) => {
+      console.log(err);
+      return next(err);
+    });
+
 };
 
 module.exports = productController;
