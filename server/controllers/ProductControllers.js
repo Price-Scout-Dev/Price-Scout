@@ -4,10 +4,14 @@ const productController = {};
 
 //Get Products Controller- GET Request:
 productController.getProducts = (req, res, next) => {
-  const userProducts = `SELECT * FROM users_to_products  
-  JOIN products ON users_to_products.product_id=products._id 
-  JOIN lowest_daily_price ON lowest_daily_price.product_id=products._id 
-  WHERE users_to_products.user_id=$1`;
+  // This gets the user's products with the most recent timestamp
+  const userProducts = `SELECT DISTINCT ON (lowest_daily_price.product_id) *
+  FROM users_to_products
+    JOIN products ON users_to_products.product_id=products._id
+    JOIN lowest_daily_price ON lowest_daily_price.product_id=products._id
+  WHERE users_to_products.user_id=$1
+  ORDER BY lowest_daily_price.product_id, lowest_daily_price.timestamp DESC;
+  `;
 
   let values = [req.params.user];
 
