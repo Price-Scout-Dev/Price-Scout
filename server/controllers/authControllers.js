@@ -78,12 +78,17 @@ authController.verifyUser = (req, res, next) => {
       if (data.rows.length > 0) {
         bcrypt
           .compare(req.body.password, data.rows[0].password)
-          .then((isMatch) => {      
+          .then((isMatch) => {
+            if(isMatch){
             res.locals.loginInfo = {};
             res.locals.loginInfo.userId = data.rows[0]._id;
             res.locals.loginInfo.email = req.body.email;
             return next();
-          });
+            } else {
+              res.status(400).json({ error: 'invalid password' });
+            } 
+          })
+          
       } else {
         //send error object to the front end.
         console.log('invalid email or password');

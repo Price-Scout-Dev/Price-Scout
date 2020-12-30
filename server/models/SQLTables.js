@@ -10,6 +10,7 @@ const productsTable = `
     PRIMARY KEY (_id)
   )`;
 
+  //! update for timestamp (is it timestamp with time zone)
 const lowestDailyPriceTable = `
   CREATE TABLE lowest_daily_price (
     _id SERIAL,

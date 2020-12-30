@@ -25,7 +25,7 @@ productRouter.post(
 //Delete One Product:
 //DELETE Request
 productRouter.delete(
-	'/products/:id',
+	'/products/:user/:id',
 	productController.deleteProduct,
 	(req, res) => {
 		res.status(200).json('Delete product');
