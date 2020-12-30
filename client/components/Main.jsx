@@ -12,10 +12,22 @@ const Main = ({ email, password, userId }) => {
 	const [list, setList] = useState([]);
 	const [fetchProduct, setFetch] = useState(false);
 
+	//fetch all products from db
+	const getAllProducts = () => {
+		fetch(`/api/products/${userId}`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		})
+			.then((res) => res.json())
+			.then(({ products }) => setList(products))
+			.catch((err) => console.log(err));
+	};
+
 	//add product to userList
 	const addProduct = (stateObj) => {
-		postObj.current.productUrl = stateObj.productUrl;
-		postObj.current.userId = userId;
+		Object.assign(postObj.current, stateObj);
 		setFetch(true);
 	};
 
@@ -30,15 +42,7 @@ const Main = ({ email, password, userId }) => {
 	useEffect(() => {
 		if (!userId) return;
 
-		fetch(`/api/products/${userId}`, {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-		})
-			.then((res) => res.json())
-			.then(({ products }) => setList(products))
-			.catch((err) => console.log(err));
+		getAllProducts();
 	}, [userId]);
 
 	//useEffect: add product
@@ -46,9 +50,22 @@ const Main = ({ email, password, userId }) => {
 		if (!fetchProduct) return;
 
 		const google_url = postObj.current.productUrl;
-		const userId = postObj.current.userId;
+		const product_name = postObj.current.productName;
+		const image_url = postObj.current.imageUrl;
+		const store_name = postObj.current.storeName;
+		const lowest_daily_price = postObj.current.productPrice;
+		const product_id = postObj.current.productId;
+		const date = postObj.current.date;
 
-		console.log('main ue fetch', google_url, userId);
+		console.log('POST OBJECT VALUES IN MAIN POST UE');
+		console.log('google_url', google_url);
+		console.log('userId', userId);
+		console.log('product_name', product_name);
+		console.log('image_url', image_url);
+		console.log('store_name', store_name);
+		console.log('price', lowest_daily_price);
+		console.log('product id', product_id);
+		console.log('date', date);
 
 		//make POST request
 		fetch(`/api/products/${userId}`, {
@@ -56,29 +73,26 @@ const Main = ({ email, password, userId }) => {
 			headers: {
 				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify({ google_url, userId }),
+			body: JSON.stringify({
+				google_url,
+				userId,
+				product_name,
+				image_url,
+				store_name,
+				lowest_daily_price,
+				product_id,
+				date,
+			}),
 		})
-			.then((res) => res.json())
-			.then(({ product_name, image_url, store_name, lowest_daily_price }) => {
-				console.log(
-					'main ue post response',
-					product_name,
-					image_url,
-					store_name,
-					lowest_daily_price
-				);
-				const newProduct = {
-					productName: product_name,
-					imageUrl: image_url,
-					storeName: store_name,
-					productPrice: lowest_daily_price,
-				};
-				setList([newProduct, ...list]);
+			.then((res) => {
+				console.log(res);
+				getAllProducts();
 			})
 			.catch((err) => console.log('main ue addProduct', err));
 
-		postObj.current.productUrl = '';
-		postObj.current.userId = '';
+		Object.getOwnPropertyNames(postObj.current).forEach(
+			(property) => delete postObj.current[property]
+		);
 		setFetch(false);
 	}, [fetchProduct]);
 
