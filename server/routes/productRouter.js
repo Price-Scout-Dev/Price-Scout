@@ -5,7 +5,7 @@ const productController = require("../controllers/productControllers");
 //Get All Products:
 //GET Request
 productRouter.get("/products/:user", productController.getProducts, (req, res) => {
-  res.status(200).json(res.locals.products);
+  res.status(200).json({products : res.locals.products});
 });
 
 //Add One Product:
