@@ -100,6 +100,8 @@ const Main = ({ email, password, userId }) => {
 	useEffect(() => {
 		if (shouldDelete.current === false) return;
 		//make DELETE request
+
+		getAllProducts();
 		shouldDelete.current = false;
 	}, [list]);
 
