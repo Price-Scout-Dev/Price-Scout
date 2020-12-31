@@ -14,8 +14,8 @@ const productsTable = `
 const lowestDailyPriceTable = `
   CREATE TABLE lowest_daily_price (
     _id SERIAL,
-    product_id INT NOT NULL UNIQUE references products(_id),
-    date VARCHAR NOT NULL,
+    product_id INT NOT NULL references products(_id),
+    timestamp timestamp without time zone,
     store_name VARCHAR NOT NULL,
     lowest_daily_price FLOAT NOT NULL,
     store_url VARCHAR NOT NULL,
