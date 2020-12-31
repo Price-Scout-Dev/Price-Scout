@@ -42,7 +42,7 @@ updatePrices.scrapeProductInfo = async (urlArray) => {
     for(let i=0; urlArray.length; i++){
       await getProductInfo(urlArray[i])
     }
-  }
+  })
 };
 
 updatePrices.updateLowestDailyPriceDb = () => {
