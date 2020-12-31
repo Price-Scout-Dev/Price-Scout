@@ -19,7 +19,7 @@ const ProductCard = ({
 	productPrice,
 	productId,
 	deleteProduct,
-	timestamp,
+	date,
 }) => {
 	const handleClick = () => {
 		deleteProduct(productId);
@@ -30,7 +30,7 @@ const ProductCard = ({
 	return (
 		<Grid item xs={12} sm={6} md={4} lg={3}>
 			<Card className={classes.productCard}>
-				<CardActionArea>
+				<CardActionArea style={{ height: 300 }}>
 					<CardMedia
 						className={classes.productCardMedia}
 						image={imageUrl}
@@ -38,11 +38,13 @@ const ProductCard = ({
 					/>
 				</CardActionArea>
 				<CardContent>
-					<Typography variant="h5">Product: {productName}</Typography>
-					<h5>${productPrice}</h5>
-					<p>Retailer: {storeName}</p>
-					<h6>id: {productId}</h6>
-					<h6>{timestamp}</h6>
+					<Typography variant="h6">{productName}</Typography>
+					<Typography variant="h4" color="primary">
+						${productPrice}
+					</Typography>
+					<Typography variant="subtitle1">{storeName}</Typography>
+					<Typography variant="overline">Id: {productId}</Typography>
+					<Typography variant="caption">Date Added: {date}</Typography>
 				</CardContent>
 				<CardActions>
 					<Button

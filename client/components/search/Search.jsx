@@ -40,7 +40,6 @@ const Search = ({ userId, addProduct }) => {
 		if (firstRender.current) return;
 		if (results.length < 1) return; // maybe render a component for no products
 		toggler();
-		console.log(results, 'UPDATED STATE WITH FETCH');
 	}, [results]);
 
 	if (isFetching) return <Loader />;

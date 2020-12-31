@@ -10,7 +10,7 @@ const ProductList = ({ list, deleteProduct }) => {
 			store_name,
 			lowest_daily_price,
 			product_id,
-			timestamp,
+			date,
 		}) => {
 			//wrap in Link for detail route, if so
 			return (
@@ -22,7 +22,7 @@ const ProductList = ({ list, deleteProduct }) => {
 					storeName={store_name}
 					productPrice={lowest_daily_price}
 					deleteProduct={deleteProduct}
-					timestamp={timestamp}
+					date={date}
 				/>
 			);
 		}
