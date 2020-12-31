@@ -18,6 +18,12 @@ const App = (props) => {
 	const [userId, setId] = useState('');
 	const [main, setMain] = useState('');
 
+	const logOut = () => {
+		//need endpoint for backend
+
+		setEmail('');
+	};
+
 	const registerUser = (email, password) => {
 		fetch('/api/auth/signup', {
 			method: 'POST',
@@ -96,6 +102,7 @@ const App = (props) => {
 					userId={userId}
 					loginUser={loginUser}
 					registerUser={registerUser}
+					logOut={logOut}
 				/>
 			</Switch>
 		</BrowserRouter>

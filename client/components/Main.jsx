@@ -4,7 +4,7 @@ import Search from './search/Search';
 import { Grid, AppBar, Button, IconButton, Toolbar } from '@material-ui/core';
 import { AccountCircle } from '@material-ui/icons';
 
-const Main = ({ email, password, userId }) => {
+const Main = ({ email, logOut, userId }) => {
 	const postObj = useRef({});
 
 	//state
@@ -115,7 +115,9 @@ const Main = ({ email, password, userId }) => {
 						<AccountCircle />
 						{email}
 					</IconButton>
-					<Button color="inherit">Logout</Button>
+					<Button onClick={logOut} color="inherit">
+						Logout
+					</Button>
 				</Toolbar>
 			</AppBar>
 			<Grid container justify="center" style={{ marginTop: 64 }}>
