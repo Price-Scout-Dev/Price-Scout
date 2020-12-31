@@ -5,6 +5,7 @@ import { Grid, AppBar, Button, IconButton } from '@material-ui/core';
 import { AccountCircle } from '@material-ui/icons';
 
 const Main = ({ email, password, userId }) => {
+	console.log(userId);
 	const postObj = useRef({});
 
 	//state
@@ -34,10 +35,9 @@ const Main = ({ email, password, userId }) => {
 	//delete product from userList
 	const deleteProduct = (productId) => setProductId(productId);
 
-	//useEffect: cdm
+	//useEffect: userId/CDM
 	useEffect(() => {
 		if (!userId) return;
-
 		getAllProducts();
 	}, [userId]);
 
