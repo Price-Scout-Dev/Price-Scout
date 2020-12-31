@@ -51,7 +51,7 @@ authController.setSSIDCookie = (req, res, next) => {
   priceTrackerDB
     .query(queryString, values)
     .then((data) => {
-      console.log('Session added: ', data);
+      // console.log('Session added: ', data);
       return next();
     })
     .catch((err) => {

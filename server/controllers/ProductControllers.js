@@ -65,7 +65,7 @@ productController.addProduct = async (req, res, next) => {
 
   if (productInTable.rows.length > 0) {
     productId = productInTable.rows[0]._id;
-    console.log("enter if conditional for duplicate google url")
+    // console.log("enter if conditional for duplicate google url")
   } else {
     //Add to products table and return product_id
     const newProductId = await priceTrackerDB.query(
@@ -98,7 +98,7 @@ productController.addProduct = async (req, res, next) => {
       lowestDailyPriceQuery,
       lowestDailyPriceValues
     );
-    console.log("Add Product Completed");
+    // console.log("Add Product Completed");
     return next();
   } catch (error) {
     console.log("error: ", error);
