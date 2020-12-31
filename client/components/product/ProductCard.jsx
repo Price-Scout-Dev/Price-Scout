@@ -39,12 +39,20 @@ const ProductCard = ({
 				</CardActionArea>
 				<CardContent>
 					<Typography variant="h6">{productName}</Typography>
-					<Typography variant="h4" color="primary">
+					<Typography
+						className={classes.productPrice}
+						variant="h4"
+						color="primary"
+					>
 						${productPrice}
 					</Typography>
 					<Typography variant="subtitle1">{storeName}</Typography>
-					<Typography variant="overline">Id: {productId}</Typography>
-					<Typography variant="caption">Date Added: {date}</Typography>
+					<Typography variant="overline" display="block">
+						Id: {productId}
+					</Typography>
+					{/* <Typography variant="caption" display="block">
+						Date Added: {date}
+					</Typography> */}
 				</CardContent>
 				<CardActions>
 					<Button
