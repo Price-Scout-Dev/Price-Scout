@@ -19,7 +19,7 @@ const ProductCard = ({
 	productPrice,
 	productId,
 	deleteProduct,
-	timestamp,
+	date,
 }) => {
 	const handleClick = () => {
 		deleteProduct(productId);
@@ -27,6 +27,7 @@ const ProductCard = ({
 
 	const classes = useStyles();
 
+	console.log(date);
 	return (
 		<Grid item xs={12} sm={6} md={4} lg={3}>
 			<Card className={classes.productCard}>
@@ -44,7 +45,7 @@ const ProductCard = ({
 					</Typography>
 					<Typography variant="subtitle1">{storeName}</Typography>
 					<Typography variant="overline">Id: {productId}</Typography>
-					<Typography variant="caption">{timestamp}</Typography>
+					<Typography variant="caption">Date Added: {date}</Typography>
 				</CardContent>
 				<CardActions>
 					<Button
