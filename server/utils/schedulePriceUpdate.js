@@ -1,8 +1,7 @@
 const puppeteer = require("puppeteer");
 const priceTrackerDB = require("../models/priceTrackerModel.js");
 const dotenv = require("dotenv").config();
-console.log("SCHEDULE FILE: process.env.PGURI", process.env.PG_URI);
-
+const getProductInfo = require("./productWebscraping.js");
 
 /*
 
@@ -13,72 +12,60 @@ This function automatically pulls the most recent price information for every pr
 
 */
 
-const updatePrices = {}
+const updatePrices = {};
 
 updatePrices.getAllProducts = () => {
-  //this takes no arguments, and outputs an array of google product urls. 
-
-  const allGoogleUrlsQuery= `
+  //this takes no arguments, and outputs an array of google product urls.
+  const googleURlArray = [];
+  const allGoogleUrlsQuery = `
   SELECT DISTINCT products.google_url
   FROM products
     JOIN users_to_products ON products._id=users_to_products.product_id
   `;
 
-  priceTrackerDB
-    .query(allGoogleUrlsQuery)
-    .then((data) => {
-      // console.log(data).rows;
-
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  return new Promise((resolve, reject) => {
+    priceTrackerDB
+      .query(allGoogleUrlsQuery)
+      .then((data) => {
+        data.rows.forEach((result) => googleURlArray.push(result.google_url));
+        resolve(googleURlArray);
+      })
+      .catch((err) => {
+        console.log(err);
+        reject(err);
+      });
+  });
 };
 
-
-updatePrices.getAllProducts()
-  
-
-
-
-updatePrices.scrapeProductInfo = () => {
-
-
-
-}
+updatePrices.scrapeProductInfo = async (urlArray) => {
+  return new Promise((resolve, reject) => {
+    for(let i=0; urlArray.length; i++){
+      await getProductInfo(urlArray[i])
+    }
+  }
+};
 
 updatePrices.updateLowestDailyPriceDb = () => {
-
- //update database code. 
-
-
-}
+  //update database code.
+};
 
 updatePrices.start = async () => {
+  const allProducts = await updatePrices.getAllProducts();
 
-  const allProducts = await updatePrices.getAllProducts(); 
+  console.log(allProducts);
 
+  //loop here, and run the webscraper and database update
 
-  //loop here, and run the webscraper and database update 
+  // for (product of allProducts) {
 
-  for (product of allProducts) {
+  //   //call the scraper function
 
-    //call the scraper function 
+  //   //call the updateDatabase function
 
-    //call the updateDatabase function 
+  // }
+};
 
-
-  }
-
-
-}
-
-
-
-
-
-
-
+updatePrices.start();
 
 const getProductInfo = async (url) => {
   const browser = await puppeteer.launch({
@@ -92,9 +79,12 @@ const getProductInfo = async (url) => {
 
   //1. Get lowestDailyPrice
   await page.waitForSelector(".g9WBQb");
-  productInfo.lowest_daily_price = await page.$eval(".g9WBQb", (el) => el.innerHTML);
+  productInfo.lowest_daily_price = await page.$eval(
+    ".g9WBQb",
+    (el) => el.innerHTML
+  );
 
-  productInfo.lowest_daily_price = productInfo.lowest_daily_price.slice(1)
+  productInfo.lowest_daily_price = productInfo.lowest_daily_price.slice(1);
 
   //2. Get productName:
   productInfo.product_name = await page.$eval(".BvQan", (el) => el.innerHTML);
@@ -112,20 +102,14 @@ const getProductInfo = async (url) => {
   );
 
   //5. Get productImageUrl:
-  productInfo.image_url = await page.$eval(
-    "img.sh-div__image[src]",
-    (el) => el.getAttribute("src")
+  productInfo.image_url = await page.$eval("img.sh-div__image[src]", (el) =>
+    el.getAttribute("src")
   );
-  
-   
+
   // console.log("productInfo OBJECT: ", productInfo);
   browser.close();
   // console.log("browser closed");
   return productInfo;
 };
 
-
 module.exports = getProductInfo;
-
-
-
