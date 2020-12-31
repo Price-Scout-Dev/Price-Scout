@@ -96,8 +96,9 @@ const Main = ({ email, password, userId }) => {
 			},
 			body: JSON.stringify({ product_id }),
 		})
+			.then((res) => res.json())
 			.then((res) => {
-				console.log(res.body);
+				console.log(res);
 				getAllProducts();
 			})
 			.catch((err) => console.log('main ue addProduct', err));
