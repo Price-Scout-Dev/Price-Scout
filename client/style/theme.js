@@ -4,7 +4,6 @@ const useStyles = makeStyles((theme) => ({
 	root: {
 		minHeight: '100vh',
 		paddingTop: '15rem',
-		// background: 'linear-gradient(to right, #FFFFFF, #E0E0E0)',
 		background: 'linear-gradient(to right, #FFFFFF, #B2FEFA)',
 	},
 	loginBox: {
@@ -92,6 +91,25 @@ const useStyles = makeStyles((theme) => ({
 			marginLeft: '0.5rem',
 		},
 	},
+	productAppBar: {
+		display: 'flex',
+		justifyContent: 'space-between',
+		flexWrap: 'wrap',
+		[theme.breakpoints.down(308)]: {
+			justifyContent: 'center',
+		},
+	},
+	navBar: {
+		display: 'flex',
+		alignItems: 'center',
+	},
+	username: {
+		fontSize: 17,
+		marginLeft: '0.3rem',
+		[theme.breakpoints.down(302)]: {
+			fontSize: 13,
+		},
+	},
 	productCard: {
 		minHeight: 700,
 		boxShadow: theme.shadows[3],
@@ -100,6 +118,16 @@ const useStyles = makeStyles((theme) => ({
 		height: '100%',
 		width: '100%',
 		objectFit: 'cover',
+	},
+	productPrice: {
+		[theme.breakpoints.down(184)]: {
+			fontSize: 20,
+		},
+	},
+	scrollTop: {
+		position: 'fixed',
+		bottom: theme.spacing(2),
+		right: theme.spacing(2),
 	},
 }));
 
