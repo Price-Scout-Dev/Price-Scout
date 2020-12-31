@@ -6,11 +6,11 @@ import { AccountCircle } from '@material-ui/icons';
 
 const Main = ({ email, password, userId }) => {
 	const postObj = useRef({});
-	const shouldDelete = useRef(false);
 
 	//state
 	const [list, setList] = useState([]);
 	const [fetchProduct, setFetch] = useState(false);
+	const [productId, setProductId] = useState(null);
 
 	//fetch all products from db
 	const getAllProducts = () => {
@@ -32,11 +32,7 @@ const Main = ({ email, password, userId }) => {
 	};
 
 	//delete product from userList
-	const deleteProduct = (productId) => {
-		const newList = list.filter((item) => item.productId !== productId);
-		setList(newList);
-		shouldDelete.current = true;
-	};
+	const deleteProduct = (productId) => setProductId(productId);
 
 	//useEffect: cdm
 	useEffect(() => {
@@ -57,16 +53,6 @@ const Main = ({ email, password, userId }) => {
 		const product_id = postObj.current.productId;
 		const date = postObj.current.date;
 
-		console.log('POST OBJECT VALUES IN MAIN POST UE');
-		console.log('google_url', google_url);
-		console.log('userId', userId);
-		console.log('product_name', product_name);
-		console.log('image_url', image_url);
-		console.log('store_name', store_name);
-		console.log('price', lowest_daily_price);
-		console.log('product id', product_id);
-		console.log('date', date);
-
 		//make POST request
 		fetch(`/api/products/${userId}`, {
 			method: 'POST',
@@ -85,7 +71,7 @@ const Main = ({ email, password, userId }) => {
 			}),
 		})
 			.then((res) => {
-				console.log(res);
+				console.log(res.body);
 				getAllProducts();
 			})
 			.catch((err) => console.log('main ue addProduct', err));
@@ -98,12 +84,25 @@ const Main = ({ email, password, userId }) => {
 
 	//useEffect: delete product
 	useEffect(() => {
-		if (shouldDelete.current === false) return;
-		//make DELETE request
+		if (!productId) return;
 
-		getAllProducts();
-		shouldDelete.current = false;
-	}, [list]);
+		const product_id = productId;
+
+		fetch(`/api/products/${userId}/${productId}`, {
+			method: 'DELETE',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({ product_id }),
+		})
+			.then((res) => {
+				console.log(res.body);
+				getAllProducts();
+			})
+			.catch((err) => console.log('main ue addProduct', err));
+
+		setProductId(null);
+	}, [productId]);
 
 	return list ? (
 		<>
