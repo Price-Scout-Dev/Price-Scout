@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ProductList from './product/ProductList';
 import Search from './search/Search';
-import { Grid, AppBar, Button, IconButton } from '@material-ui/core';
+import { Grid, AppBar, Button, IconButton, Toolbar } from '@material-ui/core';
 import { AccountCircle } from '@material-ui/icons';
 
 const Main = ({ email, password, userId }) => {
@@ -92,14 +92,16 @@ const Main = ({ email, password, userId }) => {
 
 	return list ? (
 		<>
-			{/* <AppBar>
-				<IconButton edge="start" color="inherit">
-					<AccountCircle />
-					{email}
-				</IconButton>
-				<Button>Logout</Button>
-			</AppBar> */}
-			<Grid container justify="center">
+			<AppBar>
+				<Toolbar>
+					<IconButton edge="start" color="inherit">
+						<AccountCircle />
+						{email}
+					</IconButton>
+					<Button color="inherit">Logout</Button>
+				</Toolbar>
+			</AppBar>
+			<Grid container justify="center" style={{ marginTop: 64 }}>
 				<Grid
 					container
 					item
