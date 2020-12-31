@@ -1,6 +1,7 @@
 const puppeteer = require("puppeteer");
 const priceTrackerDB = require("../models/priceTrackerModel.js");
 const dotenv = require("dotenv").config();
+console.log("SCHEDULE FILE: process.env.PGURI", process.env.PG_URI);
 
 
 /*
@@ -26,7 +27,7 @@ updatePrices.getAllProducts = () => {
   priceTrackerDB
     .query(allGoogleUrlsQuery)
     .then((data) => {
-      console.log(data);
+      // console.log(data).rows;
 
     })
     .catch((err) => {
