@@ -6,6 +6,7 @@ const Spinner = () => {
 		<div>
 			<LinearProgress color="primary" />
 			<h3>Armadillos are tracking your products</h3>
+			<h5>Armadillos are meticulous, though not always fastest</h5>
 			<LinearProgress color="primary" />
 		</div>
 	);
