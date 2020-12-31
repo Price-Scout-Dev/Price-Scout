@@ -12,7 +12,7 @@ const Main = ({ email, password, userId }) => {
 	const [fetchProduct, setFetch] = useState(false);
 	const [productId, setProductId] = useState(null);
 
-	//fetch all products from db
+	//get all products from db
 	const getAllProducts = () => {
 		fetch(`/api/products/${userId}`, {
 			method: 'GET',
