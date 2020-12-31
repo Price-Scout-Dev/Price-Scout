@@ -2,7 +2,7 @@ import React from 'react';
 import SearchCard from './SearchCard';
 import { v4 as uuidv4 } from 'uuid';
 
-const SearchList = ({ results, addProduct, clearResults }) => {
+const SearchList = ({ results, addProduct, clearResults, startSpinner }) => {
 	const date = new Date().toDateString().slice(4, 16);
 
 	const resultList = results.map(({ title, image, link, merchant, price }) => (
@@ -17,6 +17,7 @@ const SearchList = ({ results, addProduct, clearResults }) => {
 			date={date}
 			addProduct={addProduct}
 			clearResults={clearResults}
+			startSpinner={startSpinner}
 		/>
 	));
 

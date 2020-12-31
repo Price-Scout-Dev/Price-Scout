@@ -10,6 +10,7 @@ const SearchCard = ({
 	clearResults,
 	productId,
 	date,
+	startSpinner,
 }) => {
 	const stateObj = {
 		productName: title,
@@ -31,6 +32,7 @@ const SearchCard = ({
 			<button
 				onClick={() => {
 					addProduct(stateObj);
+					startSpinner();
 					clearResults();
 				}}
 			>

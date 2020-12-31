@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ProductList from './product/ProductList';
 import Search from './search/Search';
+import Spinner from './search/Spinner';
 import { Grid, AppBar, Button, IconButton, Toolbar } from '@material-ui/core';
 import { AccountCircle } from '@material-ui/icons';
 
@@ -11,6 +12,12 @@ const Main = ({ email, logOut, userId }) => {
 	const [list, setList] = useState([]);
 	const [fetchProduct, setFetch] = useState(false);
 	const [productId, setProductId] = useState(null);
+	const [spinner, setSpinner] = useState(false);
+
+	const startSpinner = () => {
+		console.log('spinner heard');
+		setSpinner(true);
+	};
 
 	//get all products from db
 	const getAllProducts = () => {
@@ -75,8 +82,13 @@ const Main = ({ email, logOut, userId }) => {
 			.then((res) => {
 				console.log(res);
 				getAllProducts();
+				setSpinner(false);
 			})
-			.catch((err) => console.log('main ue addProduct', err));
+			.catch((err) => {
+				console.log('main ue addProduct', err);
+				setSpinner(false);
+				alert('Try again, broken link');
+			});
 
 		Object.getOwnPropertyNames(postObj.current).forEach(
 			(property) => delete postObj.current[property]
@@ -107,6 +119,8 @@ const Main = ({ email, logOut, userId }) => {
 		setProductId(null);
 	}, [productId]);
 
+	if (spinner) return <Spinner />;
+
 	return list ? (
 		<>
 			<AppBar>
@@ -128,7 +142,11 @@ const Main = ({ email, logOut, userId }) => {
 					xs={12}
 					style={{ margin: '2rem 0' }}
 				>
-					<Search userId={userId} addProduct={addProduct} />
+					<Search
+						userId={userId}
+						addProduct={addProduct}
+						startSpinner={startSpinner}
+					/>
 				</Grid>
 				<Grid
 					container

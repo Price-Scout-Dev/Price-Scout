@@ -7,7 +7,7 @@ import { Button, TextField } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import useStyles from '../../style/theme';
 
-const Search = ({ userId, addProduct }) => {
+const Search = ({ userId, addProduct, startSpinner }) => {
 	const firstRender = useRef(true);
 
 	const [searchVal, handleSearchVal, resetSearch] = useInput('');
@@ -26,7 +26,18 @@ const Search = ({ userId, addProduct }) => {
 		)
 			.then((response) => response.json())
 			.then((response) => {
-				setResults(response.shopping_results.slice(0, 10));
+				const goodUrl = 'google.com/shopping/product/';
+
+				const items = response.shopping_results
+					.filter((item) => {
+						return item.link.includes(goodUrl);
+					})
+					.slice(0, 10);
+
+				console.log(items);
+
+				setResults(items);
+
 				firstRender.current = false;
 			})
 			.catch((err) => console.log(err));
@@ -46,6 +57,7 @@ const Search = ({ userId, addProduct }) => {
 
 	return results.length > 0 ? (
 		<SearchList
+			startSpinner={startSpinner}
 			results={results}
 			clearResults={clearResults}
 			addProduct={addProduct}
