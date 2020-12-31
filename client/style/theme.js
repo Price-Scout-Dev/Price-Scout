@@ -75,7 +75,7 @@ const useStyles = makeStyles((theme) => ({
 		alignSelf: 'center',
 	},
 	searchBar: {
-		width: 400,
+		minWidth: '40vw',
 		background: 'white',
 		borderRadius: '4rem',
 		['& fieldset']: {
@@ -85,19 +85,21 @@ const useStyles = makeStyles((theme) => ({
 	searchBtn: {
 		borderRadius: '4rem',
 		boxShadow: theme.shadows[3],
-		[theme.breakpoints.down(527)]: {
+		[theme.breakpoints.down(321)]: {
 			marginTop: '0.5rem',
 		},
-		[theme.breakpoints.up(535)]: {
+		[theme.breakpoints.up(329)]: {
 			marginLeft: '0.5rem',
 		},
 	},
 	productCard: {
-		maxWidth: 500,
+		minHeight: 700,
 		boxShadow: theme.shadows[3],
 	},
 	productCardMedia: {
-		height: 250,
+		height: '100%',
+		width: '100%',
+		objectFit: 'cover',
 	},
 }));
 

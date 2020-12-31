@@ -1,35 +1,19 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ProductList from './product/ProductList';
 import Search from './search/Search';
-import { Grid, AppBar, Button, IconButton } from '@material-ui/core';
+import { Grid, AppBar, Button, IconButton, Toolbar } from '@material-ui/core';
 import { AccountCircle } from '@material-ui/icons';
 
-const Main = ({ email, password, userId }) => {
+const Main = ({ email, logOut, userId }) => {
 	const postObj = useRef({});
-	const shouldDelete = useRef(false);
 
 	//state
 	const [list, setList] = useState([]);
 	const [fetchProduct, setFetch] = useState(false);
+	const [productId, setProductId] = useState(null);
 
-	//add product to userList
-	const addProduct = (stateObj) => {
-		postObj.current.productUrl = stateObj.productUrl;
-		postObj.current.userId = userId;
-		setFetch(true);
-	};
-
-	//delete product from userList
-	const deleteProduct = (productId) => {
-		const newList = list.filter((item) => item.productId !== productId);
-		setList(newList);
-		shouldDelete.current = true;
-	};
-
-	//useEffect: cdm
-	useEffect(() => {
-		if (!userId) return;
-
+	//get all products from db
+	const getAllProducts = () => {
 		fetch(`/api/products/${userId}`, {
 			method: 'GET',
 			headers: {
@@ -39,16 +23,36 @@ const Main = ({ email, password, userId }) => {
 			.then((res) => res.json())
 			.then(({ products }) => setList(products))
 			.catch((err) => console.log(err));
+	};
+
+	//add product to userList
+	const addProduct = (stateObj) => {
+		Object.assign(postObj.current, stateObj);
+		setFetch(true);
+	};
+
+	//delete product from userList
+	const deleteProduct = (productId) => setProductId(productId);
+
+	//useEffect: userId/CDM
+	useEffect(() => {
+		if (!userId) return;
+		getAllProducts();
 	}, [userId]);
 
 	//useEffect: add product
 	useEffect(() => {
 		if (!fetchProduct) return;
 
-		const productUrl = postObj.current.productUrl;
-		const userId = postObj.current.userId;
+		const google_url = postObj.current.productUrl;
+		const product_name = postObj.current.productName;
+		const image_url = postObj.current.imageUrl;
+		const store_name = postObj.current.storeName;
+		const lowest_daily_price = postObj.current.productPrice;
+		const product_id = postObj.current.productId;
+		const date = postObj.current.date;
 
-		console.log('main ue fetch', productUrl, userId);
+		console.log('track button heard');
 
 		//make POST request
 		fetch(`/api/products/${userId}`, {
@@ -56,50 +60,67 @@ const Main = ({ email, password, userId }) => {
 			headers: {
 				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify({ productUrl, userId }),
+			body: JSON.stringify({
+				google_url,
+				userId,
+				product_name,
+				image_url,
+				store_name,
+				lowest_daily_price,
+				product_id,
+				date,
+			}),
 		})
-			.then((res) => console.log(res))
-			.then(({ product_name, image_url, store_name, lowest_daily_price }) => {
-				console.log('LINE 63');
-				console.log(
-					'main ue fetch in post',
-					product_name,
-					image_url,
-					store_name,
-					lowest_daily_price
-				);
-				const newProduct = {
-					productName: product_name,
-					imageUrl: image_url,
-					storeName: store_name,
-					productPrice: lowest_daily_price,
-				};
-				setList([newProduct, ...list]);
+			.then((res) => res.json())
+			.then((res) => {
+				console.log(res);
+				getAllProducts();
 			})
 			.catch((err) => console.log('main ue addProduct', err));
 
-		postObj.current.productUrl = '';
-		postObj.current.userId = '';
+		Object.getOwnPropertyNames(postObj.current).forEach(
+			(property) => delete postObj.current[property]
+		);
 		setFetch(false);
 	}, [fetchProduct]);
 
 	//useEffect: delete product
 	useEffect(() => {
-		if (shouldDelete.current === false) return;
-		//make DELETE request
-		shouldDelete.current = false;
-	}, [list]);
+		if (!productId) return;
+
+		const product_id = productId;
+
+		fetch(`/api/products/${userId}/${productId}`, {
+			method: 'DELETE',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({ product_id }),
+		})
+			.then((res) => res.json())
+			.then((res) => {
+				console.log(res);
+				getAllProducts();
+			})
+			.catch((err) => console.log('main ue addProduct', err));
+
+		setProductId(null);
+	}, [productId]);
 
 	return list ? (
 		<>
-			{/* <AppBar>
-				<IconButton edge="start" color="inherit">
-					<AccountCircle />
-					{email}
-				</IconButton>
-				<Button>Logout</Button>
-			</AppBar> */}
-			<Grid container justify="center">
+			<AppBar>
+				<Toolbar>
+					<IconButton edge="start" color="inherit">
+						<AccountCircle />
+						{email}
+					</IconButton>
+					<Button onClick={logOut} color="inherit">
+						Logout
+					</Button>
+				</Toolbar>
+			</AppBar>
+			<Grid container justify="center" style={{ marginTop: 64 }}>
 				<Grid
 					container
 					item
