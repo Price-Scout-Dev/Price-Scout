@@ -5,7 +5,6 @@ import { Grid, AppBar, Button, IconButton } from '@material-ui/core';
 import { AccountCircle } from '@material-ui/icons';
 
 const Main = ({ email, password, userId }) => {
-	console.log(userId);
 	const postObj = useRef({});
 
 	//state
@@ -52,6 +51,8 @@ const Main = ({ email, password, userId }) => {
 		const lowest_daily_price = postObj.current.productPrice;
 		const product_id = postObj.current.productId;
 		const date = postObj.current.date;
+
+		console.log('track button heard');
 
 		//make POST request
 		fetch(`/api/products/${userId}`, {
