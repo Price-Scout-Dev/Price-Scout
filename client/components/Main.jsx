@@ -1,19 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
+import NavBar from './nav/NavBar';
 import ProductList from './product/ProductList';
 import Search from './search/Search';
 import Spinner from './search/Spinner';
 import ScrollTop from './product/ScrollTop';
-import {
-	Grid,
-	AppBar,
-	Button,
-	Typography,
-	Toolbar,
-	Fab,
-} from '@material-ui/core';
-import { AccountCircle } from '@material-ui/icons';
+import { Grid, Fab } from '@material-ui/core';
+
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
-import useStyles from '../style/theme';
 
 const Main = ({ email, logOut, userId }) => {
 	const postObj = useRef({});
@@ -23,7 +16,6 @@ const Main = ({ email, logOut, userId }) => {
 	const [fetchProduct, setFetch] = useState(false);
 	const [productId, setProductId] = useState(null);
 	const [spinner, setSpinner] = useState(false);
-	const classes = useStyles();
 
 	const startSpinner = () => {
 		console.log('spinner heard');
@@ -134,19 +126,7 @@ const Main = ({ email, logOut, userId }) => {
 
 	return list ? (
 		<>
-			<AppBar>
-				<Toolbar className={classes.productAppBar}>
-					<div className={classes.navBar}>
-						<AccountCircle />
-						<Typography className={classes.username} variant="h6">
-							{email}
-						</Typography>
-					</div>
-					<Button onClick={logOut} color="inherit">
-						Logout
-					</Button>
-				</Toolbar>
-			</AppBar>
+			<NavBar email={email} logOut={logOut} />
 			<Grid container justify="center" style={{ marginTop: 64 }}>
 				<Grid
 					id="back-to-top-anchor"
