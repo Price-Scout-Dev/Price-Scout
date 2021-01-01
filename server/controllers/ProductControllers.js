@@ -45,12 +45,24 @@ When a user adds a product:
 productController.addProduct = async (req, res, next) => {
   // front end sends user and google_url only.  Then we use puppeteer to scrape the following:
   const { google_url } = req.body; //from websraping and frontend
-
+  console.log("google URL", google_url)
   const { user } = req.params;
+  let productInfo = {}
 
   //web scrape the google URL
-  const productInfo = await getProductInfo(google_url);
+  try {
+     productInfo = await getProductInfo(google_url);
+    console.log('productInfo: ', productInfo);
+  } catch (error) {
+    console.log(
+      'Error in try catch getproductinfo webscraper function: ',
+      error
+      );
+      return error;
+    }
+
   productInfo.google_url = google_url;
+ 
   // console.log("ProductInfo Object: ", productInfo)
 
   //Query to check if the product is already in the products table.
@@ -60,7 +72,6 @@ productController.addProduct = async (req, res, next) => {
   const productInTable = await priceTrackerDB.query(productInTableQuery, [
     google_url,
   ]);
-  console.log("PRODUCT IN TABLE", productInTable)
   let productId = "";
 
   if (productInTable.rows.length > 0) {

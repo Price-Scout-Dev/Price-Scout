@@ -11,9 +11,7 @@ const getProductInfo = async (url) => {
   const productInfo = {};
 
   //1. Get lowestDailyPrice
-  await page.waitForSelector(".g9WBQb");
   productInfo.lowest_daily_price = await page.$eval(".g9WBQb", (el) => el.innerHTML);
-
   productInfo.lowest_daily_price = productInfo.lowest_daily_price.slice(1)
 
   //2. Get productName:
