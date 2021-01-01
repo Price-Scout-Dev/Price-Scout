@@ -13,6 +13,8 @@ app.use(express.json({ limit: "30mb", extended: true }));
 app.use(express.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
+app.use('/build', express.static(path.join(__dirname, '../build')))
+
 /**
  * define route handlers
  */
