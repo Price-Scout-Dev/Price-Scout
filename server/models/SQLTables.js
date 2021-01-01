@@ -10,14 +10,14 @@ const productsTable = `
     PRIMARY KEY (_id)
   )`;
 
-  //! update for timestamp (is it timestamp with time zone)
+// lowest_daily_price updated to varchar to avoid comma errors.
 const lowestDailyPriceTable = `
   CREATE TABLE lowest_daily_price (
     _id SERIAL,
     product_id INT NOT NULL references products(_id),
     timestamp timestamp without time zone,
     store_name VARCHAR NOT NULL,
-    lowest_daily_price FLOAT NOT NULL,
+    lowest_daily_price VARCHAR,
     store_url VARCHAR NOT NULL,
     PRIMARY KEY (_id)
   )`;
