@@ -29,7 +29,13 @@ const ProductCard = ({
 
 	return (
 		<Grid item xs={12} sm={6} md={4} lg={3}>
-			<Card className={classes.productCard}>
+			<Card
+				className={classes.productCard}
+				style={{
+					display: 'flex',
+					flexDirection: 'column',
+				}}
+			>
 				<CardActionArea style={{ height: 300 }}>
 					<CardMedia
 						className={classes.productCardMedia}
@@ -37,14 +43,22 @@ const ProductCard = ({
 						title={productName}
 					/>
 				</CardActionArea>
-				<CardContent>
+				<CardContent style={{ flexGrow: 1 }}>
 					<Typography variant="h6">{productName}</Typography>
-					<Typography variant="h4" color="primary">
+					<Typography
+						className={classes.productPrice}
+						variant="h4"
+						color="primary"
+					>
 						${productPrice}
 					</Typography>
 					<Typography variant="subtitle1">{storeName}</Typography>
-					<Typography variant="overline">Id: {productId}</Typography>
-					<Typography variant="caption">Date Added: {date}</Typography>
+					<Typography variant="overline" display="block">
+						Id: {productId}
+					</Typography>
+					{/* <Typography variant="caption" display="block">
+						Date Added: {date}
+					</Typography> */}
 				</CardContent>
 				<CardActions>
 					<Button
@@ -53,7 +67,7 @@ const ProductCard = ({
 						color="secondary"
 						size="small"
 						startIcon={<DeleteIcon />}
-						style={{ margin: '0 auto' }}
+						style={{ flexGrow: 1 }}
 					>
 						Delete
 					</Button>

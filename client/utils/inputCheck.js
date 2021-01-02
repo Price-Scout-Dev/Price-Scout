@@ -2,22 +2,22 @@ export default function inputCheck(emailInput, pwInput, confirmPwInput) {
 	let error = '';
 
 	if (!emailInput) {
-		error += 'Fill in the email input please!';
+		error = 'Please fill in the email input!';
+		return error;
+	}
+
+	if (!emailInput.includes('@') || !emailInput.endsWith('.com')) {
+		error = 'Invalid email format. Please try again.';
 		return error;
 	}
 
 	if (pwInput.length < 5) {
-		error += 'Enter password (must be at least 5 characters long)!';
-		return error;
-	}
-
-	if (!emailInput.includes('@') || !emailInput.includes('.com')) {
-		error += 'Invalid email format. Try again!';
+		error = 'Password must be at least 5 characters long. Please try again.';
 		return error;
 	}
 
 	if (confirmPwInput && pwInput !== confirmPwInput) {
-		error += 'Passwords entered do not match! Try again.';
+		error = 'Passwords entered do not match! Please try again.';
 		return error;
 	}
 

@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
+import NavBar from './nav/NavBar';
 import ProductList from './product/ProductList';
 import Search from './search/Search';
-import { Grid, AppBar, Button, IconButton, Toolbar } from '@material-ui/core';
-import { AccountCircle } from '@material-ui/icons';
+import Spinner from './search/Spinner';
+import ScrollTop from './product/ScrollTop';
+import { Grid, Fab } from '@material-ui/core';
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 
 const Main = ({ email, logOut, userId }) => {
 	const postObj = useRef({});
@@ -11,6 +14,12 @@ const Main = ({ email, logOut, userId }) => {
 	const [list, setList] = useState([]);
 	const [fetchProduct, setFetch] = useState(false);
 	const [productId, setProductId] = useState(null);
+	const [spinner, setSpinner] = useState(false);
+
+	const startSpinner = () => {
+		console.log('spinner heard');
+		setSpinner(true);
+	};
 
 	//get all products from db
 	const getAllProducts = () => {
@@ -75,8 +84,13 @@ const Main = ({ email, logOut, userId }) => {
 			.then((res) => {
 				console.log(res);
 				getAllProducts();
+				setSpinner(false);
 			})
-			.catch((err) => console.log('main ue addProduct', err));
+			.catch((err) => {
+				console.log('main ue addProduct', err);
+				setSpinner(false);
+				alert('Uh oh! Seems like the link is broken. Please try again.');
+			});
 
 		Object.getOwnPropertyNames(postObj.current).forEach(
 			(property) => delete postObj.current[property]
@@ -107,28 +121,25 @@ const Main = ({ email, logOut, userId }) => {
 		setProductId(null);
 	}, [productId]);
 
+	if (spinner) return <Spinner />;
+
 	return list ? (
 		<>
-			<AppBar>
-				<Toolbar>
-					<IconButton edge="start" color="inherit">
-						<AccountCircle />
-						{email}
-					</IconButton>
-					<Button onClick={logOut} color="inherit">
-						Logout
-					</Button>
-				</Toolbar>
-			</AppBar>
+			<NavBar email={email} logOut={logOut} />
 			<Grid container justify="center" style={{ marginTop: 64 }}>
 				<Grid
+					id="back-to-top-anchor"
 					container
 					item
 					justify="center"
 					xs={12}
 					style={{ margin: '2rem 0' }}
 				>
-					<Search userId={userId} addProduct={addProduct} />
+					<Search
+						userId={userId}
+						addProduct={addProduct}
+						startSpinner={startSpinner}
+					/>
 				</Grid>
 				<Grid
 					container
@@ -143,6 +154,11 @@ const Main = ({ email, logOut, userId }) => {
 					<ProductList list={list} deleteProduct={deleteProduct} />
 				</Grid>
 			</Grid>
+			<ScrollTop>
+				<Fab color="primary" size="small" aria-label="scroll back to top">
+					<KeyboardArrowUpIcon />
+				</Fab>
+			</ScrollTop>
 		</>
 	) : (
 		<>

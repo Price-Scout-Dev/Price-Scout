@@ -1,4 +1,6 @@
 import React from 'react';
+import { Typography, Button } from '@material-ui/core';
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 
 const SearchCard = ({
 	title,
@@ -10,6 +12,7 @@ const SearchCard = ({
 	clearResults,
 	productId,
 	date,
+	startSpinner,
 }) => {
 	const stateObj = {
 		productName: title,
@@ -20,23 +23,37 @@ const SearchCard = ({
 		productId,
 		date,
 	};
+
+	const handleClick = () => {
+		addProduct(stateObj);
+		startSpinner();
+		clearResults();
+	};
+
 	return (
-		<div>
-			<h6>{date}</h6>
-			<h4>Product: {title}</h4>
-			<img src={image} />
-			<h5>${price}</h5>
-			<h5>Retailer: {merchant}</h5>
-			<h6>id: {productId}</h6>
-			<button
-				onClick={() => {
-					addProduct(stateObj);
-					clearResults();
-				}}
+		<>
+			<img src={image} alt={title} />
+			<Typography variant="caption" display="block">
+				{date}
+			</Typography>
+			<Typography variant="h6">{title}</Typography>
+			<Typography variant="h4" color="primary">
+				${price}
+			</Typography>
+			<Typography variant="subtitle1">{merchant}</Typography>
+			<Typography variant="overline" display="block">
+				Id: {productId}
+			</Typography>
+			<Button
+				onClick={handleClick}
+				variant="contained"
+				color="primary"
+				style={{ margin: '0 auto' }}
+				startIcon={<AddCircleOutlineIcon />}
 			>
-				Track Me!
-			</button>
-		</div>
+				Add Product
+			</Button>
+		</>
 	);
 };
 

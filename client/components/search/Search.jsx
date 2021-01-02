@@ -3,21 +3,21 @@ import useInput from '../hooks/useInput';
 import SearchList from './SearchList';
 import useToggler from '../hooks/useToggler';
 import Loader from './Loader';
-import { Button, TextField } from '@material-ui/core';
+import { Button, TextField, Dialog } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import useStyles from '../../style/theme';
 
-const Search = ({ userId, addProduct }) => {
+const Search = ({ userId, addProduct, startSpinner }) => {
 	const firstRender = useRef(true);
-
 	const [searchVal, handleSearchVal, resetSearch] = useInput('');
 	const [results, setResults] = useState([]);
 	const [isFetching, toggler] = useToggler(false);
+	const [open, setOpen] = useState(false);
 	const classes = useStyles();
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		if (!searchVal) return alert('Please write an input in the search bar!');
+		if (!searchVal) return alert('Please fill in the search bar input!');
 
 		toggler();
 
@@ -26,7 +26,18 @@ const Search = ({ userId, addProduct }) => {
 		)
 			.then((response) => response.json())
 			.then((response) => {
-				setResults(response.shopping_results.slice(0, 10));
+				const goodUrl = 'google.com/shopping/product/';
+
+				const items = response.shopping_results
+					.filter((item) => {
+						return item.link.includes(goodUrl);
+					})
+					.slice(0, 10);
+
+				console.log('items: ', items);
+				setOpen(true);
+				setResults(items);
+				console.log('open: ', open);
 				firstRender.current = false;
 			})
 			.catch((err) => console.log(err));
@@ -34,7 +45,10 @@ const Search = ({ userId, addProduct }) => {
 		resetSearch();
 	};
 
-	const clearResults = () => setResults([]);
+	const clearResults = () => {
+		setOpen(false);
+		setResults([]);
+	};
 
 	useEffect(() => {
 		if (firstRender.current) return;
@@ -45,11 +59,15 @@ const Search = ({ userId, addProduct }) => {
 	if (isFetching) return <Loader />;
 
 	return results.length > 0 ? (
-		<SearchList
-			results={results}
-			clearResults={clearResults}
-			addProduct={addProduct}
-		/>
+		<Dialog open={open} onClose={clearResults}>
+			<SearchList
+				startSpinner={startSpinner}
+				results={results}
+				clearResults={clearResults}
+				addProduct={addProduct}
+				setOpen={setOpen}
+			/>
+		</Dialog>
 	) : (
 		<>
 			<form onSubmit={handleSubmit}>
