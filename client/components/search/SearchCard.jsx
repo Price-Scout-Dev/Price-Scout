@@ -1,6 +1,6 @@
 import React from 'react';
 import { Typography, Button } from '@material-ui/core';
-import useStyles from '../../style/theme';
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 
 const SearchCard = ({
 	title,
@@ -29,7 +29,6 @@ const SearchCard = ({
 		startSpinner();
 		clearResults();
 	};
-	const classes = useStyles();
 
 	return (
 		<>
@@ -50,6 +49,7 @@ const SearchCard = ({
 				variant="contained"
 				color="primary"
 				style={{ margin: '0 auto' }}
+				startIcon={<AddCircleOutlineIcon />}
 			>
 				Add Product
 			</Button>
