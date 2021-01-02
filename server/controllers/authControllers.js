@@ -91,7 +91,7 @@ authController.verifyUser = (req, res, next) => {
       } else {
         //send error object to the front end.
         console.log("invalid email or password");
-        res.status(200).json({ error: "invalid email or password" });
+        return res.status(200).json({ error: "invalid email or password" });
       }
     })
     .catch((err) => {
