@@ -3,11 +3,11 @@ import { Zoom, useScrollTrigger } from '@material-ui/core';
 import useStyles from '../../style/theme';
 
 const ScrollTop = ({ children }) => {
-	const classes = useStyles();
 	const trigger = useScrollTrigger({
 		disableHysteresis: true,
 		threshold: 100,
 	});
+	const classes = useStyles();
 
 	const handleClick = (e) => {
 		const anchor = (e.target.ownerDocument || document).querySelector(
