@@ -10,6 +10,18 @@ const getProductInfo = async (url) => {
 
   const productInfo = {};
 
+//Check if website exist?
+    const pageNotFound= await page.evaluate(() => {
+    return !!document.querySelector('.product-not-found') 
+  })
+  if (pageNotFound) { 
+    console.log('True')
+    await browser.close()
+  } else {
+    console.log('False')
+  }
+
+
   //1. Get lowestDailyPrice
   productInfo.lowest_daily_price = await page.$eval(
     ".g9WBQb",
@@ -38,9 +50,11 @@ const getProductInfo = async (url) => {
   );
 
   // console.log("productInfo OBJECT: ", productInfo);
-  browser.close();
+  await browser.close();
   // console.log("browser closed");
   return productInfo;
 };
+
+getProductInfo("https://www.google.com/shopping/product/15251059778013784584")
 
 module.exports = getProductInfo;
