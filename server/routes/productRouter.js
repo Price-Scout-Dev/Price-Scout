@@ -18,7 +18,7 @@ productRouter.post(
   "/products/:user",
   productController.addProduct,
   (req, res) => {
-    res.status(200).json("post complete");
+    res.status(200).json("Added product");
   }
 );
 
