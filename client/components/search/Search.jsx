@@ -3,16 +3,16 @@ import useInput from '../hooks/useInput';
 import SearchList from './SearchList';
 import useToggler from '../hooks/useToggler';
 import Loader from './Loader';
-import { Button, TextField } from '@material-ui/core';
+import { Button, TextField, Dialog } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import useStyles from '../../style/theme';
 
 const Search = ({ userId, addProduct, startSpinner }) => {
 	const firstRender = useRef(true);
-
 	const [searchVal, handleSearchVal, resetSearch] = useInput('');
 	const [results, setResults] = useState([]);
 	const [isFetching, toggler] = useToggler(false);
+	const [open, setOpen] = useState(false);
 	const classes = useStyles();
 
 	const handleSubmit = (e) => {
@@ -34,10 +34,10 @@ const Search = ({ userId, addProduct, startSpinner }) => {
 					})
 					.slice(0, 10);
 
-				console.log(items);
-
+				console.log('items: ', items);
+				setOpen(true);
 				setResults(items);
-
+				console.log('open: ', open);
 				firstRender.current = false;
 			})
 			.catch((err) => console.log(err));
@@ -45,7 +45,10 @@ const Search = ({ userId, addProduct, startSpinner }) => {
 		resetSearch();
 	};
 
-	const clearResults = () => setResults([]);
+	const clearResults = () => {
+		setOpen(false);
+		setResults([]);
+	};
 
 	useEffect(() => {
 		if (firstRender.current) return;
@@ -56,12 +59,15 @@ const Search = ({ userId, addProduct, startSpinner }) => {
 	if (isFetching) return <Loader />;
 
 	return results.length > 0 ? (
-		<SearchList
-			startSpinner={startSpinner}
-			results={results}
-			clearResults={clearResults}
-			addProduct={addProduct}
-		/>
+		<Dialog open={open} onClose={clearResults}>
+			<SearchList
+				startSpinner={startSpinner}
+				results={results}
+				clearResults={clearResults}
+				addProduct={addProduct}
+				setOpen={setOpen}
+			/>
+		</Dialog>
 	) : (
 		<>
 			<form onSubmit={handleSubmit}>
