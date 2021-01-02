@@ -47,33 +47,30 @@ updatePrices.scrapeProductInfo = async (productUrl) => {
   const productInfo = {};
 
   try {
-  //1. Get lowestDailyPrice
-  await page.waitForSelector(".g9WBQb");
-  productInfo.lowest_daily_price = await page.$eval(
-    ".g9WBQb",
-    (el) => el.innerHTML
-  );
-  productInfo.lowest_daily_price = productInfo.lowest_daily_price.slice(1);
-  //2. Get storeUrl:
-  const storeUrl = await page.$eval("a.shntl[href]", (el) =>
-    el.getAttribute("href")
-  );
-  productInfo.store_url = `https://www.google.com/${storeUrl}`;
-  //3. Get storeName:
-  productInfo.store_name = await page.$eval(
-    ".b5ycib",
-    (el) => el.childNodes[0].nodeValue
-  );
+    //1. Get lowestDailyPrice
+    await page.waitForSelector(".g9WBQb");
+    productInfo.lowest_daily_price = await page.$eval(
+      ".g9WBQb",
+      (el) => el.innerHTML
+    );
+    productInfo.lowest_daily_price = productInfo.lowest_daily_price.slice(1);
+    //2. Get storeUrl:
+    const storeUrl = await page.$eval("a.shntl[href]", (el) =>
+      el.getAttribute("href")
+    );
+    productInfo.store_url = `https://www.google.com/${storeUrl}`;
+    //3. Get storeName:
+    productInfo.store_name = await page.$eval(
+      ".b5ycib",
+      (el) => el.childNodes[0].nodeValue
+    );
 
-  browser.close();
-  // console.log("browser closed");
-  return productInfo;
-
+    browser.close();
+    // console.log("browser closed");
+    return productInfo;
   } catch (err) {
-    return {error: err}; 
+    return { error: err };
   }
-
-
 };
 
 // lowest_daily_price needs:  store_name	lowest_daily_price	store_url	product_id
@@ -88,19 +85,15 @@ updatePrices.updateLowestDailyPriceDb = async (productInfo) => {
     productInfo.store_url,
   ];
   try {
-  const lowestDailyPriceInsert = await priceTrackerDB.query(
+    const lowestDailyPriceInsert = await priceTrackerDB.query(
       lowestDailyPriceQuery,
       lowestDailyPriceValues
     );
-    return
+    return;
   } catch (error) {
     console.log("error: ", error);
-    return {error}
+    return { error };
   }
-
-
-
-  
 };
 
 updatePrices.start = async () => {
@@ -117,10 +110,9 @@ updatePrices.start = async () => {
     ); // results in {lowestDailyPrice, storeUrl, storeName }
 
     if (productInfo.error) {
-      console.log('error in scraping:', productInfo.error)
-      continue; 
+      console.log("error in scraping:", productInfo.error);
+      continue;
     }
-
 
     //add id to the productInfo Object
     productInfo.product_id = productObj._id; // results in {lowestDailyPrice, storeUrl, storeName, product_id }

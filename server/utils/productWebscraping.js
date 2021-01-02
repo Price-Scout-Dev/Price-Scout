@@ -11,8 +11,11 @@ const getProductInfo = async (url) => {
   const productInfo = {};
 
   //1. Get lowestDailyPrice
-  productInfo.lowest_daily_price = await page.$eval(".g9WBQb", (el) => el.innerHTML);
-  productInfo.lowest_daily_price = productInfo.lowest_daily_price.slice(1)
+  productInfo.lowest_daily_price = await page.$eval(
+    ".g9WBQb",
+    (el) => el.innerHTML
+  );
+  productInfo.lowest_daily_price = productInfo.lowest_daily_price.slice(1);
 
   //2. Get productName:
   productInfo.product_name = await page.$eval(".BvQan", (el) => el.innerHTML);
@@ -30,17 +33,14 @@ const getProductInfo = async (url) => {
   );
 
   //5. Get productImageUrl:
-  productInfo.image_url = await page.$eval(
-    "img.sh-div__image[src]",
-    (el) => el.getAttribute("src")
+  productInfo.image_url = await page.$eval("img.sh-div__image[src]", (el) =>
+    el.getAttribute("src")
   );
-  
-   
+
   // console.log("productInfo OBJECT: ", productInfo);
   browser.close();
   // console.log("browser closed");
   return productInfo;
 };
-
 
 module.exports = getProductInfo;

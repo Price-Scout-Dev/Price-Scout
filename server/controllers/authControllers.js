@@ -1,5 +1,5 @@
-const priceTrackerDB = require('../models/priceTrackerModel.js');
-const bcrypt = require('bcryptjs');
+const priceTrackerDB = require("../models/priceTrackerModel.js");
+const bcrypt = require("bcryptjs");
 
 const authController = {};
 
@@ -28,8 +28,8 @@ authController.createUser = async (req, res, next) => {
         return next(err);
       });
   } else {
-    console.log('password or username rejected');
-    return res.status(418).json({ error: 'invalid email or password' });
+    console.log("password or username rejected");
+    return res.status(418).json({ error: "invalid email or password" });
   }
 };
 
@@ -39,7 +39,7 @@ authController.setSSIDCookie = (req, res, next) => {
   let randomNumber = Math.floor(Math.random() * 1000000);
   let options = { maxAge: 90000000, httpOnly: true };
 
-  res.cookie('ssid', randomNumber, options);
+  res.cookie("ssid", randomNumber, options);
 
   //second, save the ssid into the database.
 
@@ -79,20 +79,19 @@ authController.verifyUser = (req, res, next) => {
         bcrypt
           .compare(req.body.password, data.rows[0].password)
           .then((isMatch) => {
-            if(isMatch){
-            res.locals.loginInfo = {};
-            res.locals.loginInfo.userId = data.rows[0]._id;
-            res.locals.loginInfo.email = req.body.email;
-            return next();
+            if (isMatch) {
+              res.locals.loginInfo = {};
+              res.locals.loginInfo.userId = data.rows[0]._id;
+              res.locals.loginInfo.email = req.body.email;
+              return next();
             } else {
-              return res.status(400).json({ error: 'invalid password' });
-            } 
-          })
-          
+              return res.status(400).json({ error: "invalid password" });
+            }
+          });
       } else {
         //send error object to the front end.
-        console.log('invalid email or password');
-        res.status(200).json({ error: 'invalid email or password' });
+        console.log("invalid email or password");
+        res.status(200).json({ error: "invalid email or password" });
       }
     })
     .catch((err) => {
