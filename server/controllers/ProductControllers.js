@@ -47,16 +47,16 @@ When a user adds a product:
 productController.addProduct = async (req, res, next) => {
   // front end sends user and google_url only.  Then we use puppeteer to scrape the following:
   const { google_url } = req.body; //from websraping and frontend
-  console.log("google URL", google_url);
+  // console.log("google URL", google_url);
   const { user } = req.params;
   let productInfo = {};
 
   //web scrape the google URL
   try {
     productInfo = await getProductInfo(google_url);
-    console.log("productInfo: ", productInfo);
+    // console.log("productInfo: ", productInfo);
   } catch (err) {
-    console.log("Error in try catch getproductinfo webscraper function: ", err);
+    // console.log("Error in try catch getproductinfo webscraper function: ", err);
     return next(
       res.status(400).send("ERROR in getProductsInfo function: " + err)
     );
