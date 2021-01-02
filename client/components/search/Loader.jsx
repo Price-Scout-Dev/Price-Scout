@@ -1,12 +1,17 @@
-import React, { Component } from 'react';
-import LinearProgress from '@material-ui/core/LinearProgress';
+import React from 'react';
+import { LinearProgress, Typography } from '@material-ui/core';
 
 const Loader = () => {
 	return (
-		<div>
-			<LinearProgress color="secondary" />
-			<h3>Armadillos are gathering your products</h3>
-			<LinearProgress color="secondary" />
+		<div style={{ width: '100%' }}>
+			<LinearProgress />
+			<Typography
+				variant="h6"
+				style={{ display: 'flex', justifyContent: 'center' }}
+			>
+				Armadillos are searching for your products..
+			</Typography>
+			<LinearProgress />
 		</div>
 	);
 };
