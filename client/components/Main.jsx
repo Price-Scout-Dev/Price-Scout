@@ -123,7 +123,7 @@ const Main = ({ email, logOut, userId }) => {
 
 	if (spinner) return <Spinner />;
 
-	return list ? (
+	return (
 		<>
 			<NavBar email={email} logOut={logOut} />
 			<Grid container justify="center" style={{ marginTop: 64 }}>
@@ -139,6 +139,7 @@ const Main = ({ email, logOut, userId }) => {
 						userId={userId}
 						addProduct={addProduct}
 						startSpinner={startSpinner}
+						getAllProducts={getAllProducts}
 					/>
 				</Grid>
 				<Grid
@@ -159,11 +160,6 @@ const Main = ({ email, logOut, userId }) => {
 					<KeyboardArrowUpIcon />
 				</Fab>
 			</ScrollTop>
-		</>
-	) : (
-		<>
-			<h1>What up! {email}</h1>
-			<Search userId={userId} addProduct={addProduct} />
 		</>
 	);
 };

@@ -19,7 +19,7 @@ const ProductCard = ({
 	productPrice,
 	productId,
 	deleteProduct,
-	date,
+	storeUrl,
 }) => {
 	const handleClick = () => {
 		deleteProduct(productId);
@@ -52,13 +52,14 @@ const ProductCard = ({
 					>
 						${productPrice}
 					</Typography>
-					<Typography variant="subtitle1">{storeName}</Typography>
+					<Typography variant="subtitle1">
+						<a href={storeUrl} target="_blank">
+							{storeName}
+						</a>
+					</Typography>
 					<Typography variant="overline" display="block">
 						Id: {productId}
 					</Typography>
-					{/* <Typography variant="caption" display="block">
-						Date Added: {date}
-					</Typography> */}
 				</CardContent>
 				<CardActions>
 					<Button

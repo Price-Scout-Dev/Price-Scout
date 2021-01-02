@@ -9,6 +9,7 @@ const ProductList = ({ list, deleteProduct }) => {
 			image_url,
 			store_name,
 			lowest_daily_price,
+			store_url,
 			product_id,
 			date,
 		}) => {
@@ -22,6 +23,7 @@ const ProductList = ({ list, deleteProduct }) => {
 					storeName={store_name}
 					productPrice={lowest_daily_price}
 					deleteProduct={deleteProduct}
+					storeUrl={store_url}
 					date={date}
 				/>
 			);
