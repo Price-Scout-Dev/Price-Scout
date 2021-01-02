@@ -25,7 +25,7 @@ productController.getProducts = (req, res, next) => {
     })
     .catch((err) => {
       console.log(err);
-      return next(err);
+      return next(res.status(400).send("ERROR in getProducts controller: " + err));
     });
 };
 /*
@@ -58,7 +58,7 @@ productController.addProduct = async (req, res, next) => {
       'Error in try catch getproductinfo webscraper function: ',
       error
       );
-      return error;
+      return next(res.status(400).send("ERROR in getProductsInfo function: " + err));
     }
 
   productInfo.google_url = google_url;
@@ -113,7 +113,7 @@ productController.addProduct = async (req, res, next) => {
     return next();
   } catch (error) {
     console.log("error: ", error);
-    next(error);
+    return next(res.status(400).send("ERROR in addProducts controller: " + err));
   }
 };
 
@@ -134,7 +134,7 @@ productController.deleteProduct = (req, res, next) => {
     })
     .catch((err) => {
       console.log(err);
-      return next(err);
+      return next(res.status(400).send("ERROR in deleteProducts controller: " + err));
     });
 };
 

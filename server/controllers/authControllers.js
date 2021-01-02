@@ -29,7 +29,7 @@ authController.createUser = async (req, res, next) => {
       });
   } else {
     console.log('password or username rejected');
-    res.status(418).json({ error: 'invalid email or password' });
+    return res.status(418).json({ error: 'invalid email or password' });
   }
 };
 
@@ -85,7 +85,7 @@ authController.verifyUser = (req, res, next) => {
             res.locals.loginInfo.email = req.body.email;
             return next();
             } else {
-              res.status(400).json({ error: 'invalid password' });
+              return res.status(400).json({ error: 'invalid password' });
             } 
           })
           
