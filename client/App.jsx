@@ -52,7 +52,8 @@ const App = (props) => {
 		})
 			.then((res) => res.json())
 			.then(({ email, userId }) => {
-				if (!email || !userId) return alert('Login failed, try again');
+				if (!email || !userId)
+					return alert('User not found. Please try again.');
 				setEmail(email);
 				setId(userId);
 				setPassword(password);
