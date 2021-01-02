@@ -1,7 +1,7 @@
 import React from 'react';
 import SearchCard from './SearchCard';
 import { v4 as uuidv4 } from 'uuid';
-import { Typography, Button, Divider, IconButton } from '@material-ui/core';
+import { Typography, Button, Divider } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import useStyles from '../../style/theme';
 
@@ -41,17 +41,18 @@ const SearchList = ({
 
 	return (
 		<div className={classes.searchList}>
-			<Typography variant="h4">Search Results</Typography>
+			<Typography variant="h5">Search Results</Typography>
 			<Divider className={classes.loginDivider} variant="middle" />
 			{resultList}
-			<IconButton
+			<Button
 				onClick={handleClose}
 				aria-label="close"
 				variant="contained"
 				color="secondary"
+				startIcon={<CloseIcon />}
 			>
-				<CloseIcon />
-			</IconButton>
+				Close
+			</Button>
 		</div>
 	);
 };
