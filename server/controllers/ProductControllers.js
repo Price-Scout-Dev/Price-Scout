@@ -53,10 +53,10 @@ productController.addProduct = async (req, res, next) => {
   try {
      productInfo = await getProductInfo(google_url);
     console.log('productInfo: ', productInfo);
-  } catch (error) {
+  } catch (err) {
     console.log(
       'Error in try catch getproductinfo webscraper function: ',
-      error
+      err
       );
       return next(res.status(400).send("ERROR in getProductsInfo function: " + err));
     }
@@ -111,7 +111,7 @@ productController.addProduct = async (req, res, next) => {
     );
     // console.log("Add Product Completed");
     return next();
-  } catch (error) {
+  } catch (err) {
     console.log("error: ", error);
     return next(res.status(400).send("ERROR in addProducts controller: " + err));
   }
