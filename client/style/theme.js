@@ -124,10 +124,30 @@ const useStyles = makeStyles((theme) => ({
 			fontSize: 20,
 		},
 	},
+	productDivider: {
+		width: '100%',
+		margin: '2rem 0',
+	},
 	scrollTop: {
 		position: 'fixed',
 		bottom: theme.spacing(2),
 		right: theme.spacing(2),
+	},
+	searchList: {
+		display: 'flex',
+		flexDirection: 'column',
+		justifyContent: 'center',
+		alignItems: 'center',
+		textAlign: 'center',
+		padding: '2rem',
+	},
+	spinner: {
+		minHeight: '100vh',
+		display: 'flex',
+		flexDirection: 'column',
+		justifyContent: 'center',
+		alignItems: 'center',
+		background: 'linear-gradient(to right, #0099F7, #F11712)',
 	},
 }));
 
