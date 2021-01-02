@@ -111,8 +111,8 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	productCard: {
-		minHeight: 700,
 		boxShadow: theme.shadows[3],
+		minHeight: 700,
 	},
 	productCardMedia: {
 		height: '100%',
