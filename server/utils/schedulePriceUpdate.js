@@ -65,7 +65,7 @@ updatePrices.scrapeProductInfo = async (productUrl) => {
       (el) => el.childNodes[0].nodeValue
     );
 
-    browser.close();
+    await browser.close();
     // console.log("browser closed");
     return productInfo;
   } catch (err) {
