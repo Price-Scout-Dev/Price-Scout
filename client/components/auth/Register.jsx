@@ -64,6 +64,7 @@ const Register = ({ registerUser, setOpen, ...rest }) => {
 					value={pwInput}
 					onChange={updatePw}
 					type={showPassword ? 'text' : 'password'}
+					helperText="Must be at least 5 characters long"
 				/>
 				<TextField
 					className={classes.loginTextField}
