@@ -1,6 +1,7 @@
 import React from 'react';
 import { AppBar, Button, Typography, Toolbar } from '@material-ui/core';
 import { AccountCircle } from '@material-ui/icons';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import useStyles from '../../style/theme';
 
 const NavBar = ({ email, logOut }) => {
@@ -15,7 +16,7 @@ const NavBar = ({ email, logOut }) => {
 						{email}
 					</Typography>
 				</div>
-				<Button onClick={logOut} color="inherit">
+				<Button onClick={logOut} color="inherit" endIcon={<ExitToAppIcon />}>
 					Logout
 				</Button>
 			</Toolbar>
