@@ -60,9 +60,6 @@ const ProductCard = ({
 					<Typography variant="overline" display="block">
 						Id: {productId}
 					</Typography>
-					{/* <Typography variant="caption" display="block">
-						Retailer Link: {storeUrl}
-					</Typography> */}
 				</CardContent>
 				<CardActions>
 					<Button

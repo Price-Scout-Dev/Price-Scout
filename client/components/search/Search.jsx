@@ -8,7 +8,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import Spinner from './Spinner';
 import useStyles from '../../style/theme';
 
-const Search = ({ userId, addProduct, startSpinner }) => {
+const Search = ({ userId, addProduct, startSpinner, getAllProducts }) => {
 	const firstRender = useRef(true);
 	const [searchVal, handleSearchVal, resetSearch] = useInput('');
 	const [urlInput, setUrl, resetUrl] = useInput('');
@@ -63,32 +63,7 @@ const Search = ({ userId, addProduct, startSpinner }) => {
 			return alert('Invalid product url. Please try again');
 		}
 
-		//setSpinner(true);
-
-		// fetch(`/api/products/${userId}`, {
-		// 	method: 'POST',
-		// 	headers: {
-		// 		'Content-Type': 'application/json',
-		// 	},
-		// 	body: JSON.stringify({
-		// 		google_url,
-		// 		userId,
-		// 	}),
-		// })
-		// 	.then((res) => res.json())
-		// 	.then((res) => {
-		// 		//back end needs to send us the complete product obj / product data
-		// 		addProduct(res);
-
-		// 		setSpinner(false);
-		// 	})
-		// 	.catch((err) => {
-		// 		console.log('main ue addProduct', err);
-		// 		setSpinner(false);
-		// 		alert('Uh oh! Seems like the link is broken. Please try again.');
-		// 	});
-
-		resetUrl();
+		setSpinner(true);
 	};
 
 	useEffect(() => {
@@ -96,6 +71,35 @@ const Search = ({ userId, addProduct, startSpinner }) => {
 		if (results.length < 1) return; // maybe render a component for no products
 		toggler();
 	}, [results]);
+
+	useEffect(() => {
+		if (!spinner) return;
+
+		const google_url = urlInput;
+
+		fetch(`/api/products/${userId}`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				google_url,
+				userId,
+			}),
+		})
+			.then((res) => res.json())
+			.then((res) => {
+				getAllProducts();
+				setSpinner(false);
+				resetUrl();
+			})
+			.catch((err) => {
+				console.log('main ue addProduct', err);
+				setSpinner(false);
+				alert('Uh oh! Seems like the link is broken. Please try again.');
+				resetUrl();
+			});
+	}, [spinner]);
 
 	if (isFetching) return <Loader />;
 	if (spinner) return <Spinner />;
