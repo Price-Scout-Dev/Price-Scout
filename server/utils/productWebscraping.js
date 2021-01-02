@@ -55,6 +55,4 @@ const getProductInfo = async (url) => {
   return productInfo;
 };
 
-getProductInfo("https://www.google.com/shopping/product/15251059778013784584")
-
 module.exports = getProductInfo;
