@@ -5,7 +5,6 @@ import Search from './search/Search';
 import Spinner from './search/Spinner';
 import ScrollTop from './product/ScrollTop';
 import { Grid, Fab } from '@material-ui/core';
-
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 
 const Main = ({ email, logOut, userId }) => {
