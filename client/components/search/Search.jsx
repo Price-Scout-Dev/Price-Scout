@@ -17,7 +17,7 @@ const Search = ({ userId, addProduct, startSpinner }) => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		if (!searchVal) return alert('Please write an input in the search bar!');
+		if (!searchVal) return alert('Please fill in the search bar input!');
 
 		toggler();
 
