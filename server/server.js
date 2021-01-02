@@ -2,16 +2,17 @@ const PORT = process.env.PORT || 3000;
 const express = require("express");
 const path = require("path");
 const authRouter = require("./routes/authRouter");
-const productRouter = require("./routes/productRouter")
+const productRouter = require("./routes/productRouter");
 const cors = require("cors");
 const dotenv = require("dotenv").config();
 
 const app = express();
 
-
 app.use(express.json({ limit: "30mb", extended: true }));
 app.use(express.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
+
+app.use("/build", express.static(path.join(__dirname, "../build")));
 
 /**
  * define route handlers
@@ -21,7 +22,7 @@ app.use(cors());
 app.use("/api/auth", authRouter);
 
 //localhost:8080/api/products/getproducts
-app.use('/api', productRouter);
+app.use("/api", productRouter);
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../index.html"));

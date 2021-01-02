@@ -25,7 +25,9 @@ productController.getProducts = (req, res, next) => {
     })
     .catch((err) => {
       console.log(err);
-      return next(err);
+      return next(
+        res.status(400).send("ERROR in getProducts controller: " + err)
+      );
     });
 };
 /*
@@ -45,27 +47,36 @@ When a user adds a product:
 productController.addProduct = async (req, res, next) => {
   // front end sends user and google_url only.  Then we use puppeteer to scrape the following:
   const { google_url } = req.body; //from websraping and frontend
-
+  // console.log("google URL", google_url);
   const { user } = req.params;
+  let productInfo = {};
 
   //web scrape the google URL
-  const productInfo = await getProductInfo(google_url);
+  try {
+    productInfo = await getProductInfo(google_url);
+    // console.log("productInfo: ", productInfo);
+  } catch (err) {
+    // console.log("Error in try catch getproductinfo webscraper function: ", err);
+    return next(
+      res.status(400).send("ERROR in getProductsInfo function: " + err)
+    );
+  }
+
   productInfo.google_url = google_url;
+
   // console.log("ProductInfo Object: ", productInfo)
 
   //Query to check if the product is already in the products table.
 
-  let productInTableQuery =
-    `SELECT * FROM products WHERE products.google_url=$1`;
+  let productInTableQuery = `SELECT * FROM products WHERE products.google_url=$1`;
   const productInTable = await priceTrackerDB.query(productInTableQuery, [
     google_url,
   ]);
-  console.log("PRODUCT IN TABLE", productInTable)
   let productId = "";
 
   if (productInTable.rows.length > 0) {
     productId = productInTable.rows[0]._id;
-    console.log("enter if conditional for duplicate google url")
+    // console.log("enter if conditional for duplicate google url")
   } else {
     //Add to products table and return product_id
     const newProductId = await priceTrackerDB.query(
@@ -98,11 +109,13 @@ productController.addProduct = async (req, res, next) => {
       lowestDailyPriceQuery,
       lowestDailyPriceValues
     );
-    console.log("Add Product Completed");
+    // console.log("Add Product Completed");
     return next();
-  } catch (error) {
+  } catch (err) {
     console.log("error: ", error);
-    next(error);
+    return next(
+      res.status(400).send("ERROR in addProducts controller: " + err)
+    );
   }
 };
 
@@ -123,7 +136,9 @@ productController.deleteProduct = (req, res, next) => {
     })
     .catch((err) => {
       console.log(err);
-      return next(err);
+      return next(
+        res.status(400).send("ERROR in deleteProducts controller: " + err)
+      );
     });
 };
 
