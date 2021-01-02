@@ -10,11 +10,24 @@ const getProductInfo = async (url) => {
 
   const productInfo = {};
 
-  //1. Get lowestDailyPrice
-  await page.waitForSelector(".g9WBQb");
-  productInfo.lowest_daily_price = await page.$eval(".g9WBQb", (el) => el.innerHTML);
+//Check if website exist?
+    const pageNotFound= await page.evaluate(() => {
+    return !!document.querySelector('.product-not-found') 
+  })
+  if (pageNotFound) { 
+    console.log('True')
+    await browser.close()
+  } else {
+    console.log('False')
+  }
 
-  productInfo.lowest_daily_price = productInfo.lowest_daily_price.slice(1)
+
+  //1. Get lowestDailyPrice
+  productInfo.lowest_daily_price = await page.$eval(
+    ".g9WBQb",
+    (el) => el.innerHTML
+  );
+  productInfo.lowest_daily_price = productInfo.lowest_daily_price.slice(1);
 
   //2. Get productName:
   productInfo.product_name = await page.$eval(".BvQan", (el) => el.innerHTML);
@@ -32,17 +45,16 @@ const getProductInfo = async (url) => {
   );
 
   //5. Get productImageUrl:
-  productInfo.image_url = await page.$eval(
-    "img.sh-div__image[src]",
-    (el) => el.getAttribute("src")
+  productInfo.image_url = await page.$eval("img.sh-div__image[src]", (el) =>
+    el.getAttribute("src")
   );
-  
-   
+
   // console.log("productInfo OBJECT: ", productInfo);
-  browser.close();
+  await browser.close();
   // console.log("browser closed");
   return productInfo;
 };
 
+getProductInfo("https://www.google.com/shopping/product/15251059778013784584")
 
 module.exports = getProductInfo;

@@ -1,4 +1,4 @@
-const priceTrackerDB = require('./priceTrackerModel.js');
+const priceTrackerDB = require("./priceTrackerModel.js");
 // const dotenv = require('dotenv').config();
 
 const productsTable = `
@@ -10,14 +10,14 @@ const productsTable = `
     PRIMARY KEY (_id)
   )`;
 
-  //! update for timestamp (is it timestamp with time zone)
+// lowest_daily_price updated to varchar to avoid comma errors.
 const lowestDailyPriceTable = `
   CREATE TABLE lowest_daily_price (
     _id SERIAL,
     product_id INT NOT NULL references products(_id),
     timestamp timestamp without time zone,
     store_name VARCHAR NOT NULL,
-    lowest_daily_price FLOAT NOT NULL,
+    lowest_daily_price VARCHAR,
     store_url VARCHAR NOT NULL,
     PRIMARY KEY (_id)
   )`;
@@ -58,17 +58,15 @@ CREATE TABLE sessions (
 // }
 
 function testTable() {
-const queryString = `CREATE TABLE test (
+  const queryString = `CREATE TABLE test (
       _id SERIAL,
       product VARCHAR
-    )`
+    )`;
   priceTrackerDB
     .query(queryString)
-    .then(result =>
-      console.log(result)
-      )
-    .catch(err=> console.log("ERROR: " + err))
-  } 
+    .then((result) => console.log(result))
+    .catch((err) => console.log("ERROR: " + err));
+}
 
 const test = `
 CREATE TABLE test (
@@ -117,7 +115,6 @@ INSERT INTO users_to_products (user_id, product_id ) VALUES (1, 1)
 // insertIntoTable(lowestDailyPriceInsert);
 // insertIntoTable(usersInsert);
 // insertIntoTable(sessionsInsert);
-
 
 // sql query to get all prodcuts based on user id
 // SELECT users_to_products.user_id, products.product_name FROM users_to_products INNER JOIN products ON users_to_products.product_id=products._id WHERE users_to_products.user_id=2
