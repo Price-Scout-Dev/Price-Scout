@@ -89,7 +89,7 @@ const Main = ({ email, logOut, userId }) => {
 			.catch((err) => {
 				console.log('main ue addProduct', err);
 				setSpinner(false);
-				alert('Try again, broken link');
+				alert('Uh oh! Seems like the link is broken. Please try again.');
 			});
 
 		Object.getOwnPropertyNames(postObj.current).forEach(
