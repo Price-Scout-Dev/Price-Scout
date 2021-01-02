@@ -25,7 +25,7 @@ const Search = ({ userId, addProduct, startSpinner, getAllProducts }) => {
 		toggler();
 
 		fetch(
-			`https://api.scaleserp.com/search?search_type=shopping&price_low_to_high&num=10&api_key=6ADC56D9A9074C4ABD404FA9E55F6DC7&q=${searchVal}`
+			`https://api.scaleserp.com/search?search_type=shopping&price_low_to_high&num=10&api_key=20DB36619863498CA57DDD3B41EB1AFA&q=${searchVal}`
 		)
 			.then((response) => response.json())
 			.then((response) => {
@@ -125,24 +125,25 @@ const Search = ({ userId, addProduct, startSpinner, getAllProducts }) => {
 					onChange={handleSearchVal}
 					inputProps={{ className: classes.searchBar }}
 				/>
-				<Button
-					className={classes.searchBtn}
-					variant="contained"
-					color="primary"
-					onClick={handleSubmit}
-					endIcon={<SearchIcon />}
-				>
-					Search
-				</Button>
-				<TextField
+			</form>
+			<Button
+				className={classes.searchBtn}
+				variant="contained"
+				color="primary"
+				onClick={handleSubmit}
+				endIcon={<SearchIcon />}
+			>
+				Search
+			</Button>
+			{/* <TextField
 					className={classes.searchBar}
 					variant="outlined"
 					label="Enter Product URL"
 					value={urlInput}
 					onChange={setUrl}
 					inputProps={{ className: classes.searchBar }}
-				/>
-				<Button
+				/> */}
+			{/* <Button
 					className={classes.searchBtn}
 					variant="contained"
 					color="primary"
@@ -150,8 +151,7 @@ const Search = ({ userId, addProduct, startSpinner, getAllProducts }) => {
 					endIcon={<SearchIcon />}
 				>
 					Enter Url
-				</Button>
-			</form>
+				</Button> */}
 		</>
 	);
 };
