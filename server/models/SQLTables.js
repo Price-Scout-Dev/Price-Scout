@@ -1,5 +1,6 @@
 const priceTrackerDB = require("./priceTrackerModel.js");
-// const dotenv = require('dotenv').config();
+
+//Table Queries:
 
 const productsTable = `
   CREATE TABLE products (
@@ -47,33 +48,15 @@ CREATE TABLE sessions (
   PRIMARY KEY (_id)
 )`;
 
-//CREATE TABLE:
-// async function createTable(queryString) {
-//   try {
-//     const result = await priceTrackerDB.query(queryString);
-//     // console.log(result);
-//   } catch (err) {
-//     // console.log(err);
-//   }
-// }
-
-function testTable() {
-  const queryString = `CREATE TABLE test (
-      _id SERIAL,
-      product VARCHAR
-    )`;
-  priceTrackerDB
-    .query(queryString)
-    .then((result) => console.log(result))
-    .catch((err) => console.log("ERROR: " + err));
+//CREATE TABLE function:
+async function createTable(queryString) {
+  try {
+    const result = await priceTrackerDB.query(queryString);
+    console.log(result);
+  } catch (err) {
+    console.log(err);
+  }
 }
-
-const test = `
-CREATE TABLE test (
-  _id SERIAL
-)`;
-
-testTable();
 
 // createTable(productsTable)
 // createTable(lowestDailyPriceTable)
@@ -81,7 +64,9 @@ testTable();
 // createTable(usersToProductsTable)
 // createTable(sessionsTable)
 
-// createTable(test);
+//**********************************************
+
+//Insert into table Queries:
 
 const productsInsert = `
 INSERT INTO products (product_name, image_url) VALUES ( 'keyboard', 'www.keychron.com' )
@@ -101,20 +86,19 @@ const usersToProductsInsert = `
 INSERT INTO users_to_products (user_id, product_id ) VALUES (1, 1)
 `;
 
-//INSERT INTO TABLE:
-// function insertIntoTable(queryString) {
-//   try {
-//     const result = priceTrackerDB.query(queryString);
-//     console.log(result);
-//   } catch (err) {
-//     console.log(err);
-//   }
-// }
+//INSERT INTO TABLE function:
+function insertIntoTable(queryString) {
+  try {
+    const result = priceTrackerDB.query(queryString);
+    console.log(result);
+  } catch (err) {
+    console.log(err);
+  }
+}
 
 // insertIntoTable(productsInsert);
 // insertIntoTable(lowestDailyPriceInsert);
 // insertIntoTable(usersInsert);
 // insertIntoTable(sessionsInsert);
 
-// sql query to get all prodcuts based on user id
-// SELECT users_to_products.user_id, products.product_name FROM users_to_products INNER JOIN products ON users_to_products.product_id=products._id WHERE users_to_products.user_id=2
+

@@ -1,14 +1,11 @@
 const { Pool } = require("pg");
 const dotenv = require("dotenv").config();
 
-// create a new pool here using the connection string above
+//Create connection pool to database:
 const pool = new Pool({
   connectionString: process.env.PG_URI,
 });
 
-// Adding some notes about the database here will be helpful for future you or other developers.
-// Schema for the database can be found below:
-// https://github.com/CodesmithLLC/unit-10SB-databases/blob/master/docs/images/schema.png?raw=true
 
 // We export an object that contains a property called query,
 // which is a function that returns the invocation of pool.query() after logging the query
