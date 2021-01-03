@@ -1,5 +1,5 @@
 
-# ArmadilloArmadilloArmadillo Price Tracker:
+# ArmadilloArmadilloArmadillo Price Tracker
 
 ## Google Shoppping Price Tracker
 
