@@ -1,11 +1,11 @@
 
-ArmadilloArmadilloArmadillo Price Tracker:
+# ArmadilloArmadilloArmadillo Price Tracker:
 
-Google Shoppping Price Tracker-
+## Google Shoppping Price Tracker
 
 - A dashboard to track items from google shopping page and see when the price drops to purchase.
 
-Project Specifications:
+## Project Specifications:
 - Signup or login to user specific dashboard.
 - Search google shopping page for products.
 - View user specific dashboard to track products.
@@ -15,7 +15,7 @@ Project Specifications:
 - Logout of dashboard.
 
 
-Techniology Used: 
+## Techniology Used: 
 - HTMl and CSS
 - Javascript
 - Webscraping with Puppeteer
