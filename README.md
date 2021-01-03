@@ -1,7 +1,7 @@
 
 # ArmadilloArmadilloArmadillo Price Tracker
 
-## Google Shoppping Price Tracker
+## Google Shopping Price Tracker
 
 - A dashboard to track items from google shopping page and see when the price drops to purchase.
 
