@@ -15,7 +15,7 @@
 - Logout of dashboard.
 
 
-## Techniology Used: 
+## Technology Used: 
 - HTMl and CSS
 - Javascript
 - Webscraping with Puppeteer
