@@ -1,5 +1,17 @@
 const puppeteer = require("puppeteer");
 
+/*
+This file contains a function that webscrapes a google URL and outputs all the necessary info needed into an object including: 
+productInfo Object = {
+  lowest_daily_price,
+  product_name,
+  store_url,
+  store_name,
+  image_url
+}
+*/
+
+//MAIN Function:
 const getProductInfo = async (url) => {
   const browser = await puppeteer.launch({
     args: ["--disabled-setuid-sandbox", "--no-sandbox"],
@@ -10,7 +22,7 @@ const getProductInfo = async (url) => {
 
   const productInfo = {};
 
-//Check if website exist?
+//Checks if google url website exist?
     const pageNotFound= await page.evaluate(() => {
     return !!document.querySelector('.product-not-found') 
   })
@@ -22,7 +34,7 @@ const getProductInfo = async (url) => {
   }
 
 
-  //1. Get lowestDailyPrice
+  //1. Get lowestDailyPrice:
   productInfo.lowest_daily_price = await page.$eval(
     ".g9WBQb",
     (el) => el.innerHTML
@@ -50,8 +62,9 @@ const getProductInfo = async (url) => {
   );
 
   // console.log("productInfo OBJECT: ", productInfo);
+  
   await browser.close();
-  // console.log("browser closed");
+
   return productInfo;
 };
 

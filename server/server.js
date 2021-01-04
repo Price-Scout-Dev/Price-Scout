@@ -12,12 +12,10 @@ app.use(express.json({ limit: "30mb", extended: true }));
 app.use(express.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
+//Added for Heroku deployment:
 app.use("/build", express.static(path.join(__dirname, "../build")));
 
-/**
- * define route handlers
- */
-
+//Route Handlers:
 //localhost:8080/api/auth/signup
 app.use("/api/auth", authRouter);
 

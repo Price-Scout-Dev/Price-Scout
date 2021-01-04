@@ -3,19 +3,13 @@ const priceTrackerDB = require("../models/priceTrackerModel.js");
 const dotenv = require("dotenv").config();
 const getProductInfo = require("./productWebscraping.js");
 
-/*
 
-This function automatically pulls the most recent price information for every product associated with a user. 
-
--
-
-
-*/
+//This file contains all the functions needed to automatically pull the most recent price information for every product associated with a user. 
 
 const updatePrices = {};
 
+//Function: Searches database and outputs an array of objects that includes [{google_url and product_id}]
 updatePrices.getAllProducts = () => {
-  //this takes no arguments, and outputs an array of google product urls.
   const urlAndIdArray = [];
   const allGoogleUrlsQuery = `
   SELECT DISTINCT products.google_url, products._id
@@ -37,8 +31,8 @@ updatePrices.getAllProducts = () => {
   });
 };
 
+//Function: Webscrapes a specific URL and outputs an object that includes {lowest_dail_price, store_url, store_name}
 updatePrices.scrapeProductInfo = async (productUrl) => {
-  //Webscraping Lowest_Daily_Price Table:
   const browser = await puppeteer.launch({
     args: ["--disabled-setuid-sandbox", "--no-sandbox"],
   });
@@ -66,16 +60,16 @@ updatePrices.scrapeProductInfo = async (productUrl) => {
     );
 
     await browser.close();
-    // console.log("browser closed");
     return productInfo;
+
   } catch (err) {
     return { error: err };
   }
 };
 
-// lowest_daily_price needs:  store_name	lowest_daily_price	store_url	product_id
+//Function: Inserts the most current information webscraped into the lowest_daily_price SQL table this includes (product_id, store_name, lowest_daily_price, store_url)
 updatePrices.updateLowestDailyPriceDb = async (productInfo) => {
-  //update database code.
+
   const lowestDailyPriceQuery = `INSERT into lowest_daily_price (product_id, store_name, lowest_daily_price,	store_url) VALUES ($1,$2,$3,$4)`;
 
   const lowestDailyPriceValues = [
@@ -84,6 +78,7 @@ updatePrices.updateLowestDailyPriceDb = async (productInfo) => {
     productInfo.lowest_daily_price,
     productInfo.store_url,
   ];
+
   try {
     const lowestDailyPriceInsert = await priceTrackerDB.query(
       lowestDailyPriceQuery,
@@ -96,36 +91,35 @@ updatePrices.updateLowestDailyPriceDb = async (productInfo) => {
   }
 };
 
+//MAIN Function: 
 updatePrices.start = async () => {
+  //Step 1: Gets array of objects that includes [{google_url and product_id}]:
   const allProducts = await updatePrices.getAllProducts();
 
-  // console.log(allProducts);
-
-  //loop here, and run the webscraper and database update
-
+  //Step 2: Iterates through array (allProducts), and run the webscraper and database update
   for (productObj of allProducts) {
-    //call the scraper function
+    //Step 2-A: Call the scraper function:
     let productInfo = await updatePrices.scrapeProductInfo(
       productObj.google_url
-    ); // results in {lowestDailyPrice, storeUrl, storeName }
+    ); //results in {lowestDailyPrice, storeUrl, storeName }
 
     if (productInfo.error) {
       console.log("error in scraping:", productInfo.error);
       continue;
     }
 
-    //add id to the productInfo Object
-    productInfo.product_id = productObj._id; // results in {lowestDailyPrice, storeUrl, storeName, product_id }
+    //Add product_id to the productInfo Object
+    productInfo.product_id = productObj._id; //results in {lowest_daily_price, store_url, store_name, product_id }
 
-    console.log("productInfo", productInfo);
-
-    // call the updateDatabase function
+    //Step 2-B:
+    //Call the updateDatabase function:
     let updateOutcome = await updatePrices.updateLowestDailyPriceDb(
       productInfo
     );
   }
 };
 
+//Runs main function:
 updatePrices.start();
 
 module.exports = getProductInfo;
