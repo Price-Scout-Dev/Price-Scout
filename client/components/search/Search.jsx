@@ -25,7 +25,7 @@ const Search = ({ userId, addProduct, startSpinner, getAllProducts }) => {
 		toggler();
 
 		fetch(
-			`https://api.scaleserp.com/search?search_type=shopping&price_low_to_high&num=10&api_key=20DB36619863498CA57DDD3B41EB1AFA&q=${searchVal}`
+			`https://api.scaleserp.com/search?search_type=shopping&price_low_to_high&num=10&api_key=INSERT_YOUR_OWN_KEY_HERE&q=${searchVal}`
 		)
 			.then((response) => response.json())
 			.then((response) => {
